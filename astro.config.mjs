@@ -26,6 +26,7 @@ export default defineConfig({
 					label: 'PedroPathingPlusVisualizer',
 					items: [
 						{ label: 'Installation', slug: 'pedro-pathing-plus-visualizer/installation' },
+						{ label: 'Tool Overview', slug: 'pedro-pathing-plus-visualizer/tool-overview' },
 					],
 				},
 				{
