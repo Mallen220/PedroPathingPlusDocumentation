@@ -20,6 +20,7 @@ export default defineConfig({
 					label: 'PedroPathingPlus',
 					items: [
 						{ label: 'Installation', slug: 'pedro-pathing-plus/installation' },
+						{ label: 'Live View', slug: 'pedro-pathing-plus/live-view' },
 					],
 				},
 				{
