@@ -26,7 +26,6 @@ export default defineConfig({
 					label: 'PedroPathingPlusVisualizer',
 					items: [
 						{ label: 'Installation', slug: 'pedro-pathing-plus-visualizer/installation' },
-						{ label: 'PedroPathingPlus', slug: 'pedro-pathing-plus-visualizer/pedro-pathing-plus' },
 						{ label: 'Getting Started', slug: 'pedro-pathing-plus-visualizer/getting-started' },
 						{ label: 'File Management', slug: 'pedro-pathing-plus-visualizer/file-management' },
 						{ label: 'Path Editing', slug: 'pedro-pathing-plus-visualizer/path-editing' },
