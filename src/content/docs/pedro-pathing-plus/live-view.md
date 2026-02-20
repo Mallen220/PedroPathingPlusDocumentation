@@ -73,6 +73,71 @@ public class ExampleAuto extends LinearOpMode {
 }
 ```
 
+### Command-Based Setup
+
+If you are using a command-based framework (like FTCLib or the one built into PedroPathingPlus), you can integrate the Live View into your subsystem's `periodic()` method or initialize it in your OpMode.
+
+Here is an example using a `MecanumDrive` subsystem:
+
+```java
+public class MecanumDrive extends SubsystemBase {
+    private final Follower follower;
+
+    public MecanumDrive(HardwareMap hardwareMap) {
+        follower = new Follower(hardwareMap);
+
+        // Start and link Live View in the constructor
+        PedroPathingLiveView.getInstance().start();
+        PedroPathingLiveView.getInstance().setFollower(follower);
+    }
+
+    @Override
+    public void periodic() {
+        // Update the follower each loop
+        follower.update();
+
+        // You don't need to manually update Live View here;
+        // it runs on its own thread and polls the follower.
+    }
+
+    public void stop() {
+         // Disable Live View when the subsystem is no longer needed
+         PedroPathingLiveView.getInstance().disable();
+    }
+}
+```
+
+And in your Command-Based OpMode:
+
+```java
+@Autonomous(name = "Command Auto")
+public class CommandAuto extends CommandOpMode {
+    private MecanumDrive drive;
+
+    @Override
+    public void initialize() {
+        drive = new MecanumDrive(hardwareMap);
+        // ... register other subsystems and schedule commands
+    }
+
+    @Override
+    public void runOpMode() {
+        initialize();
+
+        waitForStart();
+
+        // Run the scheduler
+        while (opModeIsActive()) {
+            run();
+        }
+
+        // Clean up
+        drive.stop();
+        reset();
+    }
+}
+```
+
 ### Key Methods
 
 #### `start()`
