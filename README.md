@@ -1,49 +1,73 @@
-# Starlight Starter Kit: Basics
+# PedroPathingPlus Documentation Workspace
 
-[![Built with Starlight](https://astro.badg.es/v2/built-with-starlight/tiny.svg)](https://starlight.astro.build)
+This repository serves as the **central documentation and reference** project for the
+`PedroPathingPlus` ecosystem. It contains utility docs, build scripts, and two
+related sub‑projects used by the robotics community:
 
-```
-npm create astro@latest -- --template starlight
-```
+- **PedroPathingPlus** – an Android/Gradle project implementing pathfinding
+  algorithms for FTC robotics.
+- **PedroPathingPlusVisualizer** – a Svelte/Vite based visualization tool that
+  demonstrates and tests pathfinding behavior.
 
-> 🧑‍🚀 **Seasoned astronaut?** Delete this file. Have fun!
+---
 
-## 🚀 Project Structure
+Each subproject is self‑contained but shares reference data updated by the
+`npm run ref` script at the root.
 
-Inside of your Astro + Starlight project, you'll see the following folders and files:
+### Key Subdirectories
 
-```
-.
-├── public/
-├── src/
-│   ├── assets/
-│   ├── content/
-│   │   └── docs/
-│   └── content.config.ts
-├── astro.config.mjs
-├── package.json
-└── tsconfig.json
-```
+| Folder                     | Purpose
+|---------------------------|----------------------------------------------------------
+| `PedroPathingPlus/app/`   | Android app modules, source, tests, and Gradle config
+| `PedroPathingPlusVisualizer/src/` | Svelte components, utilities, and plugin examples
+| `public/`                 | Public assets used by the documentation site
 
-Starlight looks for `.md` or `.mdx` files in the `src/content/docs/` directory. Each file is exposed as a route based on its file name.
+---
 
-Images can be added to `src/assets/` and embedded in Markdown with a relative link.
+## 🚀 Getting Started
 
-Static assets, like favicons, can be placed in the `public/` directory.
+1. **Clone the repository** (if not already):
+   ```bash
+   git clone https://github.com/Mallen220/PedroPathingPlusDocumentation.git
+   cd PedroPathingPlusDocumentation
+   ```
 
-## 🧞 Commands
+2. **Install dependencies**:
+   ```bash
+   npm install          # installs tools for docs, visualizer, etc.
+   ```
 
-All commands are run from the root of the project, from a terminal:
+3. **Update cross‑references**:
+   ```bash
+   npm run ref
+   ```
+   This script scans the workspace and updates any outdated links or imports.
 
-| Command                   | Action                                           |
-| :------------------------ | :----------------------------------------------- |
-| `npm install`             | Installs dependencies                            |
-| `npm run dev`             | Starts local dev server at `localhost:4321`      |
-| `npm run build`           | Build your production site to `./dist/`          |
-| `npm run preview`         | Preview your build locally, before deploying     |
-| `npm run astro ...`       | Run CLI commands like `astro add`, `astro check` |
-| `npm run astro -- --help` | Get help using the Astro CLI                     |
+---
 
-## 👀 Want to learn more?
+## 📚 Documentation Site
 
-Check out [Starlight’s docs](https://starlight.astro.build/), read [the Astro documentation](https://docs.astro.build), or jump into the [Astro Discord server](https://astro.build/chat).
+This workspace uses [Astro](https://docs.astro.build) with the Starlight
+template for hosting documentation. Content is stored under
+`src/content/docs/`.
+
+Commands available from the root:
+
+| Command                   | Description
+|---------------------------|------------
+| `npm run dev`             | Start local docs server (`localhost:4321`)
+| `npm run build`           | Build static site to `./dist/`
+| `npm run preview`         | Preview the generated site
+| `npm run astro -- …`      | Run Astro CLI commands
+
+Add markdown files under `src/content/docs/` to extend project documentation.
+
+---
+
+## 📄 License
+
+This project is open for everyone*! We believe in the power of open source and community collaboration. You are free to use, modify, and distribute this software as you see fit. All we ask is that you give credit to the original developers and any contributors who have helped shape this tool. If you make improvements, please consider sharing them back with the community! Please note this project uses a modified version of the Apache 2.0 license.
+
+See the [LICENSE](LICENSE) file for the full modified Apache 2.0 legal text.
+
+---
