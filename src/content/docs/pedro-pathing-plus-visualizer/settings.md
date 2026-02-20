@@ -1,65 +1,123 @@
 ---
 title: Settings
-description: "Customize the visualizer to match your robot."
+description: "Customize the visualizer to match your robot and workflow."
 ---
 
 # Settings
 
-Configure the visualizer and robot parameters.
+The settings menu allows you to configure the visualizer to match your robot's physical properties, adjust the interface, and manage code export options.
 
-> **⚠️ Important:** These settings affect the **visualizer only**. Ensure your robot's code constants match these values for accurate simulation.
+> **⚠️ Important:** Most of these settings (especially in Robot and Motion tabs) affect the **visualizer only**. Ensure your robot's code constants match these values for accurate simulation.
 
-## Keyboard Shortcuts
+## General
 
-View and customize key bindings for faster editing.
+General application settings.
 
-- Click **Open Editor** in the settings menu to manage shortcuts.
+- **Autosave Mode**: Choose when to automatically save your project:
+  - **Never**: Manual save only.
+  - **Time Based**: Save automatically at a set interval.
+  - **On Change**: Save after every change.
+  - **On Close**: Save when closing the application.
+- **Autosave Interval**: (Visible if *Time Based* is selected) Set the frequency of autosaves (1 to 60 minutes).
+- **Welcome Tutorial**: Click **Start Tutorial** to replay the onboarding guide.
+- **Software Update**: Click **Check for Updates** to see if a new version is available.
+- **Keyboard Shortcuts**: Click **Open Editor** to view and customize key bindings.
+- **Plugin Manager**: Click **Open Manager** to manage installed plugins.
+- **Git Integration**: Show git status indicators for files.
+- **Transfer Settings**:
+  - **Export**: Save your current settings to a JSON file.
+  - **Import**: Load settings from a JSON file.
 
-## Robot Configuration
+## Robot
 
-Set physical dimensions for collision detection.
+Configure your robot's physical dimensions and appearance.
 
-- **Dimensions**: Set **Length** and **Width** (in inches).
-- **Safety Margin**: Buffer zone around obstacles (in inches).
+- **Robot Profiles**: Save and load different robot configurations.
+- **Dimensions**:
+  - **Robot Length**: Length of the robot base (in inches).
+  - **Robot Width**: Width of the robot base (in inches).
+- **Safety Margin**: Buffer zone around obstacles and field boundaries (in inches).
 - **Validation**:
-  - **Field Boundaries**: Warn if the robot leaves the field or goes close then the safety margin to the field wall.
-  - **Restrict Dragging**: Prevent moving points outside the field.
-- **Robot Image**: Upload a custom top-down image or use the default.
+  - **Validate Field Boundaries**: Warn if the robot leaves the field.
+  - **Restrict Dragging**: Prevent moving points outside the field boundaries.
+  - **Continuous Validation**: Show validation issues in real-time.
+- **Robot Image**:
+  - Upload a custom top-down image of your robot.
+  - Use the default image or the special "Potato" robot.
 
-## Motion Parameters
+## Motion
 
-Simulate robot physics for path timing.
+Simulate robot physics for path timing and visualization.
 
-- **Velocity**: Set **Max Velocity** (in/s) and **Angular Velocity** (π rad/s).
-- **Acceleration**: Set **Max Acceleration** and **Deceleration** (in/s²).
-- **Friction**: Adjust surface resistance coefficient.
+- **Velocity**:
+  - **X Velocity**: Max velocity in X direction (in/s).
+  - **Y Velocity**: Max velocity in Y direction (in/s).
+  - **Max Velocity**: Overall max velocity (in/s).
+  - **Angular Velocity**: Max rotation speed (supports rad/s or deg/s).
+- **Acceleration**:
+  - **Max Acceleration**: Max acceleration (in/s²).
+  - **Max Deceleration**: Max deceleration (in/s²).
+  - **Max Angular Acceleration**: Max angular acceleration (rad/s² or deg/s²). Set to 0 to auto-calculate.
+- **Friction**:
+  - **Friction Coefficient**: Adjust surface resistance (higher values = more resistance).
 
-## Interface Settings
+## Interface
 
-Customize the visualizer appearance.
+Customize the visualizer's appearance and behavior.
 
-- **Theme**: Light, Dark, or System Auto.
-- **Field Map**: Select the current season's field image.
-- **Orientation**: Rotate the field view (0°–270°).
+- **Theme**: Select Light, Dark, Auto (System), or installed custom themes.
+- **Program Font Size**: Adjust the UI scaling (75% to 150%).
+- **Field Map**:
+  - Select the season's field image.
+  - **Add Custom Field Map**: Upload your own field image.
+- **Field Orientation**: Rotate the field view (0°, 90°, 180°, 270°).
+- **Smart Object Snapping**: Snap points to align with other waypoints.
 - **Velocity Heatmap**: Color-code the path based on speed (Green = Slow, Red = Fast).
+- **Follow Robot**: Automatically pan the view to keep the robot centered during simulation.
 
-## Advanced Settings
+## Code Export
 
-### Visualization
+Configure how code is generated from your paths.
 
-- **Onion Layers**: Show robot outlines at regular intervals along the path.
-- **Spacing**: Adjust distance between layers.
+- **Auto Export Code**: Automatically generate code when the project is saved.
+- **Export Path Mode**:
+  - **Relative**: Path relative to the project file (e.g., `GeneratedCode`).
+  - **Absolute**: Full system path.
+- **Export Path**: Directory where the code will be saved.
+- **Export Format**:
+  - **Java Class**: Generates a standard Java class.
+  - **Sequential Command**: Generates command-based code.
+  - **Points Array**: Exports raw points.
+  - **JSON Project Data**: Exports project data in JSON format.
 
-### Path Optimization
+### Format Specific Settings
 
-Tune the genetic algorithm for automatic path refinement:
+**Java Class:**
+- **Generate Full Class**: Include class definition and imports.
+- **Telemetry Implementation**: Choose telemetry backend (Panels, Standard, Dashboard, None).
+- **Package Name**: Java package for the generated class.
 
-- **Iterations**: Number of improvement cycles.
-- **Population**: Paths tested per cycle.
-- **Mutation Rate**: Frequency of point changes.
-- **Mutation Strength**: Max distance points move.
+**Sequential Command:**
+- **Target Library**: Choose between `SolversLib` or `NextFTC`.
+- **Embed Pose Data**: Embed pose data directly in the code (no `.pp` file needed).
+- **Package Name**: Java package for the generated class.
 
-## Credits & Legal
+## Advanced
 
-- View version, contributors, and licenses.
-- **Reset All**: Restore default settings.
+Advanced visualization and optimization settings.
+
+- **Show Debug Sequence**: Display internal sequence execution order.
+- **Robot Onion Layers**: Show robot outlines at regular intervals along the path.
+  - **Show Only on Current Path**: Hide onion layers for other paths.
+  - **Onion Layer Spacing**: Distance between layers (in inches).
+- **Path Optimization**:
+  - **Optimization Iterations**: Number of improvement cycles for the genetic algorithm.
+  - **Population Size**: Number of paths tested per cycle.
+  - **Mutation Rate**: Frequency of point changes.
+  - **Mutation Strength**: Max distance points move during mutation.
+
+## About
+
+- View version information.
+- Access links to Portfolio, LinkedIn, and GitHub.
+- **Reset Defaults**: Restore all settings to their default values.
