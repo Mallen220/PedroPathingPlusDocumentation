@@ -7,7 +7,10 @@
     "start": "astro dev",
     "build": "astro build",
     "preview": "astro preview",
-    "astro": "astro"
+    "astro": "astro",
+    "ref:PPP": "cd PedroPathingPlus && git pull && cd ../",
+    "ref:PPPV": "cd PedroPathingPlusVisualizer && git pull && cd ../",
+    "ref": "npm run ref:PPP && npm run ref:PPPV"
   },
   "dependencies": {
     "@astrojs/starlight": "^0.37.6",
