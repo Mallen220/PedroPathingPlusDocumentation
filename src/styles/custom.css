@@ -1,0 +1,13 @@
+:root {
+	--sl-hue-accent: 260;
+	--sl-saturation-accent: 80%;
+}
+
+/* Custom gradient for hero title */
+.hero > .stack > .copy > h1 {
+	background: linear-gradient(to right, #ff4d4d, #4d4dff);
+	-webkit-background-clip: text;
+	-webkit-text-fill-color: transparent;
+	background-clip: text;
+	color: transparent;
+}
