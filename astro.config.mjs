@@ -17,6 +17,18 @@ export default defineConfig({
 					],
 				},
 				{
+					label: 'PedroPathingPlus',
+					items: [
+						{ label: 'Installation', slug: 'pedro-pathing-plus/installation' },
+					],
+				},
+				{
+					label: 'PedroPathingPlusVisualizer',
+					items: [
+						{ label: 'Installation', slug: 'pedro-pathing-plus-visualizer/installation' },
+					],
+				},
+				{
 					label: 'Reference',
 					autogenerate: { directory: 'reference' },
 				},

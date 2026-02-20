@@ -8,8 +8,13 @@ The goal for automated agents is to:
 
 1. Clone the `PedroPathingPlusDocumentation` repository.
 2. Install dependencies via `npm install` (if applicable).
-3. Run `npm run ref` to update references throughout the workspace.
-4. Reference and utilize features from the included reference projects (e.g., PedroPathingPlus, PedroPathingPlusVisualizer) to complete their prescribed tasks.
+3. If the directories `PedroPathingPlus` and `PedroPathingPlusVisualizer` do not exist in the root of the repository, clone them:
+   ```bash
+   git clone https://github.com/Mallen220/PedroPathingPlus.git
+   git clone https://github.com/Mallen220/PedroPathingPlusVisualizer.git
+   ```
+4. Run `npm run ref` to update references throughout the workspace.
+5. Reference and utilize features from the included reference projects (e.g., PedroPathingPlus, PedroPathingPlusVisualizer) to complete their prescribed tasks.
 
 Agents should be aware that the workspace contains multiple subprojects, including:
 
@@ -38,6 +43,10 @@ After cloning, agents must ensure that any cross-project references are current.
 
 ```bash
 npm install
+# If the subprojects are missing, clone them first:
+git clone https://github.com/Mallen220/PedroPathingPlus.git
+git clone https://github.com/Mallen220/PedroPathingPlusVisualizer.git
+
 npm run ref
 ```
 
