@@ -5,7 +5,7 @@ description: "Master the controls to speed up your workflow."
 
 # Controls & Shortcuts
 
-Master the keyboard shortcuts and mouse controls to speed up your workflow. Press **shift + ?** to open the keybinds menu for a complete list.
+Master the keyboard shortcuts and mouse controls to speed up your workflow. Press **Shift + ?** to open the keybinds menu for a complete list within the application.
 
 ## Mouse Controls
 
@@ -18,70 +18,188 @@ Master the keyboard shortcuts and mouse controls to speed up your workflow. Pres
 
 ## File Management
 
-| Action                 | Shortcut                                          |
-| :--------------------- | :------------------------------------------------ |
-| **Save Project**       | <kbd>Ctrl</kbd> + <kbd>S</kbd>                    |
-| **Save As (Download)** | <kbd>Ctrl</kbd> + <kbd>Shift</kbd> + <kbd>S</kbd> |
-| **Export GIF**         | <kbd>Ctrl</kbd> + <kbd>Shift</kbd> + <kbd>E</kbd> |
+| Action                       | Shortcut                                                                                  |
+| :--------------------------- | :---------------------------------------------------------------------------------------- |
+| **Save Project**             | <kbd>Ctrl</kbd> + <kbd>S</kbd> / <kbd>Cmd</kbd> + <kbd>S</kbd>                            |
+| **Save As (Download)**       | <kbd>Ctrl</kbd> + <kbd>Shift</kbd> + <kbd>S</kbd> / <kbd>Cmd</kbd> + <kbd>Shift</kbd> + <kbd>S</kbd> |
+| **Export Animated Image**    | <kbd>Ctrl</kbd> + <kbd>Shift</kbd> + <kbd>E</kbd> / <kbd>Cmd</kbd> + <kbd>Shift</kbd> + <kbd>E</kbd> |
+| **Open File**                | <kbd>Ctrl</kbd> + <kbd>O</kbd> / <kbd>Cmd</kbd> + <kbd>O</kbd>                            |
+| **New Project / Reset Path** | <kbd>Ctrl</kbd> + <kbd>N</kbd> / <kbd>Cmd</kbd> + <kbd>N</kbd> / <kbd>Ctrl</kbd> + <kbd>R</kbd> / <kbd>Cmd</kbd> + <kbd>R</kbd> |
+| **Toggle File Manager**      | <kbd>Ctrl</kbd> + <kbd>Shift</kbd> + <kbd>M</kbd> / <kbd>Cmd</kbd> + <kbd>Shift</kbd> + <kbd>M</kbd> |
 
 ## Path Editing
 
-| Action                    | Shortcut                                                          |
-| :------------------------ | :---------------------------------------------------------------- |
-| **Undo**                  | <kbd>Ctrl</kbd> + <kbd>Z</kbd>                                    |
-| **Redo**                  | <kbd>Ctrl</kbd> + <kbd>Shift</kbd> + <kbd>Z</kbd>                 |
-| **Duplicate Selected**    | <kbd>Shift</kbd> + <kbd>D</kbd>                                   |
-| **Delete Selected**       | <kbd>Backspace</kbd> or <kbd>Delete</kbd>                         |
-| **Add New Path**          | <kbd>P</kbd>                                                      |
-| **Add Wait**              | <kbd>W</kbd>                                                      |
-| **Add Rotate**            | <kbd>T</kbd>                                                      |
-| **Add Event Marker**      | <kbd>E</kbd>                                                      |
-| **Add Control Point**     | <kbd>A</kbd>                                                      |
-| **Remove Control Point**  | <kbd>D</kbd>                                                      |
-| **Adjust Wait / Rotate**  | <kbd>=</kbd> / <kbd>-</kbd>                                       |
-| **Nudge Point**           | Arrow Keys or <kbd>I</kbd> <kbd>J</kbd> <kbd>K</kbd> <kbd>L</kbd> |
-| **Focus X / Y / Heading** | <kbd>X</kbd> / <kbd>Y</kbd> / <kbd>H</kbd>                        |
+| Action                           | Shortcut                                                                                              |
+| :------------------------------- | :---------------------------------------------------------------------------------------------------- |
+| **Add New Path**                 | <kbd>P</kbd>                                                                                          |
+| **Add Wait**                     | <kbd>W</kbd>                                                                                          |
+| **Add Rotate Event**             | <kbd>T</kbd>                                                                                          |
+| **Add Event Marker**             | <kbd>E</kbd>                                                                                          |
+| **Add Control Point**            | <kbd>A</kbd>                                                                                          |
+| **Remove Control Point**         | <kbd>D</kbd>                                                                                          |
+| **Duplicate Selected**           | <kbd>Shift</kbd> + <kbd>D</kbd> / <kbd>Cmd</kbd> + <kbd>D</kbd>                                       |
+| **Split Path at Current Time**   | <kbd>K</kbd>                                                                                          |
+| **Copy Selected**                | <kbd>Ctrl</kbd> + <kbd>C</kbd> / <kbd>Cmd</kbd> + <kbd>C</kbd>                                        |
+| **Cut Selected**                 | <kbd>Ctrl</kbd> + <kbd>X</kbd> / <kbd>Cmd</kbd> + <kbd>X</kbd>                                        |
+| **Paste Item**                   | <kbd>Ctrl</kbd> + <kbd>V</kbd> / <kbd>Cmd</kbd> + <kbd>V</kbd>                                        |
+| **Remove Selected**              | <kbd>Backspace</kbd> / <kbd>Delete</kbd>                                                              |
+| **Undo**                         | <kbd>Ctrl</kbd> + <kbd>Z</kbd> / <kbd>Cmd</kbd> + <kbd>Z</kbd>                                        |
+| **Redo**                         | <kbd>Ctrl</kbd> + <kbd>Shift</kbd> + <kbd>Z</kbd> / <kbd>Cmd</kbd> + <kbd>Shift</kbd> + <kbd>Z</kbd> / <kbd>Ctrl</kbd> + <kbd>Y</kbd> |
+| **Move Point Up**                | <kbd>Up</kbd>                                                                                         |
+| **Move Point Down**              | <kbd>Down</kbd>                                                                                       |
+| **Move Point Left**              | <kbd>Left</kbd>                                                                                       |
+| **Move Point Right**             | <kbd>Right</kbd>                                                                                      |
+| **Increase Value (Wait/Rotate)** | <kbd>=</kbd>                                                                                          |
+| **Decrease Value (Wait/Rotate)** | <kbd>-</kbd>                                                                                          |
+| **Add New Obstacle**             | <kbd>Shift</kbd> + <kbd>O</kbd>                                                                       |
+| **Rename Selected Item**         | <kbd>F2</kbd>                                                                                         |
+| **Cycle Path Color**             | <kbd>Alt</kbd> + <kbd>C</kbd>                                                                         |
+| **Toggle Heading Mode**          | <kbd>Shift</kbd> + <kbd>H</kbd>                                                                       |
+| **Toggle Reverse**               | <kbd>Shift</kbd> + <kbd>R</kbd>                                                                       |
+| **Toggle Locked State**          | <kbd>Shift</kbd> + <kbd>L</kbd>                                                                       |
+| **Focus X Input**                | <kbd>X</kbd>                                                                                          |
+| **Focus Y Input**                | <kbd>Y</kbd>                                                                                          |
+| **Focus Heading Input**          | <kbd>H</kbd>                                                                                          |
+| **Move Sequence Item Up**        | <kbd>Alt</kbd> + <kbd>Up</kbd>                                                                        |
+| **Move Sequence Item Down**      | <kbd>Alt</kbd> + <kbd>Down</kbd>                                                                      |
+| **Add Path at Start**            | <kbd>Alt</kbd> + <kbd>S</kbd>                                                                         |
+| **Add Wait at Start**            | <kbd>Shift</kbd> + <kbd>W</kbd>                                                                       |
+| **Add Rotate at Start**          | <kbd>Alt</kbd> + <kbd>T</kbd>                                                                         |
+| **Clear All Obstacles**          | <kbd>Ctrl</kbd> + <kbd>Shift</kbd> + <kbd>Backspace</kbd>                                             |
+| **Edit Selected Item Properties**| <kbd>Enter</kbd>                                                                                      |
+| **Select Last Point**            | <kbd>Shift</kbd> + <kbd>End</kbd>                                                                     |
+| **Select First Point**           | <kbd>Shift</kbd> + <kbd>Home</kbd>                                                                    |
+| **Reset Start Point**            | <kbd>Alt</kbd> + <kbd>Home</kbd>                                                                      |
+| **Snap Selection to Grid**       | <kbd>Shift</kbd> + <kbd>S</kbd>                                                                       |
 
 ## View & Visibility
 
-| Action                | Shortcut                        |
-| :-------------------- | :------------------------------ |
-| **Zoom In**           | <kbd>Ctrl</kbd> + <kbd>+</kbd>  |
-| **Zoom Out**          | <kbd>Ctrl</kbd> + <kbd>-</kbd>  |
-| **Reset Zoom**        | <kbd>Ctrl</kbd> + <kbd>0</kbd>  |
-| **Toggle Grid**       | <kbd>G</kbd>                    |
-| **Snap to Grid**      | <kbd>N</kbd>                    |
-| **Cycle Grid Size**   | <kbd>[</kbd> / <kbd>]</kbd>     |
-| **Toggle Onion Skin** | <kbd>O</kbd>                    |
-| **Toggle Protractor** | <kbd>Shift</kbd> + <kbd>P</kbd> |
-| **Toggle Sidebar**    | <kbd>B</kbd>                    |
+| Action                                | Shortcut                                                                                              |
+| :------------------------------------ | :---------------------------------------------------------------------------------------------------- |
+| **Toggle Onion Skin**                 | <kbd>O</kbd>                                                                                          |
+| **Toggle Grid**                       | <kbd>G</kbd>                                                                                          |
+| **Cycle Grid Size**                   | <kbd>]</kbd>                                                                                          |
+| **Cycle Grid Size Backward**          | <kbd>[</kbd>                                                                                          |
+| **Toggle Snap to Grid**               | <kbd>N</kbd>                                                                                          |
+| **Toggle Protractor**                 | <kbd>Shift</kbd> + <kbd>P</kbd>                                                                       |
+| **Zoom In**                           | <kbd>Ctrl</kbd> + <kbd>+</kbd> / <kbd>Cmd</kbd> + <kbd>+</kbd> / <kbd>Ctrl</kbd> + <kbd>Numpad +</kbd> |
+| **Zoom Out**                          | <kbd>Ctrl</kbd> + <kbd>-</kbd> / <kbd>Cmd</kbd> + <kbd>-</kbd> / <kbd>Ctrl</kbd> + <kbd>Numpad -</kbd> |
+| **Reset Zoom**                        | <kbd>Ctrl</kbd> + <kbd>0</kbd> / <kbd>Cmd</kbd> + <kbd>0</kbd> / <kbd>Ctrl</kbd> + <kbd>Numpad 0</kbd> |
+| **Toggle Collapse/Expand All**        | <kbd>Shift</kbd> + <kbd>C</kbd>                                                                       |
+| **Toggle Collapse Selected**          | <kbd>C</kbd>                                                                                          |
+| **Toggle Sidebar**                    | <kbd>B</kbd>                                                                                          |
+| **Toggle Presentation Mode**          | <kbd>Alt</kbd> + <kbd>P</kbd>                                                                         |
+| **Toggle Velocity Heatmap**           | <kbd>V</kbd>                                                                                          |
+| **Toggle Robot Visibility**           | <kbd>Alt</kbd> + <kbd>I</kbd>                                                                         |
+| **Toggle History Panel**              | <kbd>Alt</kbd> + <kbd>H</kbd>                                                                         |
+| **Toggle Strategy Sheet**             | <kbd>Alt</kbd> + <kbd>Shift</kbd> + <kbd>S</kbd>                                                      |
+| **Toggle Protractor Lock**            | <kbd>Alt</kbd> + <kbd>L</kbd>                                                                         |
+| **Toggle Diff View**                  | <kbd>Alt</kbd> + <kbd>D</kbd>                                                                         |
+| **Toggle Plugin Manager**             | <kbd>Ctrl</kbd> + <kbd>Shift</kbd> + <kbd>P</kbd> / <kbd>Cmd</kbd> + <kbd>Shift</kbd> + <kbd>P</kbd>  |
+| **Toggle Ruler**                      | <kbd>Alt</kbd> + <kbd>M</kbd>                                                                         |
+| **Cycle Field Map**                   | <kbd>Shift</kbd> + <kbd>F</kbd>                                                                       |
+| **Rotate Field 90°**                  | <kbd>Alt</kbd> + <kbd>Shift</kbd> + <kbd>F</kbd>                                                      |
+| **Toggle Follow Robot**               | <kbd>Alt</kbd> + <kbd>F</kbd>                                                                         |
+| **Toggle Onion Skin (Current Path)**  | <kbd>Alt</kbd> + <kbd>O</kbd>                                                                         |
+| **Cycle Light/Dark Mode**             | <kbd>Shift</kbd> + <kbd>T</kbd>                                                                       |
+| **Toggle Field Boundaries**           | <kbd>Alt</kbd> + <kbd>B</kbd>                                                                         |
+| **Toggle Drag Restriction**           | <kbd>Alt</kbd> + <kbd>R</kbd>                                                                         |
+| **Pan to Start Point**                | <kbd>Home</kbd>                                                                                       |
+| **Pan to End Point**                  | <kbd>End</kbd>                                                                                        |
+| **Pan View Up**                       | <kbd>Ctrl</kbd> + <kbd>Shift</kbd> + <kbd>Up</kbd> / <kbd>Cmd</kbd> + <kbd>Shift</kbd> + <kbd>Up</kbd>       |
+| **Pan View Down**                     | <kbd>Ctrl</kbd> + <kbd>Shift</kbd> + <kbd>Down</kbd> / <kbd>Cmd</kbd> + <kbd>Shift</kbd> + <kbd>Down</kbd>   |
+| **Pan View Left**                     | <kbd>Ctrl</kbd> + <kbd>Shift</kbd> + <kbd>Left</kbd> / <kbd>Cmd</kbd> + <kbd>Shift</kbd> + <kbd>Left</kbd>   |
+| **Pan View Right**                    | <kbd>Ctrl</kbd> + <kbd>Shift</kbd> + <kbd>Right</kbd> / <kbd>Cmd</kbd> + <kbd>Shift</kbd> + <kbd>Right</kbd> |
 
 ## Playback & Simulation
 
-| Action              | Shortcut                        |
-| :------------------ | :------------------------------ |
-| **Play / Pause**    | <kbd>Space</kbd>                |
-| **Reset Animation** | <kbd>R</kbd>                    |
-| **Step Forward**    | <kbd>Shift</kbd> + <kbd>→</kbd> |
-| **Step Backward**   | <kbd>Shift</kbd> + <kbd>←</kbd> |
-| **Increase Speed**  | <kbd>Shift</kbd> + <kbd>↑</kbd> |
-| **Decrease Speed**  | <kbd>Shift</kbd> + <kbd>↓</kbd> |
+| Action                  | Shortcut                                              |
+| :---------------------- | :---------------------------------------------------- |
+| **Play / Pause**        | <kbd>Space</kbd>                                      |
+| **Increase Speed**      | <kbd>Shift</kbd> + <kbd>Up</kbd>                      |
+| **Decrease Speed**      | <kbd>Shift</kbd> + <kbd>Down</kbd>                    |
+| **Reset Speed**         | <kbd>1</kbd>                                          |
+| **Step Forward**        | <kbd>Shift</kbd> + <kbd>Right</kbd>                   |
+| **Step Backward**       | <kbd>Shift</kbd> + <kbd>Left</kbd>                    |
+| **Reset Animation**     | <kbd>R</kbd>                                          |
+
+## Navigation
+
+| Action                         | Shortcut                                                                                              |
+| :----------------------------- | :---------------------------------------------------------------------------------------------------- |
+| **Select Next Sequence Item**  | <kbd>Ctrl</kbd> + <kbd>Down</kbd> / <kbd>Cmd</kbd> + <kbd>Down</kbd> / <kbd>Tab</kbd>                 |
+| **Select Prev Sequence Item**  | <kbd>Ctrl</kbd> + <kbd>Up</kbd> / <kbd>Cmd</kbd> + <kbd>Up</kbd> / <kbd>Shift</kbd> + <kbd>Tab</kbd>  |
+| **Switch to Paths Tab**        | <kbd>Alt</kbd> + <kbd>1</kbd>                                                                         |
+| **Switch to Field & Tools Tab**| <kbd>Alt</kbd> + <kbd>2</kbd>                                                                         |
+| **Switch to Table Tab**        | <kbd>Alt</kbd> + <kbd>3</kbd>                                                                         |
+| **Switch to Code Tab**         | <kbd>Alt</kbd> + <kbd>4</kbd>                                                                         |
+| **Cycle Tabs Forward**         | <kbd>Ctrl</kbd> + <kbd>Tab</kbd>                                                                      |
+| **Cycle Tabs Backward**        | <kbd>Ctrl</kbd> + <kbd>Shift</kbd> + <kbd>Tab</kbd>                                                   |
+| **Deselect All**               | <kbd>Esc</kbd>                                                                                        |
+| **Focus Path List**            | <kbd>Alt</kbd> + <kbd>Shift</kbd> + <kbd>L</kbd>                                                      |
+| **Focus Code Preview**         | <kbd>Alt</kbd> + <kbd>Shift</kbd> + <kbd>C</kbd>                                                      |
+| **Confirm Dialog**             | <kbd>Ctrl</kbd> + <kbd>Enter</kbd> / <kbd>Cmd</kbd> + <kbd>Enter</kbd>                                |
+| **Cancel / Close Dialog**      | <kbd>Esc</kbd>                                                                                        |
 
 ## Optimization
 
-Use these shortcuts when the optimization tool is active:
+| Action                | Shortcut                                               |
+| :-------------------- | :----------------------------------------------------- |
+| **Start Optimization**| <kbd>Ctrl</kbd> + <kbd>Shift</kbd> + <kbd>O</kbd>      |
+| **Stop Optimization** | <kbd>Ctrl</kbd> + <kbd>.</kbd>                         |
+| **Apply Result**      | <kbd>Alt</kbd> + <kbd>Enter</kbd>                      |
+| **Discard**           | <kbd>Ctrl</kbd> + <kbd>Backspace</kbd>                 |
+| **Retry**             | <kbd>Ctrl</kbd> + <kbd>Shift</kbd> + <kbd>R</kbd>      |
 
-- **Start**: <kbd>Ctrl</kbd> + <kbd>Shift</kbd> + <kbd>O</kbd>
-- **Stop**: <kbd>Ctrl</kbd> + <kbd>.</kbd>
-- **Apply Result**: <kbd>Ctrl</kbd> + <kbd>Enter</kbd>
-- **Discard**: <kbd>Ctrl</kbd> + <kbd>Backspace</kbd>
+## Exporting
 
-## Navigation & General
+| Action                       | Shortcut                                                                                  |
+| :--------------------------- | :---------------------------------------------------------------------------------------- |
+| **Export Java Code**         | <kbd>Ctrl</kbd> + <kbd>Shift</kbd> + <kbd>J</kbd> / <kbd>Cmd</kbd> + <kbd>Shift</kbd> + <kbd>J</kbd> |
+| **Export Points Array**      | <kbd>Ctrl</kbd> + <kbd>Shift</kbd> + <kbd>K</kbd> / <kbd>Cmd</kbd> + <kbd>Shift</kbd> + <kbd>K</kbd> |
+| **Export Sequential Command**| <kbd>Ctrl</kbd> + <kbd>Shift</kbd> + <kbd>U</kbd> / <kbd>Cmd</kbd> + <kbd>Shift</kbd> + <kbd>U</kbd> |
+| **Export .pp (JSON)**        | <kbd>Ctrl</kbd> + <kbd>Shift</kbd> + <kbd>X</kbd> / <kbd>Cmd</kbd> + <kbd>Shift</kbd> + <kbd>X</kbd> |
+| **Copy Generated Code**      | <kbd>Ctrl</kbd> + <kbd>Shift</kbd> + <kbd>C</kbd> / <kbd>Cmd</kbd> + <kbd>Shift</kbd> + <kbd>C</kbd> |
+| **Copy Table as Markdown**   | <kbd>Ctrl</kbd> + <kbd>Shift</kbd> + <kbd>T</kbd> / <kbd>Cmd</kbd> + <kbd>Shift</kbd> + <kbd>T</kbd> |
+| **Download Java File**       | <kbd>Ctrl</kbd> + <kbd>J</kbd> / <kbd>Cmd</kbd> + <kbd>J</kbd>                            |
 
-- **Switch Tabs**: <kbd>Alt</kbd> + <kbd>1</kbd> / <kbd>2</kbd> / <kbd>3</kbd>
-- **Cycle Selection**: <kbd>Tab</kbd>
-- **Cancel / Close**: <kbd>Esc</kbd>
-- **Settings**: <kbd>Ctrl</kbd> + <kbd>,</kbd>
-- **Shortcuts Help**: <kbd>?</kbd>
+## Settings & Tools
 
-> **Note:** macOS users should use <kbd>Cmd</kbd> instead of <kbd>Ctrl</kbd>. You can customize these shortcuts in **Settings**.
+| Action                           | Shortcut                                                                       |
+| :------------------------------- | :----------------------------------------------------------------------------- |
+| **Cycle Robot Profile**          | <kbd>Alt</kbd> + <kbd>Shift</kbd> + <kbd>P</kbd>                               |
+| **Open Settings**                | <kbd>Ctrl</kbd> + <kbd>,</kbd> / <kbd>Cmd</kbd> + <kbd>,</kbd>                 |
+| **Show Shortcuts Help**          | <kbd>Shift</kbd> + <kbd>/</kbd>                                                |
+| **Toggle Path Statistics**       | <kbd>S</kbd>                                                                   |
+| **Open What's New**              | <kbd>Shift</kbd> + <kbd>N</kbd>                                                |
+| **Toggle Command Palette**       | <kbd>Ctrl</kbd> + <kbd>P</kbd> / <kbd>Cmd</kbd> + <kbd>P</kbd>                 |
+| **Validate Path**                | <kbd>Shift</kbd> + <kbd>V</kbd>                                                |
+| **Toggle Continuous Validation** | <kbd>Alt</kbd> + <kbd>V</kbd>                                                  |
+
+## Help & Support
+
+| Action                 | Shortcut      |
+| :--------------------- | :------------ |
+| **Open Documentation** | <kbd>F1</kbd> |
+
+## Unbound Actions
+
+These actions are available in the application (often via the Command Palette) but do not have a default keyboard shortcut assigned. You can assign keys to them in the Settings.
+
+- **Set File Manager Directory**
+- **Reset Keybinds**
+- **Reset Settings**
+- **Show/Hide Debug Sequence**
+- **Copy Path JSON to Clipboard**
+- **Set Theme: Light**
+- **Set Theme: Dark**
+- **Autosave: Never**
+- **Autosave: 1 Minute**
+- **Autosave: 5 Minutes**
+- **Autosave: On Change**
+- **Autosave: On Close**
+- **Check for updates**
+- **Report Issue**
+- **Start Interactive Tutorial**
+
+> **Note:** macOS users can generally use <kbd>Cmd</kbd> in place of <kbd>Ctrl</kbd>. This table lists explicit bindings for clarity.
