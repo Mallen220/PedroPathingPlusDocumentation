@@ -1,0 +1,205 @@
+---
+import StarlightPage from '@astrojs/starlight/components/StarlightPage.astro';
+---
+
+<StarlightPage frontmatter={{ title: '404 - Path Not Found' }}>
+  <div class="not-found-container">
+    <div class="glitch-wrapper">
+      <h1 class="glitch" data-text="404">404</h1>
+    </div>
+    <h2>Trajectory Error</h2>
+    <p>
+      It seems you've deviated from the optimal path. The coordinates you are looking for do not exist in this sector.
+    </p>
+
+    <div class="robot-animation">
+      <div class="robot">
+        <div class="antenna"></div>
+        <div class="head">
+          <div class="eye left"></div>
+          <div class="eye right"></div>
+        </div>
+        <div class="body"></div>
+      </div>
+    </div>
+
+    <a href="/" class="recalculate-btn">Recalculate Path (Home)</a>
+  </div>
+
+  <style>
+    .not-found-container {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: 4rem 1rem;
+    }
+
+    .glitch-wrapper {
+      position: relative;
+    }
+
+    .glitch {
+      font-size: 8rem;
+      font-weight: bold;
+      color: var(--sl-color-text-accent);
+      position: relative;
+      margin: 0;
+      line-height: 1;
+    }
+
+    .glitch::before,
+    .glitch::after {
+      content: attr(data-text);
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+    }
+
+    .glitch::before {
+      left: 2px;
+      text-shadow: -1px 0 #ff00c1;
+      clip: rect(44px, 450px, 56px, 0);
+      animation: glitch-anim-1 5s infinite linear alternate-reverse;
+    }
+
+    .glitch::after {
+      left: -2px;
+      text-shadow: -1px 0 #00fff9;
+      clip: rect(44px, 450px, 56px, 0);
+      animation: glitch-anim-2 5s infinite linear alternate-reverse;
+    }
+
+    @keyframes glitch-anim-1 {
+      0% { clip: rect(30px, 9999px, 10px, 0); }
+      5% { clip: rect(80px, 9999px, 90px, 0); }
+      10% { clip: rect(30px, 9999px, 10px, 0); }
+      15% { clip: rect(10px, 9999px, 40px, 0); }
+      20% { clip: rect(80px, 9999px, 20px, 0); }
+      100% { clip: rect(30px, 9999px, 10px, 0); }
+    }
+
+    @keyframes glitch-anim-2 {
+      0% { clip: rect(10px, 9999px, 80px, 0); }
+      5% { clip: rect(30px, 9999px, 10px, 0); }
+      10% { clip: rect(10px, 9999px, 80px, 0); }
+      15% { clip: rect(80px, 9999px, 20px, 0); }
+      20% { clip: rect(10px, 9999px, 80px, 0); }
+      100% { clip: rect(10px, 9999px, 80px, 0); }
+    }
+
+    h2 {
+      font-size: 2rem;
+      margin-top: 1rem;
+      color: var(--sl-color-white);
+    }
+
+    p {
+      font-size: 1.2rem;
+      max-width: 600px;
+      margin-bottom: 2rem;
+      color: var(--sl-color-gray-2);
+    }
+
+    .recalculate-btn {
+      display: inline-block;
+      padding: 0.8rem 1.5rem;
+      background-color: var(--sl-color-accent);
+      color: var(--sl-color-black);
+      font-weight: bold;
+      text-decoration: none;
+      border-radius: 4px;
+      transition: transform 0.2s, background-color 0.2s;
+    }
+
+    .recalculate-btn:hover {
+      background-color: var(--sl-color-accent-high);
+      transform: scale(1.05);
+    }
+
+    /* Simple Robot Animation */
+    .robot-animation {
+      position: relative;
+      height: 100px;
+      width: 100px;
+      margin: 2rem auto;
+    }
+
+    .robot {
+      position: relative;
+      width: 60px;
+      height: 60px;
+      margin: 0 auto;
+      animation: float 3s ease-in-out infinite;
+    }
+
+    .head {
+      width: 40px;
+      height: 30px;
+      background: var(--sl-color-text-accent);
+      border-radius: 5px;
+      margin: 0 auto;
+      position: relative;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 5px;
+    }
+
+    .eye {
+      width: 8px;
+      height: 8px;
+      background: #fff;
+      border-radius: 50%;
+      animation: blink 4s infinite;
+    }
+
+    .antenna {
+      width: 2px;
+      height: 10px;
+      background: var(--sl-color-text-accent);
+      margin: 0 auto;
+      position: relative;
+      top: -2px;
+    }
+
+    .antenna::before {
+      content: '';
+      position: absolute;
+      top: -4px;
+      left: -2px;
+      width: 6px;
+      height: 6px;
+      background: var(--sl-color-accent);
+      border-radius: 50%;
+      animation: pulse 2s infinite;
+    }
+
+    .body {
+      width: 50px;
+      height: 40px;
+      background: var(--sl-color-gray-3);
+      border-radius: 0 0 10px 10px;
+      margin: -2px auto 0;
+    }
+
+    @keyframes float {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-10px); }
+    }
+
+    @keyframes blink {
+      0%, 90%, 100% { transform: scaleY(1); }
+      95% { transform: scaleY(0.1); }
+    }
+
+    @keyframes pulse {
+      0% { transform: scale(1); opacity: 1; }
+      50% { transform: scale(1.5); opacity: 0.5; }
+      100% { transform: scale(1); opacity: 1; }
+    }
+  </style>
+</StarlightPage>
