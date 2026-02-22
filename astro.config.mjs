@@ -28,6 +28,7 @@ export default defineConfig({
 					items: [
 						{ label: 'Installation', slug: 'pedro-pathing-plus/installation' },
 						{ label: 'Live View', slug: 'pedro-pathing-plus/live-view' },
+						{ label: 'Command-Based Programming', slug: 'pedro-pathing-plus/command-based' },
 					],
 				},
 				{
