@@ -6,7 +6,8 @@
     <div id="start-screen">
       <h2>Pathing Challenge</h2>
       <p>Use Arrow Keys to guide the robot.</p>
-      <p>Collect waypoints to extend your path.</p>
+      <p>Collect artifacts to score points.</p>
+      <p>Avoid hitting the walls or other robots!</p>
       <button id="start-btn" class="game-btn">Start Pathing</button>
     </div>
     <div id="game-over-screen" class="hidden">
@@ -15,8 +16,8 @@
       <button id="restart-btn" class="game-btn">Try Again</button>
     </div>
   </div>
-  <canvas id="game-canvas" width="600" height="400"></canvas>
-  <div class="score-board">Waypoints: <span id="score">0</span></div>
+  <canvas id="game-canvas" width="600" height="600"></canvas>
+  <div class="score-board">Score: <span id="score">0</span></div>
 </div>
 
 <style>
@@ -36,7 +37,9 @@
     display: block;
     width: 100%;
     height: auto;
-    background-color: #1a1a1a; /* Dark background for contrast */
+    background-color: #1a1a1a;
+    background-size: cover;
+    background-position: center;
   }
 
   .ui-overlay {
@@ -62,11 +65,11 @@
   h2 {
     font-size: 2rem;
     margin-bottom: 1rem;
-    color: #ff4d4d; /* Red from theme */
+    color: #ff4d4d;
   }
 
   p {
-    margin-bottom: 1.5rem;
+    margin-bottom: 0.8rem;
     font-size: 1.1rem;
   }
 
@@ -80,6 +83,7 @@
     border-radius: 4px;
     cursor: pointer;
     transition: transform 0.2s;
+    margin-top: 1rem;
   }
 
   .game-btn:hover {
@@ -98,11 +102,16 @@
 </style>
 
 <script>
-  // Game Configuration
-  const GRID_SIZE = 20;
-  const TILE_COUNT_X = 30; // 600 / 20
-  const TILE_COUNT_Y = 20; // 400 / 20
-  const SPEED = 100; // ms per frame
+  // Game Constants
+  const CANVAS_WIDTH = 600;
+  const CANVAS_HEIGHT = 600;
+  const ROBOT_SIZE = 40; // Diameter of robot
+  const ROBOT_RADIUS = ROBOT_SIZE / 2;
+  const ARTIFACT_SIZE = 20;
+  const ARTIFACT_RADIUS = ARTIFACT_SIZE / 2;
+  const PLAYER_SPEED = 3;
+  const ENEMY_SPEED = 2;
+  const ENEMY_COUNT = 3;
 
   // Elements
   const canvas = document.getElementById('game-canvas');
@@ -115,183 +124,236 @@
   const startBtn = document.getElementById('start-btn');
   const restartBtn = document.getElementById('restart-btn');
 
-  // Game State
-  let snake = [];
-  let velocity = { x: 0, y: 0 };
-  let food = { x: 15, y: 10 };
-  let score = 0;
-  let gameInterval = null;
-  let isGameRunning = false;
-  let robotImg = new Image();
-
-  // Load Robot Image
+  // Assets
+  const robotImg = new Image();
   robotImg.src = '/robot.png';
 
+  const fieldImg = new Image();
+  fieldImg.src = '/field.webp';
+
+  // Game State
+  let player = { x: 300, y: 300, angle: 0, vx: 0, vy: 0 };
+  let artifacts = [];
+  let enemies = [];
+  let score = 0;
+  let animationFrameId;
+  let isGameRunning = false;
+  let keys = {};
+
   // Input Handling
-  let inputQueue = [];
-  document.addEventListener('keydown', handleInput);
-
-  function handleInput(e) {
-    if (!isGameRunning) return;
-
+  window.addEventListener('keydown', (e) => {
     // Prevent default scrolling for arrow keys
     if(["ArrowUp","ArrowDown","ArrowLeft","ArrowRight"].indexOf(e.code) > -1) {
         e.preventDefault();
     }
+    keys[e.key] = true;
+  });
+  window.addEventListener('keyup', (e) => keys[e.key] = false);
 
-    const lastInput = inputQueue.length > 0 ? inputQueue[inputQueue.length - 1] : velocity;
+  function spawnArtifact() {
+    const margin = 50;
+    artifacts.push({
+      x: margin + Math.random() * (CANVAS_WIDTH - 2 * margin),
+      y: margin + Math.random() * (CANVAS_HEIGHT - 2 * margin),
+      color: `hsl(${Math.random() * 360}, 70%, 50%)`
+    });
+  }
 
-    switch (e.key) {
-      case 'ArrowUp':
-        if (lastInput.y === 0) inputQueue.push({ x: 0, y: -1 });
-        break;
-      case 'ArrowDown':
-        if (lastInput.y === 0) inputQueue.push({ x: 0, y: 1 });
-        break;
-      case 'ArrowLeft':
-        if (lastInput.x === 0) inputQueue.push({ x: -1, y: 0 });
-        break;
-      case 'ArrowRight':
-        if (lastInput.x === 0) inputQueue.push({ x: 1, y: 0 });
-        break;
+  function spawnEnemies() {
+    enemies = [];
+    for (let i = 0; i < ENEMY_COUNT; i++) {
+      enemies.push({
+        x: Math.random() * (CANVAS_WIDTH - 100) + 50,
+        y: Math.random() * (CANVAS_HEIGHT - 100) + 50,
+        vx: (Math.random() - 0.5) * ENEMY_SPEED * 2,
+        vy: (Math.random() - 0.5) * ENEMY_SPEED * 2,
+        angle: 0
+      });
     }
   }
 
   function initGame() {
-    snake = [
-      { x: 10, y: 10 },
-      { x: 9, y: 10 },
-      { x: 8, y: 10 }
-    ];
-    velocity = { x: 1, y: 0 };
-    inputQueue = [];
+    player = { x: 300, y: 300, angle: -Math.PI / 2, vx: 0, vy: 0 };
     score = 0;
     scoreElement.textContent = score;
-    placeFood();
-    isGameRunning = true;
+    artifacts = [];
+    spawnArtifact();
+    spawnEnemies();
 
-    // Hide UI
+    isGameRunning = true;
+    keys = {}; // Reset keys
+
+    // UI
     uiOverlay.classList.add('hidden');
     startScreen.classList.add('hidden');
     gameOverScreen.classList.add('hidden');
 
-    if (gameInterval) clearInterval(gameInterval);
-    gameInterval = setInterval(gameLoop, SPEED);
+    if (animationFrameId) cancelAnimationFrame(animationFrameId);
+    gameLoop();
   }
 
-  function gameLoop() {
-    // Process Input
-    if (inputQueue.length > 0) {
-      velocity = inputQueue.shift();
+  function update() {
+    // Player Movement (Direct Directional)
+    let dx = 0;
+    let dy = 0;
+
+    if (keys['ArrowUp']) dy = -PLAYER_SPEED;
+    if (keys['ArrowDown']) dy = PLAYER_SPEED;
+    if (keys['ArrowLeft']) dx = -PLAYER_SPEED;
+    if (keys['ArrowRight']) dx = PLAYER_SPEED;
+
+    // Normalize diagonal speed
+    if (dx !== 0 && dy !== 0) {
+        const factor = 1 / Math.sqrt(2);
+        dx *= factor;
+        dy *= factor;
+    } else if (dx === 0 && dy === 0) {
+        // Friction / Stop immediately
     }
 
-    // Move Snake
-    const head = { x: snake[0].x + velocity.x, y: snake[0].y + velocity.y };
+    player.x += dx;
+    player.y += dy;
 
-    // Collision Checks
-    if (
-      head.x < 0 || head.x >= TILE_COUNT_X ||
-      head.y < 0 || head.y >= TILE_COUNT_Y ||
-      snake.some(segment => segment.x === head.x && segment.y === head.y)
-    ) {
+    // Rotate player to face movement direction if moving
+    if (dx !== 0 || dy !== 0) {
+        // Calculate target angle
+        const targetAngle = Math.atan2(dy, dx);
+        player.angle = targetAngle;
+    }
+
+    // Wall Collision (Game Over)
+    if (player.x - ROBOT_RADIUS < 0 || player.x + ROBOT_RADIUS > CANVAS_WIDTH ||
+        player.y - ROBOT_RADIUS < 0 || player.y + ROBOT_RADIUS > CANVAS_HEIGHT) {
       gameOver();
       return;
     }
 
-    snake.unshift(head);
-
-    // Eat Food
-    if (head.x === food.x && head.y === food.y) {
-      score++;
-      scoreElement.textContent = score;
-      placeFood();
-    } else {
-      snake.pop();
+    // Artifact Collection
+    for (let i = artifacts.length - 1; i >= 0; i--) {
+      const a = artifacts[i];
+      const dist = Math.hypot(player.x - a.x, player.y - a.y);
+      if (dist < ROBOT_RADIUS + ARTIFACT_RADIUS) {
+        score++;
+        scoreElement.textContent = score;
+        artifacts.splice(i, 1);
+        spawnArtifact();
+      }
     }
 
-    draw();
-  }
+    // Enemy Logic
+    enemies.forEach(enemy => {
+      enemy.x += enemy.vx;
+      enemy.y += enemy.vy;
 
-  function placeFood() {
-    food = {
-      x: Math.floor(Math.random() * TILE_COUNT_X),
-      y: Math.floor(Math.random() * TILE_COUNT_Y)
-    };
-    // Ensure food doesn't spawn on snake
-    if (snake.some(segment => segment.x === food.x && segment.y === food.y)) {
-      placeFood();
-    }
+      // Bounce off walls
+      if (enemy.x - ROBOT_RADIUS < 0) {
+          enemy.x = ROBOT_RADIUS;
+          enemy.vx = Math.abs(enemy.vx);
+      } else if (enemy.x + ROBOT_RADIUS > CANVAS_WIDTH) {
+          enemy.x = CANVAS_WIDTH - ROBOT_RADIUS;
+          enemy.vx = -Math.abs(enemy.vx);
+      }
+
+      if (enemy.y - ROBOT_RADIUS < 0) {
+          enemy.y = ROBOT_RADIUS;
+          enemy.vy = Math.abs(enemy.vy);
+      } else if (enemy.y + ROBOT_RADIUS > CANVAS_HEIGHT) {
+          enemy.y = CANVAS_HEIGHT - ROBOT_RADIUS;
+          enemy.vy = -Math.abs(enemy.vy);
+      }
+
+      // Update angle to face movement
+      if (enemy.vx !== 0 || enemy.vy !== 0) {
+          enemy.angle = Math.atan2(enemy.vy, enemy.vx);
+      }
+
+      // Collision with player
+      const dist = Math.hypot(player.x - enemy.x, player.y - enemy.y);
+      if (dist < ROBOT_RADIUS + ROBOT_RADIUS) { // Robot hits robot
+        gameOver();
+      }
+    });
   }
 
   function draw() {
-    // Clear Canvas
-    ctx.fillStyle = '#1a1a1a';
-    ctx.fillRect(0, 0, canvas.width, canvas.height);
-
-    // Draw Grid (Optional, makes it look more technical)
-    ctx.strokeStyle = '#333';
-    ctx.lineWidth = 0.5;
-    for (let i = 0; i <= TILE_COUNT_X; i++) {
-        ctx.beginPath();
-        ctx.moveTo(i * GRID_SIZE, 0);
-        ctx.lineTo(i * GRID_SIZE, canvas.height);
-        ctx.stroke();
-    }
-    for (let i = 0; i <= TILE_COUNT_Y; i++) {
-        ctx.beginPath();
-        ctx.moveTo(0, i * GRID_SIZE);
-        ctx.lineTo(canvas.width, i * GRID_SIZE);
-        ctx.stroke();
+    // Clear & Draw Field
+    if (fieldImg.complete) {
+        ctx.drawImage(fieldImg, 0, 0, CANVAS_WIDTH, CANVAS_HEIGHT);
+    } else {
+        ctx.fillStyle = '#222';
+        ctx.fillRect(0, 0, CANVAS_WIDTH, CANVAS_HEIGHT);
     }
 
-    // Draw Food (Waypoint)
-    ctx.fillStyle = '#ff4d4d'; // Red
-    ctx.shadowColor = '#ff4d4d';
-    ctx.shadowBlur = 10;
-    ctx.fillRect(food.x * GRID_SIZE + 2, food.y * GRID_SIZE + 2, GRID_SIZE - 4, GRID_SIZE - 4);
-    ctx.shadowBlur = 0;
+    // Draw Artifacts
+    artifacts.forEach(a => {
+        ctx.save();
+        ctx.translate(a.x, a.y);
 
-    // Draw Snake Body (Path)
-    ctx.fillStyle = '#4d4dff'; // Blue
-    snake.forEach((segment, index) => {
-      if (index === 0) return; // Skip head, drawn separately
-      ctx.fillRect(segment.x * GRID_SIZE, segment.y * GRID_SIZE, GRID_SIZE, GRID_SIZE);
+        ctx.fillStyle = a.color;
+        ctx.shadowColor = a.color;
+        ctx.shadowBlur = 15;
 
-      // Draw connector to previous segment to make it look like a continuous path
-      // Logic could be added here for smoother path drawing
+        ctx.beginPath();
+        // Draw centered square
+        ctx.rect(-ARTIFACT_RADIUS, -ARTIFACT_RADIUS, ARTIFACT_SIZE, ARTIFACT_SIZE);
+        ctx.fill();
+
+        ctx.shadowBlur = 0;
+        ctx.strokeStyle = 'white';
+        ctx.lineWidth = 2;
+        ctx.stroke();
+        ctx.restore();
     });
 
-    // Draw Head (Robot)
-    const head = snake[0];
+    // Draw Player
+    drawRobot(ctx, player.x, player.y, player.angle, false);
+
+    // Draw Enemies
+    enemies.forEach(e => {
+      drawRobot(ctx, e.x, e.y, e.angle, true);
+    });
+  }
+
+  function drawRobot(context, x, y, angle, isEnemy) {
+    context.save();
+    context.translate(x, y);
+
+    // Rotate: image typically points UP (-90 deg). Math angle is 0 at Right.
+    // So if angle is 0 (Right), we need to rotate image +90 deg.
+    context.rotate(angle + Math.PI / 2);
+
     if (robotImg.complete) {
-        ctx.save();
-        ctx.translate((head.x + 0.5) * GRID_SIZE, (head.y + 0.5) * GRID_SIZE);
+        // Draw robot image
+        context.drawImage(robotImg, -ROBOT_RADIUS, -ROBOT_RADIUS, ROBOT_SIZE, ROBOT_SIZE);
 
-        // Rotate robot based on velocity
-        let angle = 0;
-        if (velocity.x === 1) angle = -Math.PI / 2; // Default image points up? need to check
-        else if (velocity.x === -1) angle = Math.PI / 2;
-        else if (velocity.y === 1) angle = Math.PI; // Down
-        else if (velocity.y === -1) angle = 0; // Up
-
-        // Assuming the robot image faces UP by default. Let's verify or adjust.
-        // Usually top-down sprites face UP (0 deg).
-        // If image is standard icon, rotation might be needed.
-        // Let's assume standard orientation and adjust if needed.
-
-        ctx.rotate(angle);
-        ctx.drawImage(robotImg, -GRID_SIZE/2, -GRID_SIZE/2, GRID_SIZE, GRID_SIZE);
-        ctx.restore();
+        // Tint enemies red by drawing a semi-transparent red square over them
+        // using source-atop to only tint the non-transparent pixels
+        if (isEnemy) {
+            context.globalCompositeOperation = 'source-atop';
+            context.fillStyle = 'rgba(255, 0, 0, 0.5)';
+            context.fillRect(-ROBOT_RADIUS, -ROBOT_RADIUS, ROBOT_SIZE, ROBOT_SIZE);
+        }
     } else {
-        // Fallback if image not loaded
-        ctx.fillStyle = '#fff';
-        ctx.fillRect(head.x * GRID_SIZE, head.y * GRID_SIZE, GRID_SIZE, GRID_SIZE);
+        // Fallback Circle
+        context.beginPath();
+        context.arc(0, 0, ROBOT_RADIUS, 0, Math.PI * 2);
+        context.fillStyle = isEnemy ? 'red' : 'blue';
+        context.fill();
     }
+
+    context.restore();
+  }
+
+  function gameLoop() {
+    if (!isGameRunning) return;
+    update();
+    draw();
+    animationFrameId = requestAnimationFrame(gameLoop);
   }
 
   function gameOver() {
     isGameRunning = false;
-    clearInterval(gameInterval);
+    cancelAnimationFrame(animationFrameId);
     finalScoreElement.textContent = score;
     uiOverlay.classList.remove('hidden');
     gameOverScreen.classList.remove('hidden');
@@ -301,11 +363,11 @@
   startBtn.addEventListener('click', initGame);
   restartBtn.addEventListener('click', initGame);
 
-  // Initial Draw
-  robotImg.onload = () => {
-      // Draw initial state once image is loaded so it's not blank behind the menu
-      // But don't start loop
-      // Just a simple render for background effect if desired, or leave black
+  // Initial Render (background only)
+  fieldImg.onload = () => {
+      if (!isGameRunning) {
+          ctx.drawImage(fieldImg, 0, 0, CANVAS_WIDTH, CANVAS_HEIGHT);
+      }
   };
 
 </script>
