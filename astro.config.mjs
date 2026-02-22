@@ -7,7 +7,14 @@ export default defineConfig({
 	integrations: [
 		starlight({
 			title: 'Pedro Pathing Plus',
-			social: [{ icon: 'github', label: 'GitHub', href: 'https://github.com/withastro/starlight' }],
+			logo: {
+				src: './public/icon.png',
+			},
+			favicon: '/favicon.png',
+			customCss: ['./src/styles/custom.css'],
+			components: {
+				SocialIcons: './src/components/CustomSocialIcons.astro',
+			},
 			sidebar: [
 				{
 					label: 'Guides',
