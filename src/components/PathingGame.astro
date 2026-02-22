@@ -105,7 +105,7 @@
   // Game Constants
   const CANVAS_WIDTH = 600;
   const CANVAS_HEIGHT = 600;
-  const ROBOT_SIZE = 55; // Diameter of robot (Increased from 40)
+  const ROBOT_SIZE = 70; // Diameter of robot (Increased from 55)
   const ROBOT_RADIUS = ROBOT_SIZE / 2;
   const ARTIFACT_SIZE = 20;
   const ARTIFACT_RADIUS = ARTIFACT_SIZE / 2;
@@ -161,14 +161,24 @@
 
   function spawnEnemies() {
     enemies = [];
-    for (let i = 0; i < ENEMY_COUNT; i++) {
-      enemies.push({
-        x: Math.random() * (CANVAS_WIDTH - 100) + 50,
-        y: Math.random() * (CANVAS_HEIGHT - 100) + 50,
-        vx: (Math.random() - 0.5) * ENEMY_SPEED * 2,
-        vy: (Math.random() - 0.5) * ENEMY_SPEED * 2,
-        angle: 0
-      });
+    const minDistance = 200; // Minimum distance from player spawn
+
+    while (enemies.length < ENEMY_COUNT) {
+      const x = Math.random() * (CANVAS_WIDTH - 100) + 50;
+      const y = Math.random() * (CANVAS_HEIGHT - 100) + 50;
+
+      // Check distance from player spawn (300, 300)
+      const dist = Math.hypot(x - 300, y - 300);
+
+      if (dist > minDistance) {
+        enemies.push({
+          x: x,
+          y: y,
+          vx: (Math.random() - 0.5) * ENEMY_SPEED * 2,
+          vy: (Math.random() - 0.5) * ENEMY_SPEED * 2,
+          angle: 0
+        });
+      }
     }
   }
 
