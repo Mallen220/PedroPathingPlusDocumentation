@@ -12,10 +12,9 @@ export default defineConfig({
 			},
 			favicon: '/favicon.png',
 			customCss: ['./src/styles/custom.css'],
-			social: [
-				{ icon: 'github', label: 'PedroPathingPlus', href: 'https://github.com/Mallen220/PedroPathingPlus' },
-				{ icon: 'github', label: 'Visualizer', href: 'https://github.com/Mallen220/PedroPathingPlusVisualizer' },
-			],
+			components: {
+				SocialIcons: './src/components/CustomSocialIcons.astro',
+			},
 			sidebar: [
 				{
 					label: 'Guides',
