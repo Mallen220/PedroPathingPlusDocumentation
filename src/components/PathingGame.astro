@@ -1,0 +1,311 @@
+---
+---
+
+<div id="game-container" class="game-container">
+  <div id="ui-overlay" class="ui-overlay">
+    <div id="start-screen">
+      <h2>Pathing Challenge</h2>
+      <p>Use Arrow Keys to guide the robot.</p>
+      <p>Collect waypoints to extend your path.</p>
+      <button id="start-btn" class="game-btn">Start Pathing</button>
+    </div>
+    <div id="game-over-screen" class="hidden">
+      <h2>Path Interrupted!</h2>
+      <p>Score: <span id="final-score">0</span></p>
+      <button id="restart-btn" class="game-btn">Try Again</button>
+    </div>
+  </div>
+  <canvas id="game-canvas" width="600" height="400"></canvas>
+  <div class="score-board">Waypoints: <span id="score">0</span></div>
+</div>
+
+<style>
+  .game-container {
+    position: relative;
+    width: 100%;
+    max-width: 600px;
+    margin: 2rem auto;
+    border: 2px solid var(--sl-color-accent);
+    border-radius: 8px;
+    overflow: hidden;
+    background-color: var(--sl-color-bg-nav);
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  }
+
+  canvas {
+    display: block;
+    width: 100%;
+    height: auto;
+    background-color: #1a1a1a; /* Dark background for contrast */
+  }
+
+  .ui-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    background: rgba(0, 0, 0, 0.85);
+    color: white;
+    z-index: 10;
+    text-align: center;
+  }
+
+  .hidden {
+    display: none !important;
+  }
+
+  h2 {
+    font-size: 2rem;
+    margin-bottom: 1rem;
+    color: #ff4d4d; /* Red from theme */
+  }
+
+  p {
+    margin-bottom: 1.5rem;
+    font-size: 1.1rem;
+  }
+
+  .game-btn {
+    padding: 0.8rem 1.5rem;
+    font-size: 1.2rem;
+    font-weight: bold;
+    color: white;
+    background: linear-gradient(45deg, #ff4d4d, #4d4dff);
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: transform 0.2s;
+  }
+
+  .game-btn:hover {
+    transform: scale(1.05);
+  }
+
+  .score-board {
+    padding: 0.5rem;
+    background-color: var(--sl-color-bg-nav);
+    color: var(--sl-color-text);
+    text-align: center;
+    font-weight: bold;
+    font-size: 1.2rem;
+    border-top: 1px solid var(--sl-color-gray-5);
+  }
+</style>
+
+<script>
+  // Game Configuration
+  const GRID_SIZE = 20;
+  const TILE_COUNT_X = 30; // 600 / 20
+  const TILE_COUNT_Y = 20; // 400 / 20
+  const SPEED = 100; // ms per frame
+
+  // Elements
+  const canvas = document.getElementById('game-canvas');
+  const ctx = canvas.getContext('2d');
+  const scoreElement = document.getElementById('score');
+  const finalScoreElement = document.getElementById('final-score');
+  const startScreen = document.getElementById('start-screen');
+  const gameOverScreen = document.getElementById('game-over-screen');
+  const uiOverlay = document.getElementById('ui-overlay');
+  const startBtn = document.getElementById('start-btn');
+  const restartBtn = document.getElementById('restart-btn');
+
+  // Game State
+  let snake = [];
+  let velocity = { x: 0, y: 0 };
+  let food = { x: 15, y: 10 };
+  let score = 0;
+  let gameInterval = null;
+  let isGameRunning = false;
+  let robotImg = new Image();
+
+  // Load Robot Image
+  robotImg.src = '/robot.png';
+
+  // Input Handling
+  let inputQueue = [];
+  document.addEventListener('keydown', handleInput);
+
+  function handleInput(e) {
+    if (!isGameRunning) return;
+
+    // Prevent default scrolling for arrow keys
+    if(["ArrowUp","ArrowDown","ArrowLeft","ArrowRight"].indexOf(e.code) > -1) {
+        e.preventDefault();
+    }
+
+    const lastInput = inputQueue.length > 0 ? inputQueue[inputQueue.length - 1] : velocity;
+
+    switch (e.key) {
+      case 'ArrowUp':
+        if (lastInput.y === 0) inputQueue.push({ x: 0, y: -1 });
+        break;
+      case 'ArrowDown':
+        if (lastInput.y === 0) inputQueue.push({ x: 0, y: 1 });
+        break;
+      case 'ArrowLeft':
+        if (lastInput.x === 0) inputQueue.push({ x: -1, y: 0 });
+        break;
+      case 'ArrowRight':
+        if (lastInput.x === 0) inputQueue.push({ x: 1, y: 0 });
+        break;
+    }
+  }
+
+  function initGame() {
+    snake = [
+      { x: 10, y: 10 },
+      { x: 9, y: 10 },
+      { x: 8, y: 10 }
+    ];
+    velocity = { x: 1, y: 0 };
+    inputQueue = [];
+    score = 0;
+    scoreElement.textContent = score;
+    placeFood();
+    isGameRunning = true;
+
+    // Hide UI
+    uiOverlay.classList.add('hidden');
+    startScreen.classList.add('hidden');
+    gameOverScreen.classList.add('hidden');
+
+    if (gameInterval) clearInterval(gameInterval);
+    gameInterval = setInterval(gameLoop, SPEED);
+  }
+
+  function gameLoop() {
+    // Process Input
+    if (inputQueue.length > 0) {
+      velocity = inputQueue.shift();
+    }
+
+    // Move Snake
+    const head = { x: snake[0].x + velocity.x, y: snake[0].y + velocity.y };
+
+    // Collision Checks
+    if (
+      head.x < 0 || head.x >= TILE_COUNT_X ||
+      head.y < 0 || head.y >= TILE_COUNT_Y ||
+      snake.some(segment => segment.x === head.x && segment.y === head.y)
+    ) {
+      gameOver();
+      return;
+    }
+
+    snake.unshift(head);
+
+    // Eat Food
+    if (head.x === food.x && head.y === food.y) {
+      score++;
+      scoreElement.textContent = score;
+      placeFood();
+    } else {
+      snake.pop();
+    }
+
+    draw();
+  }
+
+  function placeFood() {
+    food = {
+      x: Math.floor(Math.random() * TILE_COUNT_X),
+      y: Math.floor(Math.random() * TILE_COUNT_Y)
+    };
+    // Ensure food doesn't spawn on snake
+    if (snake.some(segment => segment.x === food.x && segment.y === food.y)) {
+      placeFood();
+    }
+  }
+
+  function draw() {
+    // Clear Canvas
+    ctx.fillStyle = '#1a1a1a';
+    ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+    // Draw Grid (Optional, makes it look more technical)
+    ctx.strokeStyle = '#333';
+    ctx.lineWidth = 0.5;
+    for (let i = 0; i <= TILE_COUNT_X; i++) {
+        ctx.beginPath();
+        ctx.moveTo(i * GRID_SIZE, 0);
+        ctx.lineTo(i * GRID_SIZE, canvas.height);
+        ctx.stroke();
+    }
+    for (let i = 0; i <= TILE_COUNT_Y; i++) {
+        ctx.beginPath();
+        ctx.moveTo(0, i * GRID_SIZE);
+        ctx.lineTo(canvas.width, i * GRID_SIZE);
+        ctx.stroke();
+    }
+
+    // Draw Food (Waypoint)
+    ctx.fillStyle = '#ff4d4d'; // Red
+    ctx.shadowColor = '#ff4d4d';
+    ctx.shadowBlur = 10;
+    ctx.fillRect(food.x * GRID_SIZE + 2, food.y * GRID_SIZE + 2, GRID_SIZE - 4, GRID_SIZE - 4);
+    ctx.shadowBlur = 0;
+
+    // Draw Snake Body (Path)
+    ctx.fillStyle = '#4d4dff'; // Blue
+    snake.forEach((segment, index) => {
+      if (index === 0) return; // Skip head, drawn separately
+      ctx.fillRect(segment.x * GRID_SIZE, segment.y * GRID_SIZE, GRID_SIZE, GRID_SIZE);
+
+      // Draw connector to previous segment to make it look like a continuous path
+      // Logic could be added here for smoother path drawing
+    });
+
+    // Draw Head (Robot)
+    const head = snake[0];
+    if (robotImg.complete) {
+        ctx.save();
+        ctx.translate((head.x + 0.5) * GRID_SIZE, (head.y + 0.5) * GRID_SIZE);
+
+        // Rotate robot based on velocity
+        let angle = 0;
+        if (velocity.x === 1) angle = -Math.PI / 2; // Default image points up? need to check
+        else if (velocity.x === -1) angle = Math.PI / 2;
+        else if (velocity.y === 1) angle = Math.PI; // Down
+        else if (velocity.y === -1) angle = 0; // Up
+
+        // Assuming the robot image faces UP by default. Let's verify or adjust.
+        // Usually top-down sprites face UP (0 deg).
+        // If image is standard icon, rotation might be needed.
+        // Let's assume standard orientation and adjust if needed.
+
+        ctx.rotate(angle);
+        ctx.drawImage(robotImg, -GRID_SIZE/2, -GRID_SIZE/2, GRID_SIZE, GRID_SIZE);
+        ctx.restore();
+    } else {
+        // Fallback if image not loaded
+        ctx.fillStyle = '#fff';
+        ctx.fillRect(head.x * GRID_SIZE, head.y * GRID_SIZE, GRID_SIZE, GRID_SIZE);
+    }
+  }
+
+  function gameOver() {
+    isGameRunning = false;
+    clearInterval(gameInterval);
+    finalScoreElement.textContent = score;
+    uiOverlay.classList.remove('hidden');
+    gameOverScreen.classList.remove('hidden');
+  }
+
+  // Event Listeners
+  startBtn.addEventListener('click', initGame);
+  restartBtn.addEventListener('click', initGame);
+
+  // Initial Draw
+  robotImg.onload = () => {
+      // Draw initial state once image is loaded so it's not blank behind the menu
+      // But don't start loop
+      // Just a simple render for background effect if desired, or leave black
+  };
+
+</script>
