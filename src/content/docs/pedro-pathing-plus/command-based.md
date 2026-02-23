@@ -8,17 +8,85 @@ PedroPathingPlus includes built-in support for Command-Based programming, allowi
 ## Introduction
 
 In Command-Based programming:
-- **Subsystems** represent physical parts of the robot (e.g., Drivetrain, Arm).
-- **Commands** represent actions or sequences of actions (e.g., FollowPath, MoveArm).
-- **CommandScheduler** manages the execution of commands and their requirements.
+- **Subsystems** represent physical parts of the robot (e.g., Drivetrain, Arm). They encapsulate hardware and logic.
+- **Commands** represent actions or sequences of actions (e.g., FollowPath, MoveArm). They define what the robot does.
+- **CommandScheduler** manages the execution of commands and their requirements. It ensures that conflicting commands don't run simultaneously.
 
 ## Key Classes
 
 The `com.pedropathingplus.command` package provides several key classes:
-- `Command`: The base interface for all commands.
-- `Subsystem`: The base interface for all subsystems.
-- `CommandScheduler`: The singleton that schedules and runs commands.
-- `FollowPathCommand`: A specialized command for following paths.
+
+- **`Command`**: The base interface for all commands. It defines methods for initialization, execution, and finishing.
+- **`Subsystem`**: The base interface for all subsystems. Subsystems register themselves with the scheduler and can have default commands.
+- **`CommandScheduler`**: The singleton that schedules and runs commands.
+- **`FollowPathCommand`**: A specialized command for following paths.
+
+## Standard Commands
+
+PedroPathingPlus provides several standard commands to simplify common tasks:
+
+### InstantCommand
+Runs a `Runnable` once and finishes immediately. Useful for setting servo positions or toggling states.
+
+```java
+new InstantCommand(() -> intake.setPower(1.0));
+```
+
+### WaitCommand
+Waits for a specified duration in milliseconds.
+
+```java
+new WaitCommand(1000); // Wait for 1 second
+```
+
+### WaitUntilCommand
+Waits until a specific condition (a `BooleanSupplier`) becomes true.
+
+```java
+new WaitUntilCommand(() -> sensor.getDistance() < 10);
+```
+
+### RunCommand
+Runs a `Runnable` repeatedly. This is often used as a default command for a subsystem (e.g., driving with joysticks).
+
+```java
+new RunCommand(() -> drive.teleOp(gamepad1));
+```
+
+## Command Groups
+
+You can combine commands into groups to create complex sequences.
+
+### SequentialCommandGroup
+Runs a list of commands one after another.
+
+```java
+new SequentialCommandGroup(
+    new FollowPathCommand(drive, path1),
+    new WaitCommand(500),
+    new FollowPathCommand(drive, path2)
+);
+```
+
+### ParallelCommandGroup
+Runs a set of commands simultaneously. The group finishes when **all** commands have finished.
+
+```java
+new ParallelCommandGroup(
+    new FollowPathCommand(drive, path),
+    new RunCommand(() -> arm.moveToPosition(100))
+);
+```
+
+### ParallelRaceGroup
+Runs a set of commands simultaneously. The group finishes as soon as **any one** command finishes. This is useful for timeouts or "race" conditions.
+
+```java
+new ParallelRaceGroup(
+    new WaitCommand(3000), // Timeout after 3 seconds
+    new RunCommand(() -> intake.run()) // Run intake until timeout
+);
+```
 
 ## Using FollowPathCommand
 
@@ -110,6 +178,9 @@ import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.pedropathingplus.command.CommandScheduler;
 import com.pedropathingplus.command.FollowPathCommand;
+import com.pedropathingplus.command.SequentialCommandGroup;
+import com.pedropathingplus.command.ParallelCommandGroup;
+import com.pedropathingplus.command.WaitCommand;
 import com.pedropathing.geometry.Pose;
 import org.firstinspires.ftc.teamcode.subsystems.MecanumDrive;
 
@@ -123,9 +194,20 @@ public class CommandAutoExample extends LinearOpMode {
 
         // Schedule Commands
         CommandScheduler.getInstance().schedule(
-            new FollowPathCommand(drive.getFollower())
-                .curveThrough(0.5, new Pose(10, 0), new Pose(20, 10))
-                .setConstantHeadingInterpolation(0)
+            new SequentialCommandGroup(
+                // Drive to first position
+                new FollowPathCommand(drive.getFollower())
+                    .curveThrough(0.5, new Pose(10, 0), new Pose(20, 10))
+                    .setConstantHeadingInterpolation(0),
+
+                // Wait for a moment
+                new WaitCommand(500),
+
+                // Drive back
+                new FollowPathCommand(drive.getFollower())
+                    .curveThrough(0.5, new Pose(10, 0), new Pose(0, 0))
+                    .setConstantHeadingInterpolation(0)
+            )
         );
 
         waitForStart();
@@ -143,23 +225,3 @@ public class CommandAutoExample extends LinearOpMode {
     }
 }
 ```
-
-## Advanced Features
-
-### Sequential & Parallel Groups
-
-You can combine commands using `SequentialCommandGroup` and `ParallelCommandGroup`.
-
-```java
-new SequentialCommandGroup(
-    new FollowPathCommand(drive.getFollower()).curveThrough(...),
-    new ParallelCommandGroup(
-        new MoveArmCommand(arm),
-        new FollowPathCommand(drive.getFollower()).curveThrough(...)
-    )
-);
-```
-
-### Triggers and Bindings
-
-You can bind commands to gamepad buttons or other triggers (if using a helper library or custom implementation), or simply schedule them conditionally in your `periodic()` or main loop.
