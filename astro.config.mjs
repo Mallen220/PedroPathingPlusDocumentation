@@ -27,6 +27,7 @@ export default defineConfig({
 					label: 'PedroPathingPlus',
 					items: [
 						{ label: 'Installation', slug: 'pedro-pathing-plus/installation' },
+						{ label: 'Getting Started', slug: 'pedro-pathing-plus/getting-started' },
 						{ label: 'Live View', slug: 'pedro-pathing-plus/live-view' },
 						{ label: 'Command-Based Programming', slug: 'pedro-pathing-plus/command-based' },
 					],
