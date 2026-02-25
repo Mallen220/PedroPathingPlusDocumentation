@@ -3,6 +3,8 @@ title: Getting Started
 description: Your first autonomous program with Pedro Pathing Plus.
 ---
 
+import { Tabs, TabItem } from '@astrojs/starlight/components';
+
 Welcome to Pedro Pathing Plus! This guide will walk you through creating your first autonomous program using the library.
 
 :::caution[Deprecation Warning]
@@ -35,68 +37,236 @@ Go to the [Pedro Pathing Visualizer](https://github.com/Mallen220/PedroPathingPl
 3.  Click again to place the end point.
 4.  Drag the control handles to shape the curve if desired.
 
-### 3. Export the OpMode
-1.  Click the **Export** button in the top right corner.
-2.  Ensure **"Java OpMode"** is selected.
-3.  Check **"Generate Full Class"**.
-4.  Enter your team's package name (e.g., `org.firstinspires.ftc.teamcode`).
-5.  Click **Copy to Clipboard**.
+### 3. Export Your Code
 
-### 4. Paste into Android Studio
-1.  Open your project in Android Studio.
-2.  Create a new Java class file in your `teamcode` directory (e.g., `MyFirstPath.java`).
-3.  Paste the code you copied.
-4.  Build and deploy to your robot!
+When you are ready to export, you have two options: a standard **Java OpMode** or a **Command-Based** structure using SolversLib.
 
-## Understanding the Generated Code
+<Tabs>
+  <TabItem label="Standard OpMode (Default)">
+    Use this option if you want a standalone `OpMode` that handles the path following logic directly.
 
-The exported code handles the heavy lifting for you. Here are the key components you'll see:
+    ### Steps
+    1.  Click the **Export** button in the top right corner.
+    2.  Ensure **"Java OpMode"** is selected.
+    3.  Check **"Generate Full Class"**.
+    4.  Enter your team's package name (e.g., `org.firstinspires.ftc.teamcode`).
+    5.  Click **Copy to Clipboard**.
+    6.  Paste the code into a new Java file in your Android Studio project.
 
-### The Follower
-The `Follower` class is the heart of the library. It is initialized in the `runOpMode` (or `init`) method:
+    ### Example Output
+    Below is an example of the auto-generated OpMode. Note the use of `PanelsTelemetry` and `Constants`.
 
-```java
-follower = new Follower(hardwareMap);
-follower.setStartingPose(startPose);
-```
+    ```java
+    /* ============================================================= *
+     *        Pedro Pathing Plus Visualizer — Auto-Generated         *
+     *                                                               *
+     *  Version: 1.7.4.                                              *
+     *  Copyright (c) 2026 Matthew Allen                             *
+     *                                                               *
+     *  THIS FILE IS AUTO-GENERATED — DO NOT EDIT MANUALLY.          *
+     *  Changes will be overwritten when regenerated.                *
+     * ============================================================= */
 
-### Path Chains
-Your drawn paths are converted into `PathChain` objects. These define the geometry your robot will follow.
+    package org.firstinspires.ftc.teamcode.Commands.AutoCommands;
 
-```java
-public void buildPaths() {
-    path0 = follower.pathBuilder()
-        .addPath(new BezierLine(new Point(10, 10, Point.CARTESIAN), new Point(30, 30, Point.CARTESIAN)))
-        .setConstantHeadingInterpolation(0)
-        .build();
-}
-```
+    import com.bylazar.configurables.annotations.Configurable;
+    import com.bylazar.telemetry.PanelsTelemetry;
+    import com.bylazar.telemetry.TelemetryManager;
+    import com.pedropathing.follower.Follower;
+    import com.pedropathing.geometry.BezierCurve;
+    import com.pedropathing.geometry.BezierLine;
+    import com.pedropathing.geometry.Pose;
+    import com.pedropathing.paths.PathChain;
+    import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
+    import com.qualcomm.robotcore.eventloop.opmode.OpMode;
+    import com.qualcomm.robotcore.util.ElapsedTime;
+    import org.firstinspires.ftc.teamcode.pedroPathing.Constants;
 
-### The State Machine
-The OpMode uses a `switch` statement (or similar state machine logic) to progress through your path segments.
+    @Autonomous(name = "Pedro Pathing Autonomous", group = "Autonomous")
+    @Configurable // Panels
+    public class PedroAutonomous extends OpMode {
 
-```java
-switch (pathState) {
-    case 0:
-        follower.followPath(path0);
-        setPathState(1);
-        break;
-    case 1:
-        // Wait for the path to finish, then move to the next step
-        if (!follower.isBusy()) {
-            setPathState(2);
+      private TelemetryManager panelsTelemetry; // Panels Telemetry instance
+      public Follower follower; // Pedro Pathing follower instance
+      private int pathState; // Current autonomous path state (state machine)
+      private ElapsedTime pathTimer; // Timer for path state machine
+      private Paths paths; // Paths defined in the Paths class
+
+      @Override
+      public void init() {
+        panelsTelemetry = PanelsTelemetry.INSTANCE.getTelemetry();
+        // ...
+        panelsTelemetry.debug("Status", "Initialized");
+        panelsTelemetry.update(telemetry);
+
+        follower = Constants.createFollower(hardwareMap);
+        // Determine starting heading: prefer geometric heading when a path exists, otherwise fall back to explicit startPoint values
+        follower.setStartingPose(new Pose(56.000, 8.000, Math.toRadians(90.000)));
+
+        pathTimer = new ElapsedTime();
+        paths = new Paths(follower); // Build paths
+      }
+
+      @Override
+      public void loop() {
+        follower.update(); // Update Pedro Pathing
+        pathState = autonomousPathUpdate(); // Update autonomous state machine
+
+        // Log values to Panels and Driver Station
+        panelsTelemetry.debug("Path State", pathState);
+        panelsTelemetry.debug("X", follower.getPose().getX());
+        panelsTelemetry.debug("Y", follower.getPose().getY());
+        panelsTelemetry.debug("Heading", follower.getPose().getHeading());
+        panelsTelemetry.update(telemetry);
+      }
+
+      public static class Paths {
+
+        public PathChain line1;
+
+        public Paths(Follower follower) {
+          line1 = follower
+            .pathBuilder()
+            .addPath(
+              new BezierLine(new Pose(56.000, 8.000), new Pose(56.000, 36.000))
+            )
+            .setLinearHeadingInterpolation(Math.toRadians(90), Math.toRadians(180))
+            .build();
         }
-        break;
-    // ...
-}
-```
+      }
 
-### The Update Loop
-Crucially, the `follower.update()` method is called in every loop cycle. This keeps the robot on track.
+      public int autonomousPathUpdate() {
+        switch (pathState) {
+          case 0:
+            follower.followPath(paths.line1, true);
+            setPathState(1);
+            break;
+          case 1:
+            if (!follower.isBusy()) {
+              setPathState(2);
+            }
+            break;
+          case 2:
+            requestOpModeStop();
+            pathState = -1;
+            break;
+        }
+        return pathState;
+      }
 
-```java
-follower.update();
-```
+      public void setPathState(int pState) {
+        pathState = pState;
+        pathTimer.reset();
+      }
+    }
+    ```
+
+    ### Key Components
+    -   **`pathState`**: A state machine variable that tracks which segment of the path is currently running.
+    -   **`Paths` Class**: Contains all your generated `PathChain` definitions.
+    -   **`autonomousPathUpdate()`**: The logic that switches between paths and waits for completion.
+  </TabItem>
+
+  <TabItem label="Command-Based (SolversLib)">
+    Use this option if you are using a Command-Based framework (like SolversLib). This generates a `SequentialCommandGroup` rather than a full OpMode.
+
+    ### Steps
+    1.  Click the **Export** button in the top right corner.
+    2.  Select **"SolversLib"** (or Command-Based) as the format.
+    3.  Enter your team's package name.
+    4.  Click **Copy to Clipboard** (or save the file).
+    5.  **Important**: This method typically requires you to save the path file (`.pp`) to your robot's storage as well, as it uses `PedroPathReader` to load points dynamically.
+
+    ### Example Output
+    This template generates a command group that chains together path following commands.
+
+    ```java
+    /* ============================================================= *
+     *        Pedro Pathing Plus Visualizer — Auto-Generated         *
+     *                                                               *
+     *  Version: 1.7.4.                                              *
+     *  Copyright (c) 2026 Matthew Allen                             *
+     *                                                               *
+     *  THIS FILE IS AUTO-GENERATED — DO NOT EDIT MANUALLY.          *
+     *  Changes will be overwritten when regenerated.                *
+     * ============================================================= */
+
+    package org.firstinspires.ftc.teamcode.Commands.AutoCommands;
+
+    import com.pedropathing.follower.Follower;
+    import com.pedropathing.geometry.BezierCurve;
+    import com.pedropathing.geometry.BezierLine;
+    import com.pedropathing.geometry.Pose;
+    import com.pedropathing.paths.PathChain;
+    import com.pedropathingplus.PedroPathReader;
+    import com.pedropathingplus.pathing.NamedCommands;
+    import com.pedropathingplus.pathing.ProgressTracker;
+    import com.qualcomm.robotcore.hardware.HardwareMap;
+    import com.seattlesolvers.solverslib.command.InstantCommand;
+    import com.seattlesolvers.solverslib.command.ParallelRaceGroup;
+    import com.seattlesolvers.solverslib.command.SequentialCommandGroup;
+    import com.seattlesolvers.solverslib.command.WaitCommand;
+    import com.seattlesolvers.solverslib.command.WaitUntilCommand;
+    import com.seattlesolvers.solverslib.pedroCommand.FollowPathCommand;
+    import java.io.IOException;
+    import org.firstinspires.ftc.robotcore.external.Telemetry;
+    import org.firstinspires.ftc.teamcode.Subsystems.Drivetrain;
+
+    public class AutoPath extends SequentialCommandGroup {
+
+      private final Follower follower;
+      private final ProgressTracker progressTracker;
+
+      // Poses
+      private Pose startPoint;
+      private Pose point1;
+
+      // Path chains
+      private PathChain startPointTOpoint1;
+
+      public AutoPath(final Drivetrain drive, HardwareMap hw, Telemetry telemetry)
+        throws IOException {
+        this.follower = drive.getFollower();
+        this.progressTracker = new ProgressTracker(follower, telemetry);
+
+        PedroPathReader pp = new PedroPathReader("AutoPath.pp", hw.appContext);
+
+        // Load poses
+        startPoint = pp.get("startPoint");
+        point1 = pp.get("point1");
+
+        follower.setStartingPose(startPoint);
+
+        buildPaths();
+
+        addCommands(
+          new InstantCommand(() -> {
+            progressTracker.setCurrentChain(startPointTOpoint1);
+            progressTracker.setCurrentPathName("startPointTOpoint1");
+          }),
+          new FollowPathCommand(follower, startPointTOpoint1)
+        );
+      }
+
+      public void buildPaths() {
+        startPointTOpoint1 = follower
+          .pathBuilder()
+          .addPath(new BezierLine(startPoint, point1))
+          .setLinearHeadingInterpolation(
+            startPoint.getHeading(),
+            point1.getHeading()
+          )
+          .build();
+      }
+    }
+    ```
+
+    ### Key Components
+    -   **`SequentialCommandGroup`**: The base class for the entire routine.
+    -   **`PedroPathReader`**: Used to load named poses from the saved path file.
+    -   **`FollowPathCommand`**: A command from SolversLib that wraps the path following logic.
+  </TabItem>
+</Tabs>
 
 ## Next Steps
 
