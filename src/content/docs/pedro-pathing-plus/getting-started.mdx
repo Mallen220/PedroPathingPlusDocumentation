@@ -1,15 +1,14 @@
 ---
 title: Getting Started
 description: Your first autonomous program with Pedro Pathing Plus.
+# Tabs and other Starlight components are registered automatically by the
+# integration; explicit imports are not necessary.
 ---
 
 import { Tabs, TabItem } from '@astrojs/starlight/components';
 
-Welcome to Pedro Pathing Plus! This guide will walk you through creating your first autonomous program using the library.
 
-:::caution[Deprecation Warning]
-Manual path coding (writing `PathBuilder` code by hand) is **deprecated** and will be removed in version **2.2.0**. We strongly recommend using the [Pedro Pathing Visualizer](/pedro-pathing-plus-visualizer/getting-started/) for all path creation.
-:::
+Welcome to Pedro Pathing Plus! This guide will walk you through creating your first autonomous program using the library.
 
 ## Prerequisites
 
@@ -26,6 +25,10 @@ The modern Pedro Pathing Plus workflow is "Visualizer-First":
 
 This approach eliminates the need to manually write complex geometry code and ensures your paths are visualized correctly before you even touch the robot.
 
+:::caution[Deprecation Warning]
+Manual path coding (writing `PathBuilder` code by hand) is **deprecated** and will be removed in version **2.2.0**. We strongly recommend using the [Pedro Pathing Visualizer](/pedro-pathing-plus-visualizer/getting-started/) for all path creation.
+:::
+
 ## Creating Your First Path
 
 ### 1. Open the Visualizer
@@ -39,10 +42,11 @@ Go to the [Pedro Pathing Visualizer](https://github.com/Mallen220/PedroPathingPl
 
 ### 3. Export Your Code
 
-When you are ready to export, you have two options: a standard **Java OpMode** or a **Command-Based** structure using SolversLib.
+When you are ready to export, you have two options: a standard **Java OpMode** or a **Command-Based** structure.
 
 <Tabs>
-  <TabItem label="Standard OpMode (Default)">
+   <TabItem label="Standard OpMode (Default)">
+   
     Use this option if you want a standalone `OpMode` that handles the path following logic directly.
 
     ### Steps
@@ -57,15 +61,6 @@ When you are ready to export, you have two options: a standard **Java OpMode** o
     Below is an example of the auto-generated OpMode. Note the use of `PanelsTelemetry` and `Constants`.
 
     ```java
-    /* ============================================================= *
-     *        Pedro Pathing Plus Visualizer — Auto-Generated         *
-     *                                                               *
-     *  Version: 1.7.4.                                              *
-     *  Copyright (c) 2026 Matthew Allen                             *
-     *                                                               *
-     *  THIS FILE IS AUTO-GENERATED — DO NOT EDIT MANUALLY.          *
-     *  Changes will be overwritten when regenerated.                *
-     * ============================================================= */
 
     package org.firstinspires.ftc.teamcode.Commands.AutoCommands;
 
@@ -167,7 +162,7 @@ When you are ready to export, you have two options: a standard **Java OpMode** o
     -   **`autonomousPathUpdate()`**: The logic that switches between paths and waits for completion.
   </TabItem>
 
-  <TabItem label="Command-Based (SolversLib)">
+   <TabItem label="Command-Based (SolversLib)">
     Use this option if you are using a Command-Based framework (like SolversLib). This generates a `SequentialCommandGroup` rather than a full OpMode.
 
     ### Steps
@@ -181,16 +176,6 @@ When you are ready to export, you have two options: a standard **Java OpMode** o
     This template generates a command group that chains together path following commands.
 
     ```java
-    /* ============================================================= *
-     *        Pedro Pathing Plus Visualizer — Auto-Generated         *
-     *                                                               *
-     *  Version: 1.7.4.                                              *
-     *  Copyright (c) 2026 Matthew Allen                             *
-     *                                                               *
-     *  THIS FILE IS AUTO-GENERATED — DO NOT EDIT MANUALLY.          *
-     *  Changes will be overwritten when regenerated.                *
-     * ============================================================= */
-
     package org.firstinspires.ftc.teamcode.Commands.AutoCommands;
 
     import com.pedropathing.follower.Follower;
