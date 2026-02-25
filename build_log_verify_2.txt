@@ -1,0 +1,66 @@
+
+> pedro-pathing-plus-documentation@0.0.1 build
+> astro build
+
+18:33:50 [content] Syncing content
+18:33:50 [content] Synced content
+18:33:50 [types] Generated 1.20s
+18:33:50 [build] output: "static"
+18:33:50 [build] mode: "static"
+18:33:50 [build] directory: /app/dist/
+18:33:50 [build] Collecting build info...
+18:33:50 [build] ✓ Completed in 1.43s.
+18:33:50 [build] Building static entrypoints...
+18:33:53 [vite] ✓ built in 3.54s
+18:33:53 [build] ✓ Completed in 3.64s.
+
+ building client (vite)
+18:33:53 [vite] transforming...
+18:33:54 [vite] ✓ 18 modules transformed.
+18:33:54 [vite] rendering chunks...
+18:33:54 [vite] computing gzip size...
+18:33:54 [vite] dist/_astro/ec.0vx5m.js                                                              2.52 kB
+18:33:54 [vite] dist/_astro/ec.v4551.css                                                            18.22 kB │ gzip:  3.96 kB
+18:33:54 [vite] dist/_astro/MobileTableOfContents.astro_astro_type_script_index_0_lang.hwBsy0Mo.js   0.67 kB │ gzip:  0.40 kB
+18:33:54 [vite] dist/_astro/TableOfContents.astro_astro_type_script_index_0_lang.FuRcXuRY.js         2.06 kB │ gzip:  0.97 kB
+18:33:54 [vite] dist/_astro/page.B1D-nYk3.js                                                         2.24 kB │ gzip:  1.01 kB
+18:33:54 [vite] dist/_astro/Search.astro_astro_type_script_index_0_lang.cjYDvRdi.js                  2.69 kB │ gzip:  1.38 kB
+18:33:54 [vite] dist/_astro/ui-core.D_Lfcn_I.js                                                     72.93 kB │ gzip: 22.86 kB
+18:33:54 [vite] ✓ built in 390ms
+
+ generating static routes
+18:33:54 ▶ @astrojs/starlight/routes/static/404.astro
+18:33:54   └─ /404.htmlEntry docs → 404 was not found.
+ (+49ms)
+18:33:54 ▶ @astrojs/starlight/routes/static/index.astro
+18:33:54   ├─ /index.html (+18ms)
+18:33:54   ├─ /guides/example/index.html (+15ms)
+18:33:54   ├─ /pedro-pathing-plus-visualizer/controls/index.html (+14ms)
+18:33:54   ├─ /pedro-pathing-plus-visualizer/file-management/index.html (+11ms)
+18:33:54   ├─ /pedro-pathing-plus-visualizer/getting-started/index.html (+12ms)
+18:33:54   ├─ /pedro-pathing-plus-visualizer/event-markers/index.html (+11ms)
+18:33:54   ├─ /pedro-pathing-plus-visualizer/exporting/index.html (+12ms)
+18:33:54   ├─ /pedro-pathing-plus/installation/index.html (+19ms)
+18:33:54   ├─ /pedro-pathing-plus/live-view/index.html (+11ms)
+18:33:54   ├─ /pedro-pathing-plus/command-based/index.html (+12ms)
+18:33:54   ├─ /pedro-pathing-plus-visualizer/installation/index.html (+9ms)
+18:33:54   ├─ /pedro-pathing-plus-visualizer/obstacles/index.html (+8ms)
+18:33:54   ├─ /pedro-pathing-plus-visualizer/optimization/index.html (+10ms)
+18:33:54   ├─ /pedro-pathing-plus-visualizer/plugins/index.html (+9ms)
+18:33:54   ├─ /pedro-pathing-plus-visualizer/path-editing/index.html (+8ms)
+18:33:54   ├─ /pedro-pathing-plus-visualizer/settings/index.html (+16ms)
+18:33:54   ├─ /pedro-pathing-plus-visualizer/simulation/index.html (+7ms)
+18:33:54   ├─ /pedro-pathing-plus-visualizer/telemetry/index.html (+7ms)
+18:33:54   └─ /reference/example/index.html (+7ms)
+18:33:54 ✓ Completed in 382ms.
+
+ generating optimized images
+18:33:54   ▶ /_astro/icon.D_nJBIX5_ZoiPFD.webp (reused cache entry) (+2ms) (1/1)
+18:33:54 ✓ Completed in 2ms.
+
+18:33:54 [starlight:pagefind] Building search index with Pagefind...
+18:33:55 [starlight:pagefind] Found 20 HTML files.
+18:33:55 [starlight:pagefind] Finished building search index in 320ms.
+18:33:55 [WARN] [@astrojs/sitemap] The Sitemap integration requires the `site` astro.config option. Skipping.
+18:33:55 [build] 20 page(s) built in 6.29s
+18:33:55 [build] Complete!

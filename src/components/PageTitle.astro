@@ -1,0 +1,51 @@
+---
+import DefaultPageTitle from '@astrojs/starlight/components/PageTitle.astro';
+import CopyDropdown from './CopyDropdown.astro';
+
+const { entry } = Astro.locals.starlightRoute;
+
+let content = '';
+if (entry) {
+  const frontmatter = [];
+  // Reconstruct essential frontmatter
+  for (const [key, value] of Object.entries(entry.data)) {
+      if (value !== undefined && value !== null) {
+          frontmatter.push(`${key}: ${JSON.stringify(value)}`);
+      }
+  }
+
+  const frontmatterString = frontmatter.length > 0 ? `---\n${frontmatter.join('\n')}\n---\n\n` : '';
+  content = frontmatterString + entry.body;
+}
+---
+
+<div class="page-title-wrapper">
+  <div class="page-title-content">
+    <DefaultPageTitle {...Astro.props} />
+  </div>
+  {content && <CopyDropdown content={content} />}
+</div>
+
+<style>
+  .page-title-wrapper {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 1rem;
+  }
+
+  .page-title-content {
+    flex: 1;
+  }
+
+  @media (max-width: 50rem) {
+    .page-title-wrapper {
+        flex-direction: column;
+    }
+
+    :global(.copy-dropdown-container) {
+        margin-left: 0 !important;
+        margin-top: 0.5rem;
+    }
+  }
+</style>
