@@ -3,7 +3,11 @@ title: Getting Started
 description: Your first autonomous program with Pedro Pathing Plus.
 ---
 
-Welcome to Pedro Pathing Plus! This guide will walk you through creating your first autonomous program using the library. We'll cover the basics of the `Follower` class, defining a simple path, and running it on your robot.
+Welcome to Pedro Pathing Plus! This guide will walk you through creating your first autonomous program using the library.
+
+:::caution[Deprecation Warning]
+Manual path coding (writing `PathBuilder` code by hand) is **deprecated** and will be removed in version **2.2.0**. We strongly recommend using the [Pedro Pathing Visualizer](/pedro-pathing-plus-visualizer/getting-started/) for all path creation.
+:::
 
 ## Prerequisites
 
@@ -11,90 +15,90 @@ Before you begin, ensure you have:
 1.  Installed Pedro Pathing Plus in your project (see [Installation](/pedro-pathing-plus/installation/)).
 2.  Configured your robot's hardware map (motors, sensors) in the Driver Station or `FtcRobotController`.
 
-## The Follower Class
+## The Recommended Workflow
 
-The core of Pedro Pathing is the `Follower` class. It handles all the path following logic, localization updates, and motor control. You typically create one instance of `Follower` per OpMode (or wrap it in a Subsystem for Command-Based programming).
+The modern Pedro Pathing Plus workflow is "Visualizer-First":
+1.  **Design** your path in the Visualizer web interface.
+2.  **Export** the path as a complete Java OpMode.
+3.  **Run** the generated code on your robot.
 
-## Your First Path
+This approach eliminates the need to manually write complex geometry code and ensures your paths are visualized correctly before you even touch the robot.
 
-Here is a complete example of a simple `LinearOpMode` that moves the robot forward 10 inches.
+## Creating Your First Path
+
+### 1. Open the Visualizer
+Go to the [Pedro Pathing Visualizer](https://github.com/Mallen220/PedroPathingPlusVisualizer) (or your hosted instance).
+
+### 2. Draw a Path
+1.  Click the **+** (Add Path) button or press `P`.
+2.  Click on the field to place your starting point.
+3.  Click again to place the end point.
+4.  Drag the control handles to shape the curve if desired.
+
+### 3. Export the OpMode
+1.  Click the **Export** button in the top right corner.
+2.  Ensure **"Java OpMode"** is selected.
+3.  Check **"Generate Full Class"**.
+4.  Enter your team's package name (e.g., `org.firstinspires.ftc.teamcode`).
+5.  Click **Copy to Clipboard**.
+
+### 4. Paste into Android Studio
+1.  Open your project in Android Studio.
+2.  Create a new Java class file in your `teamcode` directory (e.g., `MyFirstPath.java`).
+3.  Paste the code you copied.
+4.  Build and deploy to your robot!
+
+## Understanding the Generated Code
+
+The exported code handles the heavy lifting for you. Here are the key components you'll see:
+
+### The Follower
+The `Follower` class is the heart of the library. It is initialized in the `runOpMode` (or `init`) method:
 
 ```java
-package org.firstinspires.ftc.teamcode;
+follower = new Follower(hardwareMap);
+follower.setStartingPose(startPose);
+```
 
-import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
-import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
+### Path Chains
+Your drawn paths are converted into `PathChain` objects. These define the geometry your robot will follow.
 
-import com.pedropathing.follower.Follower;
-import com.pedropathing.geometry.BezierLine;
-import com.pedropathing.geometry.Point;
-import com.pedropathing.geometry.Pose;
-import com.pedropathing.paths.Path;
-import com.pedropathing.paths.PathBuilder;
-import com.pedropathing.paths.PathChain;
-
-@Autonomous(name = "My First Path")
-public class MyFirstPath extends LinearOpMode {
-
-    private Follower follower;
-
-    @Override
-    public void runOpMode() {
-        // 1. Initialize the Follower
-        follower = new Follower(hardwareMap);
-
-        // 2. Set the starting pose (x, y, heading)
-        // Adjust these coordinates to match your robot's starting position on the field.
-        Pose startPose = new Pose(0, 0, 0);
-        follower.setStartingPose(startPose);
-
-        // 3. Create a PathChain
-        // This example creates a simple line moving forward 10 inches.
-        PathChain path = follower.pathBuilder()
-            .addPath(new Path(new BezierLine(new Point(0, 0), new Point(10, 0))))
-            .setConstantHeadingInterpolation(0)
-            .build();
-
-        telemetry.addData("Status", "Initialized");
-        telemetry.update();
-
-        waitForStart();
-
-        // 4. Follow the path
-        follower.followPath(path);
-
-        // 5. Main Loop
-        while (opModeIsActive()) {
-            // CRITICAL: Update the follower every loop cycle
-            follower.update();
-
-            // Feedback
-            follower.telemetryDebug(telemetry);
-        }
-    }
+```java
+public void buildPaths() {
+    path0 = follower.pathBuilder()
+        .addPath(new BezierLine(new Point(10, 10, Point.CARTESIAN), new Point(30, 30, Point.CARTESIAN)))
+        .setConstantHeadingInterpolation(0)
+        .build();
 }
 ```
 
-### Breaking it Down
+### The State Machine
+The OpMode uses a `switch` statement (or similar state machine logic) to progress through your path segments.
 
-1.  **Initialize**: `new Follower(hardwareMap)` sets up the library with your robot's hardware configuration.
-2.  **Start Pose**: `setStartingPose` tells the robot where it is on the field. This is crucial for accurate path following.
-3.  **Path Building**: We use `follower.pathBuilder()` to create a `PathChain`. This fluent API allows you to chain multiple path segments together. Here, we add a single line segment using a `BezierLine`.
-4.  **Follow Path**: `follower.followPath(path)` starts the movement. The robot will autonomously drive along the defined path.
-5.  **Update Loop**: `follower.update()` must be called in every iteration of the loop. This method calculates the robot's position and adjusts motor powers to stay on path.
+```java
+switch (pathState) {
+    case 0:
+        follower.followPath(path0);
+        setPathState(1);
+        break;
+    case 1:
+        // Wait for the path to finish, then move to the next step
+        if (!follower.isBusy()) {
+            setPathState(2);
+        }
+        break;
+    // ...
+}
+```
 
-## Using the Visualizer
+### The Update Loop
+Crucially, the `follower.update()` method is called in every loop cycle. This keeps the robot on track.
 
-While writing paths manually is useful for simple tests, the recommended workflow is to design your paths using the [Pedro Pathing Visualizer](/pedro-pathing-plus-visualizer/getting-started/).
-
-1.  **Design**: Create your path in the Visualizer web interface.
-2.  **Export**: Click the "Export" button and select "Java OpMode".
-3.  **Copy**: Paste the generated code into a new file in your project.
-4.  **Run**: The exported code is a ready-to-run OpMode!
-
-This approach saves time and allows you to visualize complex curves before running them on the robot.
+```java
+follower.update();
+```
 
 ## Next Steps
 
-- Explore [Command-Based Programming](/pedro-pathing-plus/command-based/) for more structured code.
+- Explore [Command-Based Programming](/pedro-pathing-plus/command-based/) for integrating paths into a larger robot framework.
 - Learn about [Live View](/pedro-pathing-plus/live-view/) to see your robot's position in real-time.
