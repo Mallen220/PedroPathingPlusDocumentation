@@ -17,13 +17,15 @@ if (entry) {
   const frontmatterString = frontmatter.length > 0 ? `---\n${frontmatter.join('\n')}\n---\n\n` : '';
   content = frontmatterString + entry.body;
 }
+
+const showDropdown = content && (!entry?.data?.template || entry.data.template !== 'splash');
 ---
 
 <div class="page-title-wrapper">
   <div class="page-title-content">
     <DefaultPageTitle {...Astro.props} />
   </div>
-  {content && <CopyDropdown content={content} />}
+  {showDropdown && <CopyDropdown content={content} />}
 </div>
 
 <style>

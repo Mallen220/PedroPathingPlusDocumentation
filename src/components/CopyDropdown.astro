@@ -8,8 +8,8 @@ const id = 'copy-dropdown-' + Math.random().toString(36).substr(2, 9);
 ---
 
 <div id={id} class="copy-dropdown-container">
-  <button class="copy-dropdown-btn" aria-haspopup="true" aria-expanded="false" aria-label="Copy options">
-    Copy
+  <button class="copy-dropdown-btn" aria-haspopup="true" aria-expanded="false" aria-label="Export options">
+    Export
     <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="chevron"><polyline points="6 9 12 15 18 9"></polyline></svg>
   </button>
   <div class="copy-dropdown-menu" role="menu" hidden>
@@ -31,6 +31,15 @@ const id = 'copy-dropdown-' + Math.random().toString(36).substr(2, 9);
         <span class="dropdown-item-description">View this page as plain text</span>
       </div>
     </button>
+    <button class="dropdown-item print-page-btn" role="menuitem">
+      <div class="dropdown-item-content">
+        <span class="dropdown-item-title">
+          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 6 2 18 2 18 9"></polyline><path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"></path><rect x="6" y="14" width="12" height="8"></rect></svg>
+          Print / Save as PDF
+        </span>
+        <span class="dropdown-item-description">Export nicely formatted PDF</span>
+      </div>
+    </button>
   </div>
 </div>
 
@@ -40,6 +49,7 @@ const id = 'copy-dropdown-' + Math.random().toString(36).substr(2, 9);
   const menu = container.querySelector('.copy-dropdown-menu');
   const copyBtn = container.querySelector('.copy-page-btn');
   const viewBtn = container.querySelector('.view-markdown-btn');
+  const printBtn = container.querySelector('.print-page-btn');
   const copyBtnTitle = copyBtn.querySelector('.dropdown-item-title');
 
   function toggleMenu() {
@@ -86,7 +96,99 @@ const id = 'copy-dropdown-' + Math.random().toString(36).substr(2, 9);
     window.open(url, '_blank');
     toggleMenu();
   });
+
+  printBtn.addEventListener('click', (e) => {
+    e.stopPropagation();
+    toggleMenu();
+    window.print();
+  });
 </script>
+
+<style is:global>
+  @media print {
+    /* Hide non-content elements */
+    header,
+    aside,
+    .right-sidebar-panel,
+    .sidebar-pane,
+    .mobile-header,
+    starlight-toc,
+    .pagination-links,
+    .edit-link,
+    footer,
+    .copy-dropdown-container,
+    .site-title,
+    .social-icons,
+    nav.sidebar,
+    .right-sidebar {
+      display: none !important;
+    }
+
+    /* Reset layout for content */
+    body,
+    main,
+    .main-pane,
+    .content-panel {
+      max-width: none !important;
+      width: 100% !important;
+      margin: 0 !important;
+      padding: 0 !important;
+      overflow: visible !important;
+    }
+
+    /* Enforce Light Theme */
+    :root, html[data-theme='dark'], body {
+      --sl-color-bg: white !important;
+      --sl-color-text: black !important;
+      --sl-color-text-accent: #0056b3 !important;
+      --sl-color-gray-1: #111 !important;
+      --sl-color-gray-2: #333 !important;
+      --sl-color-gray-3: #555 !important;
+      --sl-color-gray-4: #777 !important;
+      --sl-color-gray-5: #999 !important;
+      --sl-color-gray-6: #bbb !important;
+      background-color: white !important;
+      color: black !important;
+    }
+
+    /* Improve Typography for Print */
+    h1, h2, h3, h4, h5, h6 {
+      color: black !important;
+      page-break-after: avoid;
+    }
+
+    p, li {
+      color: black !important;
+    }
+
+    a {
+      text-decoration: underline;
+      color: #0056b3 !important;
+    }
+
+    /* Code Blocks */
+    pre, code {
+      white-space: pre-wrap !important;
+      word-break: break-all !important;
+      background-color: #f5f5f5 !important;
+      color: black !important;
+      border: 1px solid #ddd !important;
+      border-radius: 4px;
+    }
+
+    /* Tables */
+    table {
+      width: 100% !important;
+      border-collapse: collapse;
+    }
+
+    th, td {
+      border: 1px solid #ddd !important;
+      padding: 8px !important;
+      color: black !important;
+    }
+  }
+</style>
 
 <style>
   .copy-dropdown-container {
