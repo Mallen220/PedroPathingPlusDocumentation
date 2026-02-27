@@ -1,0 +1,42 @@
+---
+title: "404"
+template: splash
+editUrl: false
+hero:
+  title: "404: Couldn't find the path!"
+  tagline: "Uh oh! Looks like you're off route! Check your batteries and URL or try searching."
+  actions:
+    - text: Return Home
+      icon: right-arrow
+      link: /
+      variant: primary
+---
+
+import { CardGrid, LinkCard } from "@astrojs/starlight/components";
+
+## Helpful Links
+
+Get back on track with these quick links:
+
+<CardGrid>
+  <LinkCard
+    title="Getting Started with PedroPathingPlus"
+    description="Learn how to install and setup PedroPathingPlus for your robot."
+    href="/pedro-pathing-plus/getting-started"
+  />
+  <LinkCard
+    title="Getting Started with the Visualizer"
+    description="Learn how to install and use the PedroPathingPlus Visualizer."
+    href="/pedro-pathing-plus-visualizer/getting-started"
+  />
+  <LinkCard
+    title="PedroPathingPlus Installation Guide"
+    description="Learn how to install PedroPathingPlus on your robot."
+    href="/pedro-pathing-plus/installation"
+  />
+  <LinkCard
+    title="PedroPathingPlus Visualizer Installation Guide"
+    description="Learn how to install and use the PedroPathingPlus Visualizer."
+    href="/pedro-pathing-plus-visualizer/installation"
+  />
+</CardGrid>
