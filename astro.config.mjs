@@ -31,6 +31,7 @@ export default defineConfig({
 						{ label: 'Getting Started', slug: 'pedro-pathing-plus/getting-started' },
 						{ label: 'Live View', slug: 'pedro-pathing-plus/live-view' },
 						{ label: 'Command-Based Programming', slug: 'pedro-pathing-plus/command-based' },
+						{ label: 'Named Commands & Events', slug: 'pedro-pathing-plus/named-commands' },
 					],
 				},
 				{
