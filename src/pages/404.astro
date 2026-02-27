@@ -1,0 +1,449 @@
+---
+import StarlightPage from '@astrojs/starlight/components/StarlightPage.astro';
+---
+
+<StarlightPage
+  frontmatter={{
+    title: '404: You got lost on the field',
+    template: 'splash',
+    hero: {
+      tagline:
+        "That page isn't in this route plan. Use the quick links below or play a tiny dodge sim while you regroup.",
+      actions: [
+        { text: 'Go Home', link: '/', variant: 'primary' },
+        { text: 'PedroPathingPlus Install', link: '/pedro-pathing-plus/installation/', variant: 'secondary' },
+        { text: 'Visualizer Getting Started', link: '/pedro-pathing-plus-visualizer/getting-started/', variant: 'minimal' },
+      ],
+    },
+  }}
+>
+  <section class="game-wrap">
+    <div class="game-head">
+      <p class="game-title">FTC Driver Practice</p>
+      <p class="game-help">Arrow keys to drive. Avoid robots and walls. Collect artifacts and match the motif for bonus points.</p>
+      <p class="game-score">Score: <span id="score">0</span> | Best: <span id="best">0</span></p>
+      <p class="game-score">Motif order bonus (every 3 collected)</p>
+      <div class="motif-row">
+        <div class="motif-track" aria-label="Artifact motif progress">
+          <span data-motif-ball="0" class="motif-ball">G</span>
+          <span data-motif-ball="1" class="motif-ball">P</span>
+          <span data-motif-ball="2" class="motif-ball">P</span>
+        </div>
+        <span id="motifState" class="motif-state">Inactive</span>
+      </div>
+      <p class="game-state" id="stateText">Running</p>
+    </div>
+    <canvas id="game" width="750" height="750" aria-label="Mini FTC dodge game"></canvas>
+    <div class="game-controls">
+      <button type="button" id="restart">Restart Round</button>
+      <a href="/pedro-pathing-plus/getting-started/">Go to Getting Started</a>
+      <a href="/pedro-pathing-plus-visualizer/installation/">Go to Visualizer Installation</a>
+    </div>
+    <p id="crashMsg" class="crash" hidden>
+      You crashed. Press Enter or Restart Round.
+    </p>
+  </section>
+
+  <script>
+    const canvas = document.getElementById('game');
+    const ctx = canvas.getContext('2d');
+    const scoreEl = document.getElementById('score');
+    const bestEl = document.getElementById('best');
+    const motifStateEl = document.getElementById('motifState');
+    const motifBalls = Array.from(document.querySelectorAll('[data-motif-ball]'));
+    const stateEl = document.getElementById('stateText');
+    const crashEl = document.getElementById('crashMsg');
+    const restartBtn = document.getElementById('restart');
+
+    const fieldBg = new Image();
+    fieldBg.src = '/fields/decode.webp';
+
+    const robotSprite = new Image();
+    robotSprite.src = '/robot.png';
+
+    const keys = { ArrowUp: false, ArrowDown: false, ArrowLeft: false, ArrowRight: false };
+    let alive = true;
+    let score = 0;
+    let best = Number(localStorage.getItem('404-dodge-best') || 0);
+    const motifs = [
+      ['G', 'P', 'P'],
+      ['P', 'G', 'P'],
+      ['P', 'P', 'G'],
+    ];
+    let currentMotif = motifs[0];
+    let collectSequence = [];
+    bestEl.textContent = String(best);
+    const player = { x: 120, y: 240, size: 24, speed: 4.1 };
+    const bots = [];
+    const artifacts = [];
+    const botCount = 3;
+    const purpleArtifactCount = 16;
+    const greenArtifactCount = 8;
+    const bonusPoints = 4;
+
+    function rand(min, max) {
+      return Math.random() * (max - min) + min;
+    }
+
+    function collides(a, b) {
+      const dx = a.x - b.x;
+      const dy = a.y - b.y;
+      return Math.hypot(dx, dy) < a.size + b.size;
+    }
+
+    function outOfBounds(r) {
+      return (
+        r.x - r.size < 0 ||
+        r.x + r.size > canvas.width ||
+        r.y - r.size < 0 ||
+        r.y + r.size > canvas.height
+      );
+    }
+
+    function bounceEnemy(bot) {
+      const nextX = bot.x + bot.vx;
+      const nextY = bot.y + bot.vy;
+      if (nextX - bot.size < 0 || nextX + bot.size > canvas.width) {
+        bot.vx *= -1;
+      }
+      if (nextY - bot.size < 0 || nextY + bot.size > canvas.height) {
+        bot.vy *= -1;
+      }
+      bot.x += bot.vx;
+      bot.y += bot.vy;
+      bot.x = Math.max(bot.size, Math.min(canvas.width - bot.size, bot.x));
+      bot.y = Math.max(bot.size, Math.min(canvas.height - bot.size, bot.y));
+    }
+
+    function randomOpenSpot(radius, minX = radius, maxX = canvas.width - radius) {
+      return {
+        x: rand(minX, maxX),
+        y: rand(radius, canvas.height - radius),
+      };
+    }
+
+    function resetBots() {
+      bots.length = 0;
+      for (let i = 0; i < botCount; i++) {
+        const size = rand(20, 28);
+        const p = randomOpenSpot(size, canvas.width * 0.45, canvas.width - size);
+        bots.push({
+          x: p.x,
+          y: p.y,
+          size,
+          vx: rand(-2.4, 2.4) || 1.2,
+          vy: rand(-2.4, 2.4) || -1.2,
+        });
+      }
+    }
+
+    function spawnArtifacts() {
+      artifacts.length = 0;
+      const colors = [
+        ...Array.from({ length: purpleArtifactCount }, () => 'P'),
+        ...Array.from({ length: greenArtifactCount }, () => 'G'),
+      ];
+      for (let i = colors.length - 1; i > 0; i--) {
+        const j = Math.floor(rand(0, i + 1));
+        [colors[i], colors[j]] = [colors[j], colors[i]];
+      }
+      for (const key of colors) {
+        const radius = rand(8, 12);
+        const p = randomOpenSpot(radius);
+        artifacts.push({
+          x: p.x,
+          y: p.y,
+          radius,
+          color: key === 'G' ? '#22c55e' : '#a855f7',
+          key,
+        });
+      }
+    }
+
+    function resetGame() {
+      player.x = 120;
+      player.y = canvas.height * 0.5;
+      score = 0;
+      collectSequence = [];
+      currentMotif = motifs[Math.floor(rand(0, motifs.length))];
+      alive = true;
+      stateEl.textContent = 'Running';
+      crashEl.hidden = true;
+      scoreEl.textContent = '0';
+      updateMotifUi();
+      resetBots();
+      spawnArtifacts();
+    }
+
+    function updateMotifUi() {
+      motifBalls.forEach((el, idx) => {
+        const key = currentMotif[idx];
+        el.textContent = key;
+        el.classList.toggle('green', key === 'G');
+        el.classList.toggle('purple', key === 'P');
+        el.classList.remove('done', 'active', 'wrong');
+        if (idx < collectSequence.length) {
+          el.classList.add('done');
+          if (collectSequence[idx] !== currentMotif[idx]) {
+            el.classList.add('wrong');
+          }
+        } else if (idx === collectSequence.length && collectSequence.length < 3) {
+          el.classList.add('active');
+        }
+      });
+      motifStateEl.textContent = collectSequence.length > 0 ? `Active (${collectSequence.length}/3)` : 'Inactive';
+    }
+
+    function drawRobot(r, enemy = false) {
+      if (robotSprite.complete && robotSprite.naturalWidth > 0) {
+        const dim = r.size * 3;
+        ctx.drawImage(robotSprite, r.x - dim / 2, r.y - dim / 2, dim, dim);
+        if (enemy) {
+          ctx.strokeStyle = '#ef4444';
+          ctx.lineWidth = 2;
+          ctx.beginPath();
+          ctx.arc(r.x, r.y, r.size + 7, 0, Math.PI * 2);
+          ctx.stroke();
+        }
+        return;
+      }
+      ctx.fillStyle = enemy ? '#ef4444' : '#e11d48';
+      ctx.beginPath();
+      ctx.arc(r.x, r.y, r.size, 0, Math.PI * 2);
+      ctx.fill();
+    }
+
+    function collectArtifacts() {
+      for (let i = artifacts.length - 1; i >= 0; i--) {
+        const a = artifacts[i];
+        if (Math.hypot(player.x - a.x, player.y - a.y) < player.size + a.radius) {
+          artifacts.splice(i, 1);
+          score += 1;
+          collectSequence.push(a.key);
+          if (collectSequence.length === 3) {
+            const match = collectSequence.every((v, idx) => v === currentMotif[idx]);
+            if (match) {
+              score += bonusPoints;
+              stateEl.textContent = `Bonus +${bonusPoints}`;
+            }
+            collectSequence = [];
+            if (alive) {
+              stateEl.textContent = 'Running';
+            }
+          }
+          scoreEl.textContent = String(score);
+          updateMotifUi();
+        }
+      }
+      if (artifacts.length === 0) {
+        spawnArtifacts();
+      }
+    }
+
+    function update() {
+      if (!alive) return;
+
+      if (keys.ArrowUp) player.y -= player.speed;
+      if (keys.ArrowDown) player.y += player.speed;
+      if (keys.ArrowLeft) player.x -= player.speed;
+      if (keys.ArrowRight) player.x += player.speed;
+      if (outOfBounds(player)) alive = false;
+
+      for (const bot of bots) {
+        bounceEnemy(bot);
+        if (collides(player, bot)) alive = false;
+      }
+      collectArtifacts();
+
+      if (!alive) {
+        if (score > best) {
+          best = score;
+          localStorage.setItem('404-dodge-best', String(best));
+          bestEl.textContent = String(best);
+        }
+        stateEl.textContent = 'Crashed';
+        crashEl.hidden = false;
+      }
+    }
+
+    function draw() {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+      if (fieldBg.complete) {
+        ctx.drawImage(fieldBg, 0, 0, canvas.width, canvas.height);
+      }
+
+      for (const artifact of artifacts) {
+        ctx.fillStyle = artifact.color;
+        ctx.beginPath();
+        ctx.arc(artifact.x, artifact.y, artifact.radius, 0, Math.PI * 2);
+        ctx.fill();
+      }
+
+      drawRobot(player, false);
+      for (const bot of bots) {
+        drawRobot(bot, true);
+      }
+    }
+
+    function frame() {
+      update();
+      draw();
+      requestAnimationFrame(frame);
+    }
+
+    window.addEventListener('keydown', (event) => {
+      if (event.key in keys) {
+        keys[event.key] = true;
+        event.preventDefault();
+        return;
+      }
+      if (event.key === 'Enter' && !alive) resetGame();
+    });
+
+    window.addEventListener('keyup', (event) => {
+      if (event.key in keys) {
+        keys[event.key] = false;
+        event.preventDefault();
+      }
+    });
+
+    restartBtn?.addEventListener('click', resetGame);
+    resetGame();
+    frame();
+  </script>
+</StarlightPage>
+
+<style>
+  @layer starlight.custom {
+    .game-wrap {
+      border: 1px solid var(--sl-color-gray-5);
+      border-radius: 0.85rem;
+      background:
+        radial-gradient(circle at 0% 0%, color-mix(in oklab, var(--sl-color-accent) 18%, transparent) 0%, transparent 40%),
+        radial-gradient(circle at 100% 100%, color-mix(in oklab, var(--sl-color-accent-high) 14%, transparent) 0%, transparent 45%),
+        var(--sl-color-black);
+      padding: 1rem;
+      margin-top: 1rem;
+      max-width: 34rem;
+      margin-inline: auto;
+    }
+
+    .game-head {
+      display: grid;
+      gap: 0.4rem;
+      margin-bottom: 0.8rem;
+    }
+
+    .game-title {
+      font-weight: 700;
+      color: var(--sl-color-white);
+      margin: 0;
+    }
+
+    .game-help,
+    .game-score,
+    .game-state {
+      margin: 0;
+      color: var(--sl-color-gray-2);
+      font-size: 0.95rem;
+    }
+
+    #game {
+      width: min(92vw, 31rem);
+      height: auto;
+      display: block;
+      margin-inline: auto;
+      border-radius: 0.6rem;
+      border: 1px solid var(--sl-color-gray-5);
+      background: color-mix(in oklab, var(--sl-color-black) 85%, white);
+    }
+
+    .motif-row {
+      display: flex;
+      align-items: center;
+      gap: 0.6rem;
+      flex-wrap: wrap;
+    }
+
+    .motif-track {
+      display: flex;
+      gap: 0.4rem;
+    }
+
+    .motif-ball {
+      width: 1.35rem;
+      height: 1.35rem;
+      border-radius: 999px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.67rem;
+      font-weight: 700;
+      color: #111;
+      border: 2px solid rgba(255, 255, 255, 0.3);
+      opacity: 0.65;
+      transform: scale(1);
+      transition: transform 120ms ease, opacity 120ms ease, box-shadow 120ms ease;
+    }
+
+    .motif-ball.green {
+      background: #22c55e;
+    }
+
+    .motif-ball.purple {
+      background: #a855f7;
+      color: #fff;
+    }
+
+    .motif-ball.active {
+      opacity: 1;
+      transform: scale(1.12);
+      box-shadow: 0 0 0 2px color-mix(in oklab, var(--sl-color-accent) 70%, transparent);
+    }
+
+    .motif-ball.done {
+      opacity: 1;
+    }
+
+    .motif-ball.wrong {
+      box-shadow: 0 0 0 2px #ef4444;
+    }
+
+    .motif-state {
+      color: var(--sl-color-gray-2);
+      font-size: 0.9rem;
+    }
+
+    .game-controls {
+      margin-top: 0.85rem;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.75rem;
+      align-items: center;
+    }
+
+    .game-controls button,
+    .game-controls a {
+      border: 1px solid var(--sl-color-gray-4);
+      border-radius: 999px;
+      padding: 0.45rem 0.85rem;
+      color: var(--sl-color-white);
+      text-decoration: none;
+      font-size: 0.92rem;
+      background: color-mix(in oklab, var(--sl-color-gray-6) 60%, var(--sl-color-black));
+    }
+
+    .game-controls button:hover,
+    .game-controls a:hover {
+      border-color: var(--sl-color-accent);
+      color: var(--sl-color-accent-high);
+    }
+
+    .crash {
+      color: var(--sl-color-orange-high);
+      margin: 0.75rem 0 0;
+      font-weight: 600;
+    }
+  }
+</style>

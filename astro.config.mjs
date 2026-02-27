@@ -12,6 +12,7 @@ export default defineConfig({
 			},
 			favicon: '/favicon.png',
 			customCss: ['./src/styles/custom.css'],
+			disable404Route: true,
 			components: {
 				SocialIcons: './src/components/CustomSocialIcons.astro',
 				PageTitle: './src/components/PageTitle.astro',
