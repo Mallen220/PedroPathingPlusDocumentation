@@ -1,0 +1,149 @@
+---
+title: Tuning & Constants
+description: "Configure your robot's constants and tune PIDF loops for accurate pathing."
+---
+
+# Tuning & Constants
+
+A crucial step in achieving accurate and consistent autonomous routines is properly tuning your robot's pathing constants. PedroPathingPlus relies on these constants to model your robot's physical constraints and correct its movement errors.
+
+## The Constants Class
+
+All tuning parameters are typically stored in a dedicated `Constants` class (often generated or created when you first install PedroPathing). This class configures the `Follower` instance that drives your robot.
+
+Here is a breakdown of the key areas you need to configure:
+
+### 1. Hardware Configuration
+
+Before tuning any software parameters, ensure your hardware map is correctly defined.
+
+```java
+public static final String leftFrontMotorName = "leftFront";
+public static final String leftRearMotorName = "leftRear";
+public static final String rightFrontMotorName = "rightFront";
+public static final String rightRearMotorName = "rightRear";
+```
+
+*Ensure the names exactly match your Driver Station configuration.*
+
+### 2. Robot Dimensions and Mechanics
+
+These constants tell the pathing algorithm about your robot's physical size and drivetrain mechanics.
+
+```java
+// Distance between the center of the left and right wheels (inches)
+public static final double trackWidth = 16.0;
+
+// Distance between the center of the front and back wheels (inches)
+public static final double wheelBase = 16.0;
+
+// Forward multiplier (if the robot travels 10 inches forward but only measures 9.5)
+public static final double forwardTicksToInches = 1.0; // Tune this!
+
+// Lateral multiplier (strafing often has more slip than forward movement)
+public static final double strafeTicksToInches = 1.0; // Tune this!
+
+// Rotational multiplier
+public static final double turnTicksToRadians = 1.0; // Tune this!
+```
+
+> **Note:** Proper localization (odometry) is the foundation of accurate pathing. If your robot thinks it's somewhere else, your paths will fail regardless of your PID tuning.
+
+### 3. Motion Constraints
+
+These limits ensure the path generator doesn't ask your robot to perform impossible maneuvers, which would cause wheel slip and loss of accuracy.
+
+```java
+public static final double maxVelocity = 50.0; // in/s
+public static final double maxAcceleration = 40.0; // in/s^2
+
+public static final double maxAngularVelocity = Math.PI; // rad/s
+public static final double maxAngularAcceleration = Math.PI; // rad/s^2
+```
+
+> **Tip:** Start with conservative values and increase them gradually until your robot starts slipping or struggling to maintain the path.
+
+### 4. PIDF Controllers
+
+Pedro Pathing uses PIDF (Proportional, Integral, Derivative, Feedforward) controllers to correct deviations from the planned path. You will need to tune three separate controllers:
+
+1.  **Translational PID:** Corrects X/Y position errors.
+2.  **Heading PID:** Corrects rotational errors (facing the wrong way).
+3.  **Drive PID:** Controls the overall speed of the wheels to meet velocity targets.
+
+```java
+// Example Translational PID
+public static final double translationalP = 0.1;
+public static final double translationalI = 0.0;
+public static final double translationalD = 0.01;
+
+// Example Heading PID
+public static final double headingP = 2.0;
+public static final double headingI = 0.0;
+public static final double headingD = 0.1;
+
+// Example Drive PID
+public static final double driveP = 0.05;
+public static final double driveI = 0.0;
+public static final double driveD = 0.005;
+```
+
+#### Tuning Process
+- **P (Proportional):** Start here. Increase until the robot effectively corrects the error but starts to oscillate (wobble).
+- **D (Derivative):** Add a small amount of D to dampen the oscillations caused by the P term.
+- **I (Integral):** Rarely needed in FTC pathing. Use only if there is a persistent, small steady-state error (e.g., the robot always stops 0.5 inches short).
+
+## Command-Based Subsystem Integration
+
+If you are using the [Command-Based Programming](/pedro-pathing-plus/command-based) paradigm, your `Follower` setup and tuning parameters are typically encapsulated within a Subsystem.
+
+Here is an example of how you might structure a `DrivetrainSubsystem` to use these constants:
+
+```java
+package org.firstinspires.ftc.teamcode.subsystems;
+
+import com.pedropathing.follower.Follower;
+import com.pedropathingplus.command.Subsystem;
+import com.pedropathingplus.command.RunCommand;
+import com.qualcomm.robotcore.hardware.HardwareMap;
+import org.firstinspires.ftc.teamcode.pedroPathing.Constants;
+
+public class DrivetrainSubsystem implements Subsystem {
+    private final Follower follower;
+
+    public DrivetrainSubsystem(HardwareMap hardwareMap) {
+        // The createFollower method (often in your Constants class)
+        // should apply all the tuning parameters defined above.
+        follower = Constants.createFollower(hardwareMap);
+
+        register(); // Register with the CommandScheduler
+    }
+
+    @Override
+    public void periodic() {
+        // This must be called every loop to calculate and apply PID corrections
+        follower.update();
+    }
+
+    public Follower getFollower() {
+        return follower;
+    }
+
+    // Default command for TeleOp
+    public void setDefaultDrive() {
+        setDefaultCommand(new RunCommand(() -> {
+            follower.setTeleOpMovementVectors(
+                -gamepad1.left_stick_y,
+                -gamepad1.left_stick_x,
+                -gamepad1.right_stick_x
+            );
+        }, this));
+    }
+}
+```
+
+## Dashboard Tuning
+
+For the fastest tuning experience, use FTC Dashboard. By annotating your constants class with `@Config` (or your library's equivalent), you can tweak P, I, and D values live without recompiling your code.
+
+Combine this with the [Live View](/pedro-pathing-plus/live-view) to visualize the robot's actual position vs. target position in real-time.

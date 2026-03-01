@@ -29,6 +29,7 @@ export default defineConfig({
 					items: [
 						{ label: 'Installation', slug: 'pedro-pathing-plus/installation' },
 						{ label: 'Getting Started', slug: 'pedro-pathing-plus/getting-started' },
+						{ label: 'Tuning & Constants', slug: 'pedro-pathing-plus/tuning' },
 						{ label: 'Live View', slug: 'pedro-pathing-plus/live-view' },
 						{ label: 'Command-Based Programming', slug: 'pedro-pathing-plus/command-based' },
 						{ label: 'Named Commands & Events', slug: 'pedro-pathing-plus/named-commands' },
