@@ -50,6 +50,7 @@ export default defineConfig({
 						{ label: 'Plugins', slug: 'pedro-pathing-plus-visualizer/plugins' },
 						{ label: 'Settings', slug: 'pedro-pathing-plus-visualizer/settings' },
 						{ label: 'Controls & Shortcuts', slug: 'pedro-pathing-plus-visualizer/controls' },
+						{ label: 'Troubleshooting & FAQ', slug: 'pedro-pathing-plus-visualizer/troubleshooting' },
 					],
 				},
 				{
