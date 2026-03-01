@@ -1,0 +1,24 @@
+
+> pedro-pathing-plus-documentation@0.0.1 dev
+> astro dev
+
+17:03:22 [types] Generated 1ms
+
+ update  ▶ New version of Astro available: 5.18.0
+  Run npx @astrojs/upgrade to update
+
+17:03:23 [content] Syncing content
+17:03:23 [content] Synced content
+17:03:23 [vite] Re-optimizing dependencies because vite config has changed
+
+ astro  v5.17.3 ready in 2516 ms
+
+┃ Local    http://localhost:4321/
+┃ Network  use --host to expose
+
+17:03:23 watching for file changes...
+17:03:56 [200] /pedro-pathing-plus-visualizer/troubleshooting/ 1634ms
+17:04:18 [200] /pedro-pathing-plus-visualizer/troubleshooting/ 34ms
+17:04:46 [200] /pedro-pathing-plus-visualizer/troubleshooting/ 41ms
+17:05:05 [starlight-docs-loader] Reloaded data from pedro-pathing-plus-visualizer/troubleshooting.mdx
+17:05:14 [200] /pedro-pathing-plus-visualizer/troubleshooting/ 126ms
