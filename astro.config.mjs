@@ -32,6 +32,7 @@ export default defineConfig({
 						{ label: 'Live View', slug: 'pedro-pathing-plus/live-view' },
 						{ label: 'Command-Based Programming', slug: 'pedro-pathing-plus/command-based' },
 						{ label: 'Named Commands & Events', slug: 'pedro-pathing-plus/named-commands' },
+						{ label: 'Pedro Pathing Plus vs Pedro Pathing vs Road Runner', slug: 'pedro-pathing-plus/vs-roadrunner' },
 					],
 				},
 				{
