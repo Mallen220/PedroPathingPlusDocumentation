@@ -29,31 +29,41 @@ When enabled, the visualizer will constantly check the path as you drag points o
 
 ## What Validation Checks
 
-The validation system evaluates several aspects of your path:
+The validation system evaluates your path against four primary check types. Each has custom logic to ensure your robot moves safely and realistically:
 
-### 1. Collisions
-The primary function of validation is to ensure the robot's physical dimensions do not intersect with restricted areas.
-- **Field Boundaries:** Ensures the robot does not attempt to drive outside the 144x144 inch field perimeter.
-- **Obstacles:** Checks against any custom polygons you have defined in the **Obstacles** panel.
-- **Robot Dimensions:** Validation accurately uses the `Length` and `Width` specified in your Robot Settings to simulate the robot's exact footprint along the entire path.
+### 1. `boundary` (Field Boundaries)
+Ensures the robot does not attempt to drive outside the 144x144 inch field perimeter.
+- Validation accurately uses the `Length` and `Width` specified in your Robot Settings to simulate the robot's exact footprint along the entire path. If any part of the robot's bumper crosses the field wall, it triggers a `boundary` error.
 
-### 2. Kinematic Feasibility
-Validation also checks if the path requests movements that are impossible for your robot to perform.
-- **Sharp Turns:** Flags areas where the required centripetal acceleration exceeds your robot's capabilities (often caused by tight Bezier curves combined with high speeds).
-- **Heading Transitions:** Warns if the requested angular velocity (spin rate) is too high for the robot to achieve within the given distance.
+### 2. `obstacle` (Obstacles)
+Checks against any custom polygons you have defined in the **Obstacles** panel.
+- If the robot's projected path and physical dimensions intersect with an obstacle polygon, it triggers an `obstacle` error.
+
+### 3. `keep-in` (Keep-In Zones)
+Special zones where the robot is *required* to stay inside.
+- If the robot's path or footprint exits the boundaries of a designated keep-in zone, it triggers a `keep-in` error.
+
+### 4. `zero-length` (Zero-Length Segments)
+A sanity check that prevents paths from having a distance of zero.
+- If a path segment's start point and end point are in the exact same location with no actual movement required, it triggers a `zero-length` error, as this can cause mathematical anomalies in the robot's path follower.
+
+## Configuring Validation Settings
+
+Validation behavior can be customized in the **Settings > Robot** menu to match your workflow:
+
+- **Safety Margin (in):** This setting allows you to configure a buffer zone (e.g., 2 inches). Validation will treat obstacles and boundaries as being slightly larger/closer than drawn, giving you a safety buffer against real-world mechanical slop or odometry drift.
+- **Validate Field Boundaries:** A toggle that allows you to completely disable the `boundary` checks. Useful if you are testing isolated movements without worrying about the field walls.
+- **Restrict Dragging:** When enabled, this prevents you from manually moving control points or waypoints outside the field boundaries on the canvas.
 
 ## Resolving Validation Errors
 
 When an error is detected, the visualizer will typically highlight the problematic segment of the path in red or display warning icons.
 
 **Tips for fixing errors:**
-- **Collisions:** If a collision is detected, try dragging control points to widen the curve around the obstacle, or use the **Path Optimizer** (`Ctrl + Shift + O`) to let the visualizer find a safe route automatically.
-- **Kinematic Errors:** If the path is too tight or fast:
-  - Spread out your control points to make curves more gradual.
-  - Lower the Max Velocity for that specific path segment if your framework supports it, or adjust the overall Max Acceleration in your settings.
-  - Check your heading interpolations (e.g., changing from a rapid Linear interpolation to a smoother Tangential one).
+- **Boundary/Obstacle Collisions:** Try dragging control points to widen the curve around the obstacle, or use the **Path Optimizer** (`Ctrl + Shift + O`) to let the visualizer find a safe route automatically.
+- **Zero-Length Errors:** Delete the redundant path segment or space the points out.
 
 ## Best Practices
 
-- **Set Accurate Settings:** Validation is only as good as the data it has. Ensure your robot dimensions, max velocity, and max acceleration in the **Settings** menu accurately reflect your real-world robot.
-- **Use Safety Margins:** In Settings, you can configure a "Safety Margin" (e.g., 2 inches). Validation will treat obstacles as being slightly larger than drawn, giving you a buffer against real-world mechanical slop or odometry drift.
+- **Set Accurate Robot Dimensions:** Validation is only as good as the data it has. Ensure your robot `Length` and `Width` in the **Settings** menu accurately reflect your real-world robot footprint.
+- **Use Safety Margins:** Always set a realistic Safety Margin. A value of `1.5` to `2.5` inches is recommended for most drivetrains.
