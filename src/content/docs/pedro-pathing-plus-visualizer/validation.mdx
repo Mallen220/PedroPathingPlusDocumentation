@@ -1,0 +1,59 @@
+---
+title: Path Validation
+description: "Ensure your paths are safe, realistic, and error-free."
+---
+
+# Path Validation
+
+Path Validation is a crucial feature that checks your autonomous routines for potential issues before you run them on a real robot. It analyzes your paths for collisions with obstacles or field boundaries, and ensures the planned movements are kinematically possible based on your robot's configured constraints.
+
+## Using the Validation Tools
+
+You can run validation manually or enable it to run continuously in the background.
+
+### Manual Validation
+
+To perform a single check of your entire sequence:
+- **Shortcut:** `Shift + V`
+- **Command Palette:** Open the Command Palette (`Ctrl + P` / `Cmd + P`) and select **Validate Path**.
+
+When you run manual validation, the visualizer will scan the path and display an alert or overlay indicating any detected issues.
+
+### Continuous Validation
+
+For real-time feedback while you edit, you can enable Continuous Validation.
+- **Shortcut:** `Alt + V`
+- **Command Palette:** Open the Command Palette and toggle **Continuous Validation**.
+
+When enabled, the visualizer will constantly check the path as you drag points or adjust headings. This is highly recommended when fine-tuning complex routines around obstacles.
+
+## What Validation Checks
+
+The validation system evaluates several aspects of your path:
+
+### 1. Collisions
+The primary function of validation is to ensure the robot's physical dimensions do not intersect with restricted areas.
+- **Field Boundaries:** Ensures the robot does not attempt to drive outside the 144x144 inch field perimeter.
+- **Obstacles:** Checks against any custom polygons you have defined in the **Obstacles** panel.
+- **Robot Dimensions:** Validation accurately uses the `Length` and `Width` specified in your Robot Settings to simulate the robot's exact footprint along the entire path.
+
+### 2. Kinematic Feasibility
+Validation also checks if the path requests movements that are impossible for your robot to perform.
+- **Sharp Turns:** Flags areas where the required centripetal acceleration exceeds your robot's capabilities (often caused by tight Bezier curves combined with high speeds).
+- **Heading Transitions:** Warns if the requested angular velocity (spin rate) is too high for the robot to achieve within the given distance.
+
+## Resolving Validation Errors
+
+When an error is detected, the visualizer will typically highlight the problematic segment of the path in red or display warning icons.
+
+**Tips for fixing errors:**
+- **Collisions:** If a collision is detected, try dragging control points to widen the curve around the obstacle, or use the **Path Optimizer** (`Ctrl + Shift + O`) to let the visualizer find a safe route automatically.
+- **Kinematic Errors:** If the path is too tight or fast:
+  - Spread out your control points to make curves more gradual.
+  - Lower the Max Velocity for that specific path segment if your framework supports it, or adjust the overall Max Acceleration in your settings.
+  - Check your heading interpolations (e.g., changing from a rapid Linear interpolation to a smoother Tangential one).
+
+## Best Practices
+
+- **Set Accurate Settings:** Validation is only as good as the data it has. Ensure your robot dimensions, max velocity, and max acceleration in the **Settings** menu accurately reflect your real-world robot.
+- **Use Safety Margins:** In Settings, you can configure a "Safety Margin" (e.g., 2 inches). Validation will treat obstacles as being slightly larger than drawn, giving you a buffer against real-world mechanical slop or odometry drift.
