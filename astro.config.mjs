@@ -45,6 +45,7 @@ export default defineConfig({
 						{ label: 'Telemetry Overlay', slug: 'pedro-pathing-plus-visualizer/telemetry' },
 						{ label: 'Obstacles', slug: 'pedro-pathing-plus-visualizer/obstacles' },
 						{ label: 'Event Markers', slug: 'pedro-pathing-plus-visualizer/event-markers' },
+						{ label: 'Path Validation', slug: 'pedro-pathing-plus-visualizer/validation' },
 						{ label: 'Path Optimization', slug: 'pedro-pathing-plus-visualizer/optimization' },
 						{ label: 'Exporting Code', slug: 'pedro-pathing-plus-visualizer/exporting' },
 						{ label: 'Plugins', slug: 'pedro-pathing-plus-visualizer/plugins' },
