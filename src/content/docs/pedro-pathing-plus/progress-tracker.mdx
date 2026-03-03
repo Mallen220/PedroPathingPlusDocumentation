@@ -1,0 +1,124 @@
+---
+title: ProgressTracker
+description: Monitor robot progress along paths and trigger events automatically.
+---
+
+The `ProgressTracker` is a powerful utility class in PedroPathingPlus that allows you to track the percentage of completion of a path, path chain, or even a turning operation. Its primary purpose is to simplify the triggering of events (like moving an arm or spinning an intake) based on how far the robot has traveled along its current trajectory.
+
+## Overview
+
+The tracker monitors the robot's traversal and compares it against registered thresholds. It abstracts away the complex math required to determine if the robot has reached a specific point on a curve or a specific angle during a turn.
+
+Key features include:
+- **Path Progress**: Tracks progress along individual paths (0.0 to 1.0).
+- **Chain Progress**: Tracks overall progress across an entire `PathChain`.
+- **Turn Progress**: Tracks angular progress during `turnTo` operations.
+- **Event Triggering**: Automatically executes commands registered via `NamedCommands`.
+
+## Basic Usage
+
+To use the `ProgressTracker`, you need to instantiate it, register events, and then check it periodically in your OpMode loop.
+
+### 1. Initialization
+
+Create an instance of `ProgressTracker`, passing it your `Follower` and the OpMode's `Telemetry`.
+
+```java
+import com.pedropathingplus.pathing.ProgressTracker;
+// ...
+
+public class MyAuto extends OpMode {
+    private Follower follower;
+    private ProgressTracker progressTracker;
+
+    @Override
+    public void init() {
+        follower = new Follower(hardwareMap);
+        // ...
+        progressTracker = new ProgressTracker(follower, telemetry);
+    }
+}
+```
+
+### 2. Registering Events
+
+Before starting a path or turn, register the events you want to trigger. An event requires a unique name and a position threshold (from 0.0 to 1.0).
+
+```java
+// Set the chain we are about to follow
+progressTracker.setCurrentChain(myPathChain);
+
+// Register an event named "DeployIntake" to trigger halfway through the path (0.5)
+progressTracker.registerEvent("DeployIntake", 0.5);
+
+// Start following
+follower.followPath(myPathChain, true);
+```
+
+### 3. Checking for Triggers
+
+In your `loop()`, you must call `shouldTriggerEvent()` for the events you want to check. If the threshold is reached, this method returns `true` and the event is marked as triggered so it won't fire again for that path segment.
+
+```java
+@Override
+public void loop() {
+    follower.update();
+
+    if (progressTracker.shouldTriggerEvent("DeployIntake")) {
+        // Option A: Execute code directly here
+        intake.deploy();
+
+        // Option B: If "DeployIntake" is registered in NamedCommands,
+        // you can use executeEvent() to schedule it automatically
+        progressTracker.executeEvent("DeployIntake");
+    }
+}
+```
+
+## Integration with NamedCommands
+
+The true power of `ProgressTracker` comes when it's combined with `NamedCommands`.
+
+If you have registered a command with `NamedCommands` that perfectly matches the name of a registered event, calling `progressTracker.executeEvent(eventName)` will automatically retrieve and schedule that command.
+
+```java
+// Somewhere in your init()
+NamedCommands.registerCommand("ScoreSample", new ScoreSampleCommand(arm, claw));
+
+// ... later, setting up a path ...
+progressTracker.setCurrentChain(scoringPath);
+progressTracker.registerEvent("ScoreSample", 0.9); // Trigger near the end
+
+// ... in your loop() ...
+if (progressTracker.shouldTriggerEvent("ScoreSample")) {
+    progressTracker.executeEvent("ScoreSample"); // Automatically schedules the command
+}
+```
+
+## Tracking Turns
+
+The `ProgressTracker` also simplifies event triggering during in-place turns.
+
+Use the `turn()` method on the tracker to simultaneously start a turn and register an event based on the turn's completion percentage.
+
+```java
+// Turn to 90 degrees (PI/2 radians) and trigger "RaiseLift" when 75% complete
+progressTracker.turn(Math.PI / 2, "RaiseLift", 0.75);
+
+// In your loop:
+if (progressTracker.shouldTriggerEvent("RaiseLift")) {
+    progressTracker.executeEvent("RaiseLift");
+}
+```
+
+## Reading Progress Values
+
+If you don't want to use events, you can still read the raw progress values directly from the tracker:
+
+```java
+// Returns 0.0 to 1.0 for the current individual Path
+double currentPathPercent = progressTracker.getPathProgress();
+
+// Returns 0.0 to 1.0 for the entire PathChain
+double totalChainPercent = progressTracker.getChainProgress();
+```
