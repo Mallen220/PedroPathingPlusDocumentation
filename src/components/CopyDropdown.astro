@@ -339,4 +339,11 @@ const id = "copy-dropdown-" + Math.random().toString(36).substr(2, 9);
     color: var(--sl-color-gray-3);
     margin-left: 1.5rem; /* Align with text, skipping the icon width (16px) + gap (0.5rem/8px) approx */
   }
+
+  @media (max-width: 50rem) {
+    .copy-dropdown-menu {
+      right: auto;
+      left: 0;
+    }
+  }
 </style>
