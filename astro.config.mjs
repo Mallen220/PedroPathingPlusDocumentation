@@ -20,13 +20,13 @@ export default defineConfig({
 				PageTitle: './src/components/PageTitle.astro',
 			},
 			sidebar: [
-				{
-					label: 'Guides',
-					items: [
-						// Each item here is one entry in the navigation menu.
-						{ label: 'Example Guide', slug: 'guides/example' },
-					],
-				},
+				// {
+				// 	label: 'Guides',
+				// 	items: [
+				// 		// Each item here is one entry in the navigation menu.
+				// 		{ label: 'Example Guide', slug: 'guides/example' },
+				// 	],
+				// },
 				{
 					label: 'PedroPathingPlus',
 					items: [
@@ -57,11 +57,12 @@ export default defineConfig({
 						{ label: 'Controls & Shortcuts', slug: 'pedro-pathing-plus-visualizer/controls' },
 						{ label: 'Troubleshooting & FAQ', slug: 'pedro-pathing-plus-visualizer/troubleshooting' },
 					],
-				},
-				{
-					label: 'Reference',
-					autogenerate: { directory: 'reference' },
-				},
+				}
+				// ,
+				// {
+				// 	label: 'Reference',
+				// 	autogenerate: { directory: 'reference' },
+				// },
 			],
 		}),
 	],

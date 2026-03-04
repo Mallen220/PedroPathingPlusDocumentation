@@ -27,3 +27,4 @@ PedroPathingPlusVisualizer/
 PedroPathingPlus/
 
 *.txt
+!robots.txt

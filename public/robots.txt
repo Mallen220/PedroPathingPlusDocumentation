@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://pedro-pathing-plus-documentation.vercel.app/sitemap-index.xml
