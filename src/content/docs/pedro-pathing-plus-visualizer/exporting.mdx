@@ -7,6 +7,17 @@ description: "Generate Java code for your robot controller."
 
 Turn your visualized paths into runnable robot code or shareable animations.
 
+## How to Export
+
+The exporting process is simple and unified under a single dialog window.
+
+1.  **Open the Export Dialog**: Click the **Export** button in the top-right corner of the visualizer's navigation bar. Alternatively, use the shortcut <kbd>Ctrl</kbd> + <kbd>Shift</kbd> + <kbd>J</kbd> (or <kbd>Cmd</kbd> + <kbd>Shift</kbd> + <kbd>J</kbd> on macOS) to quick-open to Java mode.
+2.  **Select a Format**: Use the segmented control at the top of the dialog to switch between **Java Class**, **Sequential Command**, **Points Array**, **Animation**, or **.PP (JSON)** formats.
+3.  **Adjust Options**: Depending on the format you selected, customize the settings (such as "Generate Full Class", "Package Name", or Animation FPS) using the controls below the code preview.
+4.  **Save or Copy**:
+    *   Click **Copy to Clipboard** to quickly paste the generated code into Android Studio.
+    *   Click **Save to File** to download the code as a `.java`, `.txt`, `.pp`, or image file to your computer.
+
 ## Java OpMode (Standard)
 
 Generates a complete, standalone OpMode for your autonomous routine. This does not support all the functionality of the program due to current limitaions.
