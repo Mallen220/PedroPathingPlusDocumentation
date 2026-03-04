@@ -6,10 +6,9 @@ interface Props {
 }
 
 const { content } = Astro.props;
-const id = 'copy-dropdown-' + Math.random().toString(36).substr(2, 9);
 ---
 
-<div id={id} class="copy-dropdown-container">
+<copy-dropdown data-content={content} class="copy-dropdown-container">
   <button class="copy-dropdown-btn" aria-haspopup="true" aria-expanded="false" aria-label="Export options">
     Export
     <Icon name="chevron-down" class="chevron" />
@@ -43,69 +42,88 @@ const id = 'copy-dropdown-' + Math.random().toString(36).substr(2, 9);
       </div>
     </button>
   </div>
-</div>
+</copy-dropdown>
 
-<script define:vars={{ content, id }}>
-  const container = document.getElementById(id);
-  const btn = container.querySelector('.copy-dropdown-btn');
-  const menu = container.querySelector('.copy-dropdown-menu');
-  const copyBtn = container.querySelector('.copy-page-btn');
-  const viewBtn = container.querySelector('.view-markdown-btn');
-  const printBtn = container.querySelector('.print-page-btn');
-  const copyBtnTitle = copyBtn.querySelector('.dropdown-item-title');
+<script>
+  class CopyDropdown extends HTMLElement {
+    connectedCallback() {
+      // ⚡ Using a custom element avoids inline script duplication across pages
+      // and lets Astro bundle and cache the script effectively.
+      const content = this.dataset.content || '';
+      const btn = this.querySelector('.copy-dropdown-btn');
+      const menu = this.querySelector('.copy-dropdown-menu');
+      const copyBtn = this.querySelector('.copy-page-btn');
+      const viewBtn = this.querySelector('.view-markdown-btn');
+      const printBtn = this.querySelector('.print-page-btn');
+      const copyBtnTitle = copyBtn?.querySelector('.dropdown-item-title');
 
-  const checkIconSVG = '<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>';
+      if (!btn || !menu || !copyBtn || !viewBtn || !printBtn || !copyBtnTitle) return;
 
-  function toggleMenu() {
-    const isExpanded = btn.getAttribute('aria-expanded') === 'true';
-    btn.setAttribute('aria-expanded', !isExpanded);
-    menu.hidden = isExpanded;
+      const checkIconSVG = '<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>';
+
+      const toggleMenu = (forceClose = false) => {
+        const isExpanded = forceClose ? true : btn.getAttribute('aria-expanded') === 'true';
+        btn.setAttribute('aria-expanded', String(!isExpanded));
+        menu.hidden = !isExpanded;
+      };
+
+      // Close menu when clicking outside
+      document.addEventListener('click', (e) => {
+        if (!this.contains(e.target as Node)) {
+          btn.setAttribute('aria-expanded', 'false');
+          menu.hidden = true;
+        }
+      });
+
+      btn.addEventListener('click', (e) => {
+        e.stopPropagation();
+        toggleMenu();
+      });
+
+      copyBtn.addEventListener('click', async (e) => {
+        e.stopPropagation();
+        try {
+          // Remove frontmatter for "Copy page"
+          const contentWithoutFrontmatter = content.replace(/^---\n[\s\S]*?\n---\n/, '').trim();
+
+          await navigator.clipboard.writeText(contentWithoutFrontmatter);
+          const originalHTML = copyBtnTitle.innerHTML;
+          copyBtnTitle.innerHTML = `${checkIconSVG} Copied!`;
+          
+          setTimeout(() => {
+            copyBtnTitle.innerHTML = originalHTML;
+            toggleMenu(true); // Close menu after copy
+          }, 2000);
+        } catch (err) {
+          console.error('Failed to copy!', err);
+        }
+      });
+
+      viewBtn.addEventListener('click', (e) => {
+        e.stopPropagation();
+        const blob = new Blob([content], { type: 'text/markdown' });
+        const url = URL.createObjectURL(blob);
+        window.open(url, '_blank');
+        toggleMenu(true);
+      });
+
+      printBtn.addEventListener('click', (e) => {
+        e.stopPropagation();
+        toggleMenu(true);
+        window.print();
+      });
+    }
   }
 
-  // Close menu when clicking outside
-  document.addEventListener('click', (e) => {
-    if (!container.contains(e.target)) {
-      btn.setAttribute('aria-expanded', 'false');
-      menu.hidden = true;
+  // Register the element
+  if (!customElements.get('copy-dropdown')) {
+    customElements.define('copy-dropdown', CopyDropdown);
+  }
+</script>
     }
-  });
+  }
 
-  btn.addEventListener('click', (e) => {
-    e.stopPropagation();
-    toggleMenu();
-  });
-
-  copyBtn.addEventListener('click', async (e) => {
-    e.stopPropagation();
-    try {
-      // Remove frontmatter for "Copy page"
-      const contentWithoutFrontmatter = content.replace(/^---\n[\s\S]*?\n---\n/, '').trim();
-
-      await navigator.clipboard.writeText(contentWithoutFrontmatter);
-      const originalHTML = copyBtnTitle.innerHTML;
-      copyBtnTitle.innerHTML = `${checkIconSVG} Copied!`;
-      setTimeout(() => {
-        copyBtnTitle.innerHTML = originalHTML;
-        toggleMenu(); // Close menu after copy
-      }, 2000);
-    } catch (err) {
-      console.error('Failed to copy!', err);
-    }
-  });
-
-  viewBtn.addEventListener('click', (e) => {
-    e.stopPropagation();
-    const blob = new Blob([content], { type: 'text/markdown' });
-    const url = URL.createObjectURL(blob);
-    window.open(url, '_blank');
-    toggleMenu();
-  });
-
-  printBtn.addEventListener('click', (e) => {
-    e.stopPropagation();
-    toggleMenu();
-    window.print();
-  });
+  customElements.define('copy-dropdown', CopyDropdown);
 </script>
 
 <style is:global>
