@@ -1,4 +1,6 @@
 ---
+import Icon from './Icon.astro';
+
 interface Props {
   content: string;
 }
@@ -10,13 +12,13 @@ const id = 'copy-dropdown-' + Math.random().toString(36).substr(2, 9);
 <div id={id} class="copy-dropdown-container">
   <button class="copy-dropdown-btn" aria-haspopup="true" aria-expanded="false" aria-label="Export options">
     Export
-    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="chevron"><polyline points="6 9 12 15 18 9"></polyline></svg>
+    <Icon name="chevron-down" class="chevron" />
   </button>
   <div class="copy-dropdown-menu" role="menu" hidden>
     <button class="dropdown-item copy-page-btn" role="menuitem">
       <div class="dropdown-item-content">
         <span class="dropdown-item-title">
-          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>
+          <Icon name="copy" />
           Copy page
         </span>
         <span class="dropdown-item-description">Copy page as Markdown for LLMs</span>
@@ -25,7 +27,7 @@ const id = 'copy-dropdown-' + Math.random().toString(36).substr(2, 9);
     <button class="dropdown-item view-markdown-btn" role="menuitem">
       <div class="dropdown-item-content">
         <span class="dropdown-item-title">
-          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path><circle cx="12" cy="12" r="3"></circle></svg>
+          <Icon name="view" />
           View as Markdown
         </span>
         <span class="dropdown-item-description">View this page as plain text</span>
@@ -34,7 +36,7 @@ const id = 'copy-dropdown-' + Math.random().toString(36).substr(2, 9);
     <button class="dropdown-item print-page-btn" role="menuitem">
       <div class="dropdown-item-content">
         <span class="dropdown-item-title">
-          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 6 2 18 2 18 9"></polyline><path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"></path><rect x="6" y="14" width="12" height="8"></rect></svg>
+          <Icon name="printer" />
           Print / Save as PDF
         </span>
         <span class="dropdown-item-description">Export nicely formatted PDF</span>
@@ -51,6 +53,8 @@ const id = 'copy-dropdown-' + Math.random().toString(36).substr(2, 9);
   const viewBtn = container.querySelector('.view-markdown-btn');
   const printBtn = container.querySelector('.print-page-btn');
   const copyBtnTitle = copyBtn.querySelector('.dropdown-item-title');
+
+  const checkIconSVG = '<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>';
 
   function toggleMenu() {
     const isExpanded = btn.getAttribute('aria-expanded') === 'true';
@@ -79,7 +83,7 @@ const id = 'copy-dropdown-' + Math.random().toString(36).substr(2, 9);
 
       await navigator.clipboard.writeText(contentWithoutFrontmatter);
       const originalHTML = copyBtnTitle.innerHTML;
-      copyBtnTitle.innerHTML = '<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg> Copied!';
+      copyBtnTitle.innerHTML = `${checkIconSVG} Copied!`;
       setTimeout(() => {
         copyBtnTitle.innerHTML = originalHTML;
         toggleMenu(); // Close menu after copy
