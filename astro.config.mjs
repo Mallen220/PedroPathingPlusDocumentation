@@ -14,6 +14,7 @@ export default defineConfig({
 			lastUpdated: true,
 			customCss: ['./src/styles/custom.css'],
 			components: {
+				Head: './src/components/Head.astro',
 				SocialIcons: './src/components/CustomSocialIcons.astro',
 				PageTitle: './src/components/PageTitle.astro',
 			},
