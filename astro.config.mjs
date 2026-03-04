@@ -11,6 +11,7 @@ export default defineConfig({
 				src: './public/icon.png',
 			},
 			favicon: '/favicon.png',
+			lastUpdated: true,
 			customCss: ['./src/styles/custom.css'],
 			components: {
 				SocialIcons: './src/components/CustomSocialIcons.astro',
