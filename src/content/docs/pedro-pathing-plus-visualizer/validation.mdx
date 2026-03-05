@@ -1,11 +1,11 @@
 ---
 title: Path Validation
-description: "Ensure your paths are safe, realistic, and error-free."
+description: "Ensure your FTC autonomous paths are safe, realistic, and error-free using robot path validation in Pedro Pathing Plus Visualizer."
 ---
 
 # Path Validation
 
-Path Validation is a crucial feature that checks your autonomous routines for potential issues before you run them on a real robot. It analyzes your paths for collisions with obstacles or field boundaries, and ensures the planned movements are kinematically possible based on your robot's configured constraints.
+Path Validation is a crucial feature that checks your FTC autonomous routines for potential issues before you run them on a real robot. It analyzes your paths for collisions with obstacles or field boundaries, and ensures the planned movements are kinematically possible based on your robot's configured constraints.
 
 ## Using the Validation Tools
 
@@ -33,10 +33,10 @@ The validation system evaluates your path against four primary check types. Each
 
 ### 1. `boundary` (Field Boundaries)
 Ensures the robot does not attempt to drive outside the 144x144 inch field perimeter.
-- Validation accurately uses the `Length` and `Width` specified in your Robot Settings to simulate the robot's exact footprint along the entire path. If any part of the robot's bumper crosses the field wall, it triggers a `boundary` error.
+- Validation accurately uses the `Length` and `Width` specified in your [Robot Settings](/pedro-pathing-plus-visualizer/settings/) to simulate the robot's exact footprint along the entire path. If any part of the robot's bumper crosses the field wall, it triggers a `boundary` error.
 
 ### 2. `obstacle` (Obstacles)
-Checks against any custom polygons you have defined in the **Obstacles** panel.
+Checks against any custom polygons you have defined in the **[Obstacles](/pedro-pathing-plus-visualizer/obstacles/)** panel.
 - If the robot's projected path and physical dimensions intersect with an obstacle polygon, it triggers an `obstacle` error.
 
 ### 3. `keep-in` (Keep-In Zones)
@@ -49,7 +49,7 @@ A sanity check that prevents paths from having a distance of zero.
 
 ## Configuring Validation Settings
 
-Validation behavior can be customized in the **Settings > Robot** menu to match your workflow:
+Validation behavior can be customized in the **[Settings](/pedro-pathing-plus-visualizer/settings/) > Robot** menu to match your workflow:
 
 - **Safety Margin (in):** This setting allows you to configure a buffer zone (e.g., 2 inches). Validation will treat obstacles and boundaries as being slightly larger/closer than drawn, giving you a safety buffer against real-world mechanical slop or odometry drift.
 - **Validate Field Boundaries:** A toggle that allows you to completely disable the `boundary` checks. Useful if you are testing isolated movements without worrying about the field walls.
@@ -60,10 +60,10 @@ Validation behavior can be customized in the **Settings > Robot** menu to match 
 When an error is detected, the visualizer will typically highlight the problematic segment of the path in red or display warning icons.
 
 **Tips for fixing errors:**
-- **Boundary/Obstacle Collisions:** Try dragging control points to widen the curve around the obstacle, or use the **Path Optimizer** (`Ctrl + Shift + O`) to let the visualizer find a safe route automatically.
+- **Boundary/Obstacle Collisions:** Try dragging control points to widen the curve around the obstacle, or use the **[Path Optimizer](/pedro-pathing-plus-visualizer/optimization/)** (`Ctrl + Shift + O`) to let the visualizer find a safe route automatically.
 - **Zero-Length Errors:** Delete the redundant path segment or space the points out.
 
 ## Best Practices
 
-- **Set Accurate Robot Dimensions:** Validation is only as good as the data it has. Ensure your robot `Length` and `Width` in the **Settings** menu accurately reflect your real-world robot footprint.
+- **Set Accurate Robot Dimensions:** Validation is only as good as the data it has. Ensure your robot `Length` and `Width` in the **[Settings](/pedro-pathing-plus-visualizer/settings/)** menu accurately reflect your real-world robot footprint.
 - **Use Safety Margins:** Always set a realistic Safety Margin. A value of `1.5` to `2.5` inches is recommended for most drivetrains.
