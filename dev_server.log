@@ -2,21 +2,30 @@
 > pedro-pathing-plus-documentation@0.0.1 dev
 > astro dev
 
-14:55:37 [types] Generated 1ms
+▶ Astro collects anonymous usage data.
+  This information helps us improve Astro.
+  Run "astro telemetry disable" to opt-out.
+  https://astro.build/telemetry
+
+18:46:55 [types] Generated 1ms
 
  update  ▶ New version of Astro available: 5.18.0
   Run npx @astrojs/upgrade to update
 
-14:55:38 [content] Syncing content
-14:55:38 [content] Synced content
-14:55:38 [vite] Re-optimizing dependencies because vite config has changed
+18:46:56 [content] Syncing content
+18:46:56 [content] Synced content
 
- astro  v5.17.3 ready in 2543 ms
+ astro  v5.17.3 ready in 2214 ms
 
 ┃ Local    http://localhost:4321/
 ┃ Network  use --host to expose
 
-14:55:38 watching for file changes...
-14:56:30 [200] /pedro-pathing-plus-visualizer/validation 503ms
-16:31:14 [starlight-docs-loader] Reloaded data from pedro-pathing-plus-visualizer/validation.mdx
-16:31:59 [200] /pedro-pathing-plus-visualizer/validation 912ms
+18:46:56 watching for file changes...
+18:50:54 Configuration file updated. Restarting...
+18:50:56 [vite] Re-optimizing dependencies because vite config has changed
+18:50:57 [content] Syncing content
+18:50:57 [content] Synced content
+18:50:57 [types] Generated 1.17s
+18:50:57 [vite] Re-optimizing dependencies because vite config has changed
+18:52:00 [200] / 512ms
+18:52:00 [200] /_image 217ms

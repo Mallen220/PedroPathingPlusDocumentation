@@ -18,6 +18,7 @@ export default defineConfig({
 				Head: './src/components/Head.astro',
 				SocialIcons: './src/components/CustomSocialIcons.astro',
 				PageTitle: './src/components/PageTitle.astro',
+				Footer: './src/components/CustomFooter.astro',
 			},
 			sidebar: [
 				// {
