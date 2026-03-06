@@ -1,71 +1,138 @@
 ---
-import Default from '@astrojs/starlight/components/Footer.astro';
+import Default from "@astrojs/starlight/components/Footer.astro";
 ---
 
 <Default {...Astro.props} />
 
 <div class="custom-footer-links">
-	<div class="footer-links-grid">
-		<div class="footer-section">
-			<h3>Repositories</h3>
-			<ul>
-				<li><a href="https://github.com/Mallen220/PedroPathingPlus" target="_blank" rel="noopener noreferrer">PedroPathingPlus Library</a></li>
-				<li><a href="https://github.com/Mallen220/PedroPathingPlusVisualizer" target="_blank" rel="noopener noreferrer">PedroPathingPlusVisualizer</a></li>
-			</ul>
-		</div>
-		<div class="footer-section">
-			<h3>Project Links</h3>
-			<ul>
-				<li><a href="https://github.com/Mallen220/PedroPathingPlusVisualizer/issues" target="_blank" rel="noopener noreferrer">Issues</a></li>
-				<li><a href="https://github.com/Mallen220/PedroPathingPlusVisualizer/releases" target="_blank" rel="noopener noreferrer">Releases</a></li>
-				<li><a href="https://github.com/Mallen220/PedroPathingPlusVisualizer/blob/main/README.md" target="_blank" rel="noopener noreferrer">README</a></li>
-				<li><a href="https://discord.gg/chHSzS4ewF" target="_blank" rel="noopener noreferrer">Discord</a></li>
-			</ul>
-		</div>
-		<div class="footer-section">
-			<h3>Community & Legal</h3>
-			<ul>
-				<li><a href="https://github.com/Mallen220/PedroPathingPlusVisualizer/blob/main/CODE_OF_CONDUCT.md" target="_blank" rel="noopener noreferrer">Code of Conduct</a></li>
-				<li><a href="https://github.com/Mallen220/PedroPathingPlusVisualizer/blob/main/CONTRIBUTING.md" target="_blank" rel="noopener noreferrer">Contributing</a></li>
-				<li><a href="https://github.com/Mallen220/PedroPathingPlusVisualizer/blob/main/LICENSE" target="_blank" rel="noopener noreferrer">License</a></li>
-				<li><a href="https://github.com/Mallen220/PedroPathingPlusVisualizer/blob/main/SECURITY.md" target="_blank" rel="noopener noreferrer">Security</a></li>
-			</ul>
-		</div>
-	</div>
+  <div class="footer-links-grid">
+    <div class="footer-section">
+      <h3>Repositories</h3>
+      <ul>
+        <li>
+          <a
+            href="https://github.com/Mallen220/PedroPathingPlusVisualizer"
+            target="_blank"
+            rel="noopener noreferrer">PedroPathingPlusVisualizer</a
+          >
+        </li>
+        <li>
+          <a
+            href="https://github.com/Mallen220/PedroPathingPlus"
+            target="_blank"
+            rel="noopener noreferrer">PedroPathingPlus Library</a
+          >
+        </li>
+        <li>
+          <a
+            href="https://github.com/Mallen220/PedroPathingPlusDocumentation"
+            target="_blank"
+            rel="noopener noreferrer">PedroPathingPlus Documentaion</a
+          >
+        </li>
+      </ul>
+    </div>
+    <div class="footer-section">
+      <h3>Project Links</h3>
+      <ul>
+        <li>
+          <a
+            href="https://discord.gg/chHSzS4ewF"
+            target="_blank"
+            rel="noopener noreferrer">Discord</a
+          >
+        </li>
+        <li>
+          <a
+            href="https://github.com/Mallen220/PedroPathingPlusVisualizer/issues"
+            target="_blank"
+            rel="noopener noreferrer">Issues</a
+          >
+        </li>
+        <li>
+          <a
+            href="https://github.com/Mallen220/PedroPathingPlusVisualizer/releases"
+            target="_blank"
+            rel="noopener noreferrer">Releases</a
+          >
+        </li>
+        <li>
+          <a
+            href="https://github.com/Mallen220/PedroPathingPlusVisualizer/blob/main/README.md"
+            target="_blank"
+            rel="noopener noreferrer">README</a
+          >
+        </li>
+      </ul>
+    </div>
+    <div class="footer-section">
+      <h3>Community & Legal</h3>
+      <ul>
+        <li>
+          <a
+            href="https://github.com/Mallen220/PedroPathingPlusVisualizer/blob/main/CODE_OF_CONDUCT.md"
+            target="_blank"
+            rel="noopener noreferrer">Code of Conduct</a
+          >
+        </li>
+        <li>
+          <a
+            href="https://github.com/Mallen220/PedroPathingPlusVisualizer/blob/main/CONTRIBUTING.md"
+            target="_blank"
+            rel="noopener noreferrer">Contributing</a
+          >
+        </li>
+        <li>
+          <a
+            href="https://github.com/Mallen220/PedroPathingPlusVisualizer/blob/main/LICENSE"
+            target="_blank"
+            rel="noopener noreferrer">License</a
+          >
+        </li>
+        <li>
+          <a
+            href="https://github.com/Mallen220/PedroPathingPlusVisualizer/blob/main/SECURITY.md"
+            target="_blank"
+            rel="noopener noreferrer">Security</a
+          >
+        </li>
+      </ul>
+    </div>
+  </div>
 </div>
 
 <style>
-	.custom-footer-links {
-		margin-top: 3rem;
-		padding-top: 2rem;
-		border-top: 1px solid var(--sl-color-gray-5);
-	}
-	.footer-links-grid {
-		display: grid;
-		grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
-		gap: 2rem;
-	}
-	.footer-section h3 {
-		font-size: var(--sl-text-base);
-		font-weight: 600;
-		color: var(--sl-color-white);
-		margin-bottom: 1rem;
-	}
-	.footer-section ul {
-		list-style: none;
-		padding: 0;
-		margin: 0;
-		display: flex;
-		flex-direction: column;
-		gap: 0.5rem;
-	}
-	.footer-section a {
-		color: var(--sl-color-gray-3);
-		text-decoration: none;
-		font-size: var(--sl-text-sm);
-		transition: color 0.2s;
-	}
-	.footer-section a:hover {
-		color: var(--sl-color-text-accent);
-	}
+  .custom-footer-links {
+    margin-top: 3rem;
+    padding-top: 2rem;
+    border-top: 1px solid var(--sl-color-gray-5);
+  }
+  .footer-links-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    gap: 2rem;
+  }
+  .footer-section h3 {
+    font-size: var(--sl-text-base);
+    font-weight: 600;
+    color: var(--sl-color-white);
+    margin-bottom: 1rem;
+  }
+  .footer-section ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+  .footer-section a {
+    color: var(--sl-color-gray-3);
+    text-decoration: none;
+    font-size: var(--sl-text-sm);
+    transition: color 0.2s;
+  }
+  .footer-section a:hover {
+    color: var(--sl-color-text-accent);
+  }
 </style>
