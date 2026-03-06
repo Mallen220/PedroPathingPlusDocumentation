@@ -27,4 +27,5 @@ PedroPathingPlusVisualizer/
 PedroPathingPlus/
 
 *.txt
-!robots.txtdev_server.log
+!robots.txt
+dev_server.log
