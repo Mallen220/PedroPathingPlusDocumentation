@@ -1,9 +1,9 @@
 ---
 title: Command-Based Programming
-description: Learn how to use PedroPathingPlus with the Command-Based paradigm.
+description: Learn how to use FTC Command-Based programming with PedroPathingPlus for efficient and structured robot code.
 ---
 
-PedroPathingPlus includes built-in support for Command-Based programming, allowing you to structure your robot code efficiently using commands and subsystems. This approach is similar to WPILib and FTCLib but tailored for the Pedro Pathing library.
+PedroPathingPlus includes built-in support for Command-Based programming, allowing you to structure your robot code efficiently using commands and subsystems. This approach is similar to [WPILib](https://docs.wpilib.org/) and [FTCLib](https://docs.ftclib.org/) but tailored specifically for the FTC Pedro Pathing library.
 
 ## Introduction
 
@@ -164,6 +164,44 @@ public class MecanumDrive implements Subsystem {
             );
         }, this));
     }
+}
+```
+
+## Handling Interruptions and Cancellations
+
+A common requirement in FTC is to cancel a path or a command sequence if an unexpected event occurs (e.g., a limit switch is triggered, or an object is detected in the way). In Command-Based programming, you can achieve this by using decorators or parallel race groups.
+
+### `until()` Decorator
+
+You can use the `.until()` decorator on any command, including `FollowPathCommand`, to specify a condition that, when true, will interrupt and cancel the command.
+
+```java
+new FollowPathCommand(drive.getFollower(), path)
+    .until(() -> distanceSensor.getDistance(DistanceUnit.CM) < 10);
+```
+
+### Using ParallelRaceGroup for Timeouts
+
+If you want to ensure a path or sequence does not take longer than a specified time, you can wrap it in a `ParallelRaceGroup` along with a `WaitCommand`. The entire group will finish (and cancel any running commands within it) as soon as the first command completes.
+
+```java
+new ParallelRaceGroup(
+    new FollowPathCommand(drive.getFollower(), complexPath),
+    new WaitCommand(5000) // Timeout after 5 seconds
+);
+```
+
+### Canceling Commands Manually
+
+If you need to cancel a command based on complex logic outside of the command structure, you can keep a reference to it and call `cancel()`.
+
+```java
+FollowPathCommand autoDrive = new FollowPathCommand(drive.getFollower(), path);
+CommandScheduler.getInstance().schedule(autoDrive);
+
+// Later in your loop...
+if (gamepad1.b) {
+    autoDrive.cancel();
 }
 ```
 

@@ -8,6 +8,7 @@
   https://astro.build/telemetry
 
 18:46:55 [types] Generated 1ms
+11:39:58 [types] Generated 1ms
 
  update  ▶ New version of Astro available: 5.18.0
   Run npx @astrojs/upgrade to update
@@ -16,6 +17,11 @@
 18:46:56 [content] Synced content
 
  astro  v5.17.3 ready in 2214 ms
+11:39:59 [content] Syncing content
+11:39:59 [content] Synced content
+11:39:59 [vite] Re-optimizing dependencies because vite config has changed
+
+ astro  v5.17.3 ready in 2304 ms
 
 ┃ Local    http://localhost:4321/
 ┃ Network  use --host to expose
@@ -29,3 +35,11 @@
 18:50:57 [vite] Re-optimizing dependencies because vite config has changed
 18:52:00 [200] / 512ms
 18:52:00 [200] /_image 217ms
+11:39:59 watching for file changes...
+11:40:43 [200] / 608ms
+11:40:44 [200] /_image 157ms
+11:40:45 [200] /pedro-pathing-plus/getting-started/ 676ms
+11:40:46 [200] /pedro-pathing-plus/installation/ 88ms
+11:40:46 [200] /pedro-pathing-plus-visualizer/getting-started/ 89ms
+11:40:47 [200] /pedro-pathing-plus-visualizer/installation/ 121ms
+11:40:47 [200] / 48ms
