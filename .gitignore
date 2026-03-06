@@ -28,3 +28,4 @@ PedroPathingPlus/
 
 *.txt
 !robots.txt
+dev_server.log
