@@ -11,8 +11,15 @@ Obstacles define restricted areas on the field. The path optimizer effectively r
 
 - **Add**: Click the **+** button in the Obstacles header.
 - **Name**: Type in the text box to rename (e.g., "Wall", "Stage").
+- **Type**: Toggle between standard **Obstacle** (stay out) and **Keep-In Zone** (stay inside).
 - **Color**: Click the color dot to change the obstacle's appearance.
 - **Delete**: Click the trash icon to remove the entire obstacle.
+
+## Keep-In Zones
+
+A **Keep-In Zone** is a special type of obstacle. Instead of forcing the path *around* the defined area, the path optimizer and validation system will require the robot to stay strictly *inside* the defined boundaries of a keep-in zone.
+
+This is extremely useful for defining safe operational areas or constraining your robot to specific halves of the field during autonomous routines to avoid crossing centerlines.
 
 ## Editing Shapes
 
