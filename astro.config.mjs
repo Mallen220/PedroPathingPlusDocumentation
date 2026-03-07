@@ -4,7 +4,7 @@ import starlight from '@astrojs/starlight';
 
 // https://astro.build/config
 export default defineConfig({
-	site: 'https://pedro-pathing-plus-documentation.vercel.app/',
+	site: 'https://pedropathingplus.com/',
 	integrations: [
 		starlight({
 			title: 'Pedro Pathing Plus',
