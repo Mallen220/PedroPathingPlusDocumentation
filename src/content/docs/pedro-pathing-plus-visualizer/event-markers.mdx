@@ -41,6 +41,22 @@ The "Global Position" value represents exactly where the marker falls in your en
 
 > **Tip:** You can drag the slider to seamlessly move a marker from one step to another (e.g., sliding it from a Path directly into the following Wait).
 
+## **Interactions with Wait Commands**
+
+Wait commands are a great place to trigger event markers, allowing your robot to perform actions while standing still (e.g., scoring a pixel, deploying an intake).
+
+If your autonomous routine consists of:
+1.  **Path 1**: Drive to backdrop.
+2.  **Wait Command**: Pause for 1.5 seconds.
+3.  **Path 2**: Drive back to stack.
+
+You could place an event marker on the **Wait Command** to trigger the scoring mechanism:
+
+-  **Name:** `"ScorePixel"`
+-  **Global Position:** `1.10` (Assuming Step 0 is Path 1, Step 1 is the Wait Command, and `.10` is 10% into the Wait duration).
+
+This ensures the action starts exactly when the robot is at the backdrop. The visualizer shows a flag icon ⚑ on the wait command's location to indicate the marker.
+
 ## **In Your Code**
 
 When you export your autonomous routine, event markers are generated as callbacks or command triggers based on the **Name** you assigned. Ensure your robot code handles these named events to perform the desired actions.

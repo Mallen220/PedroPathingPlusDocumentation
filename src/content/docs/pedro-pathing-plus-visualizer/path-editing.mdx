@@ -43,6 +43,23 @@ At the top right of each path panel:
 - **Add Wait**: Click the **Clock** icon to insert a stop/wait command.
 - **Delete**: Click the **Trash** icon to remove the path segment.
 
+## Wait Commands
+
+Wait commands are a crucial part of path editing, allowing you to pause the robot's movement for a specified duration before continuing to the next path segment. They are represented by a separate panel in the path editor, much like a regular path segment.
+
+### Adding a Wait Command
+
+You can insert a wait command in two ways:
+1. Click the **Clock** icon (Add Wait) at the top right of an existing path panel to insert a wait command *after* that segment.
+2. Press the **`W`** key to append a wait command to the end of your current sequence.
+
+### Configuring a Wait Command
+
+Inside a wait command's panel, you can adjust:
+- **Duration**: The time the robot should pause, measured in seconds. Use the number input to specify the exact length.
+- **Renaming**: Similar to paths, you can click the name to rename the wait command.
+- **Event Markers**: Wait commands can host event markers, which is useful for triggering actions (e.g., scoring a game piece) while the robot is stationary. See [Event Markers](./event-markers/) for more details on placing markers within wait commands.
+
 ## Keyboard Shortcuts
 
 - **Add Point**: `Double Click` on field map
