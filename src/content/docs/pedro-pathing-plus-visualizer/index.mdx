@@ -3,17 +3,8 @@ title: Pedro Pathing Plus Visualizer
 description: Overview of Pedro Pathing Plus Visualizer
 ---
 
-import { LinkCard, CardGrid } from '@astrojs/starlight/components';
-import { getCollection } from 'astro:content';
-
-export const docs = await getCollection('docs', ({ id }) => {
-  return id.startsWith('pedro-pathing-plus-visualizer/') && id !== 'pedro-pathing-plus-visualizer/index.mdx';
-});
+import DynamicCardGrid from '../../../components/DynamicCardGrid.astro';
 
 Welcome to the documentation for the Pedro Pathing Plus Visualizer. Choose a topic below to get started:
 
-<CardGrid>
-  {docs.map(doc => (
-    <LinkCard title={doc.data.title} href={`/${doc.slug}/`} />
-  ))}
-</CardGrid>
+<DynamicCardGrid groupLabel="PedroPathingPlusVisualizer" />
