@@ -1,0 +1,32 @@
+---
+import { LinkCard, CardGrid } from '@astrojs/starlight/components';
+
+const { groupLabel } = Astro.props;
+const starlightData = Astro.locals.starlightRoute;
+
+let links = [];
+
+function extractLinks(entries) {
+    let result = [];
+    for (const entry of entries) {
+        if (entry.type === 'link') {
+            result.push({ label: entry.label, href: entry.href });
+        } else if (entry.type === 'group' && entry.entries) {
+            result.push(...extractLinks(entry.entries));
+        }
+    }
+    return result;
+}
+
+if (starlightData && starlightData.sidebar) {
+    const group = starlightData.sidebar.find(item => item.type === 'group' && item.label === groupLabel);
+    if (group && group.entries) {
+        links = extractLinks(group.entries);
+    }
+}
+---
+<CardGrid>
+  {links.map(link => (
+    <LinkCard title={link.label} href={link.href} />
+  ))}
+</CardGrid>
