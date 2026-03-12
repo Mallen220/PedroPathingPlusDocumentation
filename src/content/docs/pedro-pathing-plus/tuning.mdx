@@ -1,0 +1,53 @@
+---
+title: PID Tuning Guide
+description: Learn how to tune PID coefficients for your robot's drivetrain to follow paths accurately in PedroPathingPlus.
+head:
+  - tag: meta
+    attrs:
+      name: keywords
+      content: PedroPathingPlus, PID tuning, FTC robotics, path following, translational PID, heading PID, centripetal PID
+---
+
+Properly tuning your robot's PID controllers is essential for accurate and smooth path following. The Pedro Pathing Visualizer assumes a perfectly tuned robot, so if your real robot struggles to follow the exported paths, tuning the PID constants is likely the solution.
+
+In PedroPathingPlus, there are three primary PID controllers that govern drivetrain movement:
+
+1.  **Translational PID**
+2.  **Heading PID**
+3.  **Centripetal PID**
+
+## Translational PID
+
+The Translational PID controller is responsible for the robot's movement along the X and Y axes (forwards/backwards and strafing). It ensures the robot reaches the target coordinates on the field.
+
+### Tuning Steps:
+1.  **Proportional (P):** Start by increasing the `P` value until the robot consistently reaches the target position but begins to oscillate (jitter back and forth). Once it oscillates, dial it back slightly.
+2.  **Derivative (D):** Increase the `D` value to dampen the oscillations and smooth out the robot's approach to the target. This helps prevent overshooting.
+3.  **Integral (I):** (Usually set to 0 or very low) Increase the `I` value only if the robot consistently falls short of the target position by a small margin.
+
+## Heading PID
+
+The Heading PID controller maintains the robot's rotational angle. It ensures the robot faces the correct direction while moving along the path.
+
+### Tuning Steps:
+1.  **Proportional (P):** Similar to Translational PID, increase the `P` value until the robot's heading oscillates around the target angle, then reduce it slightly.
+2.  **Derivative (D):** Increase the `D` value to reduce heading overshoot and jitter, smoothing the rotational movement.
+3.  **Integral (I):** Use a small `I` value if the robot struggles to make fine adjustments to reach the exact target angle.
+
+## Centripetal PID
+
+The Centripetal PID controller is unique to curved path following. It helps the robot counteract outward forces when driving along curves, keeping it tightly on the path rather than drifting outward.
+
+### Tuning Steps:
+- Tune this controller *after* Translational and Heading PIDs are well-tuned.
+- Adjust the coefficients to minimize the robot's deviation from the path during high-speed curves. If the robot drifts wide on turns, increasing the proportional response here can help keep it on track.
+
+## Using Telemetry for Tuning
+
+The Pedro Pathing Plus Visualizer offers a **Telemetry Import** feature that is incredibly useful for tuning.
+
+1.  Record telemetry logs (CSV or JSON) containing your robot's actual position (X, Y, Heading) over time.
+2.  Import these logs into the Visualizer using the `Import Telemetry` button.
+3.  Compare the "Ghost Robot" (actual path) to your planned path.
+    - **Consistent deviation** or **lag** indicates that your PID coefficients need adjustment.
+    - **Overshooting** or **jitter** suggests your `P` values might be too high, or your `D` values need tweaking.
