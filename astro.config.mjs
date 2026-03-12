@@ -37,6 +37,7 @@ export default defineConfig({
 						{ label: 'Command-Based Programming', slug: 'pedro-pathing-plus/command-based' },
 						{ label: 'Progress Tracker', slug: 'pedro-pathing-plus/progress-tracker' },
 						{ label: 'Named Commands & Events', slug: 'pedro-pathing-plus/named-commands' },
+						{ label: 'PedroPathReader', slug: 'pedro-pathing-plus/pedro-path-reader' }
 					],
 				},
 				{

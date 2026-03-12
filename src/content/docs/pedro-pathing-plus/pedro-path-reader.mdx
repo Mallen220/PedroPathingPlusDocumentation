@@ -8,7 +8,7 @@ head:
       content: PedroPathingPlus, PedroPathReader, FTC, dynamic loading, path points, .pp files, robotics
 ---
 
-The `PedroPathReader` class is an essential utility in PedroPathingPlus for teams that utilize the **Command-Based** code export from the Visualizer. It allows your robot to dynamically read poses (Points) directly from a `.pp` file saved on the robot's control hub, decoupling the path geometry from your Java code.
+The `PedroPathReader` class is great utility in PedroPathingPlus for teams that utilize the **Command-Based** code export from the Visualizer. It allows your robot to dynamically read poses (Points) directly from a `.pp` file saved on the robot's control hub, decoupling the path geometry from your Java code.
 
 ## Why Use PedroPathReader?
 
@@ -19,16 +19,11 @@ In traditional path generation (Standard OpMode export), every X, Y, and Heading
 2. You upload this `.pp` file directly to your robot's internal storage.
 3. Your Java code uses `PedroPathReader` to read the named points.
 
-**Benefit:** If you need to adjust a path at a competition, you just tweak it in the visualizer, save the new `.pp` file, upload it to the robot via the [FTC Dashboard or File Manager](https://docs.revrobotics.com/rev-control-system/managing-the-control-system/managing-files), and run the robot. **No recompiling required!**
+**Benefit:** If you need to adjust a path at a competition, you just tweak it in the visualizer, save the new `.pp` file, upload it to the robot via the FTC Dashboard or File Manager, and run the robot. **No recompiling required!**
 
 ## Uploading the File
 
-Before you can read a file, it must be on the robot.
-
-1. Connect to your robot controller via Wi-Fi.
-2. Open the **OnBot Java / Manage** page (usually `http://192.168.43.1:8080`).
-3. Navigate to the **Manage** tab.
-4. Upload your `MyPath.pp` file. Behind the scenes, the FTC system typically saves this to the app's file directory or external storage.
+Before you can read a file, it must be on the robot. It is recommended to upload `.pp` files to `TeamCode/src/main/assets/AutoPaths` for the easiest implementation. 
 
 ## Usage in Code
 
