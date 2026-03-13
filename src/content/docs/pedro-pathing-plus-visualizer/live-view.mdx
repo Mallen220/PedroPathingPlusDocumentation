@@ -1,0 +1,38 @@
+---
+title: Live View Connection
+description: "Connect to the PedroPathingLiveView server on your robot to stream telemetry and visualize live pose."
+head:
+  - tag: meta
+    attrs:
+      name: keywords
+      content: PedroPathingPlusVisualizer, Live View, telemetry stream, robot pose, FTC live view, robotics
+---
+
+# Live View Connection
+
+The Pedro Pathing Plus Visualizer can connect directly to your robot to visualize its position on the field in real-time. This is achieved by connecting to the lightweight TCP server created by `PedroPathingLiveView` on your robot.
+
+For instructions on setting up `PedroPathingLiveView` in your FTC Android Studio project, see the [Live View library documentation](/pedro-pathing-plus/live-view).
+
+## How it Works
+
+When `PedroPathingLiveView` is started on your robot, it begins listening for TCP connections on port **8888**. It broadcasts the robot's current pose (x, y, and heading) at approximately 20Hz.
+
+The Visualizer acts as a client, connecting to that port and parsing the incoming JSON telemetry stream:
+```json
+{"x": <x>, "y": <y>, "heading": <heading>}
+```
+
+## Connecting to the Robot
+
+1.  **Network Setup**: First, ensure your computer (running the Visualizer) is connected to the same Wi-Fi network as the robot (typically the Control Hub's or REV Client's Wi-Fi network).
+2.  **Firewall Settings**: Ensure your computer's firewall allows outgoing TCP connections to port 8888.
+3.  **Visualizer Connection**: In the Pedro Pathing Visualizer, configure the connection to point to the Control Hub's IP address (typically `192.168.43.1`) and port `8888`.
+4.  **Run OpMode**: Start the autonomous or teleop OpMode on your robot that has `PedroPathingLiveView` integrated.
+5.  **Visualize**: Once connected, you should see the robot's position updated live on the Visualizer's field map.
+
+## Troubleshooting
+
+- **No Connection**: If the Visualizer cannot connect, double-check that your computer is on the robot's Wi-Fi network. Also, verify that the Control Hub IP address is correct.
+- **Firewall Blocking**: Check if your computer's firewall is blocking connections to port 8888.
+- **Live View Not Started**: Ensure your OpMode correctly calls `PedroPathingLiveView.getInstance().start()` and links the follower with `setFollower()`.
