@@ -4,10 +4,10 @@ import starlight from '@astrojs/starlight';
 
 // https://astro.build/config
 export default defineConfig({
-	site: 'https://pedropathingplus.com/',
+	site: 'https://www.turtletracer.com/',
 	integrations: [
 		starlight({
-			title: 'Pedro Pathing Plus',
+			title: 'Turtle Tracer Docs',
 			logo: {
 				src: './public/icon.png',
 			},
@@ -29,35 +29,35 @@ export default defineConfig({
 				// 	],
 				// },
 				{
-					label: 'PedroPathingPlus',
+					label: 'TurtleTracerLib',
 					items: [
-						{ label: 'Installation', slug: 'pedro-pathing-plus/installation' },
-						{ label: 'Getting Started', slug: 'pedro-pathing-plus/getting-started' },
-						{ label: 'Live View', slug: 'pedro-pathing-plus/live-view' },
-						{ label: 'Command-Based Programming', slug: 'pedro-pathing-plus/command-based' },
-						{ label: 'Progress Tracker', slug: 'pedro-pathing-plus/progress-tracker' },
-						{ label: 'Named Commands & Events', slug: 'pedro-pathing-plus/named-commands' },
-						{ label: 'PedroPathReader', slug: 'pedro-pathing-plus/pedro-path-reader' }
+						{ label: 'Installation', slug: 'turtle-tracer-lib/installation' },
+						{ label: 'Getting Started', slug: 'turtle-tracer-lib/getting-started' },
+						{ label: 'Live View', slug: 'turtle-tracer-lib/live-view' },
+						{ label: 'Command-Based Programming', slug: 'turtle-tracer-lib/command-based' },
+						{ label: 'Progress Tracker', slug: 'turtle-tracer-lib/progress-tracker' },
+						{ label: 'Named Commands & Events', slug: 'turtle-tracer-lib/named-commands' },
+						{ label: 'TurtleTracerPathReader', slug: 'turtle-tracer-lib/turtle-tracer-path-reader' }
 					],
 				},
 				{
-					label: 'PedroPathingPlusVisualizer',
+					label: 'TurtleTracer',
 					items: [
-						{ label: 'Installation', slug: 'pedro-pathing-plus-visualizer/installation' },
-						{ label: 'Getting Started', slug: 'pedro-pathing-plus-visualizer/getting-started' },
-						{ label: 'File Management', slug: 'pedro-pathing-plus-visualizer/file-management' },
-						{ label: 'Path Editing', slug: 'pedro-pathing-plus-visualizer/path-editing' },
-						{ label: 'Simulation & Playback', slug: 'pedro-pathing-plus-visualizer/simulation' },
-						{ label: 'Telemetry Overlay', slug: 'pedro-pathing-plus-visualizer/telemetry' },
-						{ label: 'Obstacles', slug: 'pedro-pathing-plus-visualizer/obstacles' },
-						{ label: 'Event Markers', slug: 'pedro-pathing-plus-visualizer/event-markers' },
-						{ label: 'Path Validation', slug: 'pedro-pathing-plus-visualizer/validation' },
-						{ label: 'Path Optimization', slug: 'pedro-pathing-plus-visualizer/optimization' },
-						{ label: 'Exporting Code', slug: 'pedro-pathing-plus-visualizer/exporting' },
-						{ label: 'Plugins', slug: 'pedro-pathing-plus-visualizer/plugins' },
-						{ label: 'Settings', slug: 'pedro-pathing-plus-visualizer/settings' },
-						{ label: 'Controls & Shortcuts', slug: 'pedro-pathing-plus-visualizer/controls' },
-						{ label: 'Troubleshooting & FAQ', slug: 'pedro-pathing-plus-visualizer/troubleshooting' },
+						{ label: 'Installation', slug: 'turtle-tracer/installation' },
+						{ label: 'Getting Started', slug: 'turtle-tracer/getting-started' },
+						{ label: 'File Management', slug: 'turtle-tracer/file-management' },
+						{ label: 'Path Editing', slug: 'turtle-tracer/path-editing' },
+						{ label: 'Simulation & Playback', slug: 'turtle-tracer/simulation' },
+						{ label: 'Telemetry Overlay', slug: 'turtle-tracer/telemetry' },
+						{ label: 'Obstacles', slug: 'turtle-tracer/obstacles' },
+						{ label: 'Event Markers', slug: 'turtle-tracer/event-markers' },
+						{ label: 'Path Validation', slug: 'turtle-tracer/validation' },
+						{ label: 'Path Optimization', slug: 'turtle-tracer/optimization' },
+						{ label: 'Exporting Code', slug: 'turtle-tracer/exporting' },
+						{ label: 'Plugins', slug: 'turtle-tracer/plugins' },
+						{ label: 'Settings', slug: 'turtle-tracer/settings' },
+						{ label: 'Controls & Shortcuts', slug: 'turtle-tracer/controls' },
+						{ label: 'Troubleshooting & FAQ', slug: 'turtle-tracer/troubleshooting' },
 					],
 				}
 				// ,

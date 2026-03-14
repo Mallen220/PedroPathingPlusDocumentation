@@ -1,23 +1,23 @@
 ---
-title: PedroPathReader
-description: Learn how to dynamically load path coordinates from .pp files into your FTC robot using PedroPathReader.
+title: TurtleTracerPathReader
+description: Learn how to dynamically load path coordinates from .pp files into your FTC robot using TurtleTracerPathReader.
 head:
   - tag: meta
     attrs:
       name: keywords
-      content: PedroPathingPlus, PedroPathReader, FTC, dynamic loading, path points, .pp files, robotics
+      content: TurtleTracerLib, TurtleTracerPathReader, FTC, dynamic loading, path points, .pp files, robotics
 ---
 
-The `PedroPathReader` class is great utility in PedroPathingPlus for teams that utilize the **Command-Based** code export from the Visualizer. It allows your robot to dynamically read poses (Points) directly from a `.pp` file saved on the robot's control hub, decoupling the path geometry from your Java code.
+The `TurtleTracerPathReader` class is great utility in TurtleTracerLib for teams that utilize the **Command-Based** code export from TurtleTracer. It allows your robot to dynamically read poses (Points) directly from a `.pp` file saved on the robot's control hub, decoupling the path geometry from your Java code.
 
-## Why Use PedroPathReader?
+## Why Use TurtleTracerPathReader?
 
 In traditional path generation (Standard OpMode export), every X, Y, and Heading coordinate is hardcoded into your Java file. This means any minor tweak to a curve requires re-exporting the Java code, copy-pasting it into Android Studio, and recompiling the entire app to the robot.
 
-`PedroPathReader` changes this workflow:
-1. You export a `.pp` (JSON) file from the Visualizer.
+`TurtleTracerPathReader` changes this workflow:
+1. You export a `.pp` (JSON) file from TurtleTracer.
 2. You upload this `.pp` file directly to your robot's internal storage.
-3. Your Java code uses `PedroPathReader` to read the named points.
+3. Your Java code uses `TurtleTracerPathReader` to read the named points.
 
 **Benefit:** If you need to adjust a path at a competition, you just tweak it in the visualizer, save the new `.pp` file, upload it to the robot via the FTC Dashboard or File Manager, and run the robot. **No recompiling required!**
 
@@ -27,33 +27,33 @@ Before you can read a file, it must be on the robot. It is recommended to upload
 
 ## Usage in Code
 
-When you use the **Command-Based (SolversLib/NextFTC)** export option in the Visualizer, the generated code already includes `PedroPathReader`.
+When you use the **Command-Based (SolversLib/NextFTC)** export option in TurtleTracer, the generated code already includes `TurtleTracerPathReader`.
 
 ### 1. Initialization
 
 You initialize the reader by passing the name of the uploaded file and the hardware map's application context. This operation can throw an `IOException` if the file isn't found, so it must be handled or declared.
 
 ```java
-import com.pedropathingplus.PedroPathReader;
+import com.turtletracerlib.TurtleTracerPathReader;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import java.io.IOException;
 
 // Inside your OpMode or CommandGroup constructor:
 public AutoPath(HardwareMap hw) throws IOException {
     // Look for "AutoPath.pp" on the robot's storage
-    PedroPathReader pp = new PedroPathReader("AutoPath.pp", hw.appContext);
+    TurtleTracerPathReader pp = new TurtleTracerPathReader("AutoPath.pp", hw.appContext);
 }
 ```
 
 ### 2. Retrieving Poses
 
-Once initialized, you can retrieve any `Pose` by the name you gave the point or path segment in the Visualizer.
+Once initialized, you can retrieve any `Pose` by the name you gave the point or path segment in TurtleTracer.
 
 ```java
-import com.pedropathing.geometry.Pose;
+import com.turtletracer.geometry.Pose;
 
 // ...
-PedroPathReader pp = new PedroPathReader("AutoPath.pp", hw.appContext);
+TurtleTracerPathReader pp = new TurtleTracerPathReader("AutoPath.pp", hw.appContext);
 
 // Retrieve points by their string names
 Pose startPoint = pp.get("startPoint");
@@ -66,8 +66,8 @@ Pose scoringPosition = pp.get("scoringPosition");
 After retrieving the poses, you use them in your `Follower` path builder just as you would with hardcoded poses.
 
 ```java
-import com.pedropathing.geometry.BezierLine;
-import com.pedropathing.paths.PathChain;
+import com.turtletracer.geometry.BezierLine;
+import com.turtletracer.paths.PathChain;
 
 // ...
 follower.setStartingPose(startPoint);
@@ -81,6 +81,6 @@ PathChain startPointTOpoint1 = follower
 
 ## Best Practices
 
-- **Naming Conventions**: Give your points clear, descriptive names in the Visualizer (e.g., `preloadDrop`, `samplePickup1`). `PedroPathReader` relies entirely on these string keys.
-- **File Updates**: Remember that if you change the *structure* of your path (e.g., adding entirely new segments or renaming points), you will need to re-export the Java code. `PedroPathReader` is meant for tweaking existing geometry.
+- **Naming Conventions**: Give your points clear, descriptive names in TurtleTracer (e.g., `preloadDrop`, `samplePickup1`). `TurtleTracerPathReader` relies entirely on these string keys.
+- **File Updates**: Remember that if you change the *structure* of your path (e.g., adding entirely new segments or renaming points), you will need to re-export the Java code. `TurtleTracerPathReader` is meant for tweaking existing geometry.
 - **Error Handling**: The visualizer's generated code simply throws `IOException` up the chain. In a robust competition setup, you might want to catch this error and output a telemetry message so drivers know the file is missing before they press Start.

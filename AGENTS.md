@@ -1,25 +1,25 @@
 # AGENTS
 
-This document outlines the steps for automated agents working with the PedroPathingPlusDocumentation repository. Agents should follow these instructions to clone the repository, update references, and leverage features from the reference projects.
+This document outlines the steps for automated agents working with the TurtleTracerDocs repository. Agents should follow these instructions to clone the repository, update references, and leverage features from the reference projects.
 
 ## Overview
 
 The goal for automated agents is to:
 
-1. Clone the `PedroPathingPlusDocumentation` repository.
+1. Clone the `TurtleTracerDocs` repository.
 2. Install dependencies via `npm install` (if applicable).
-3. If the directories `PedroPathingPlus` and `PedroPathingPlusVisualizer` do not exist in the root of the repository, clone them:
+3. If the directories `TurtleTracerLib` and `TurtleTracer` do not exist in the root of the repository, clone them:
    ```bash
-   git clone https://github.com/Mallen220/PedroPathingPlus.git
-   git clone https://github.com/Mallen220/PedroPathingPlusVisualizer.git
+   git clone https://github.com/Mallen220/TurtleTracerLib.git
+   git clone https://github.com/Mallen220/TurtleTracer.git
    ```
 4. Run `npm run ref` to update references throughout the workspace.
-5. Reference and utilize features from the included reference projects (e.g., PedroPathingPlus, PedroPathingPlusVisualizer) to complete their prescribed tasks.
+5. Reference and utilize features from the included reference projects (e.g., TurtleTracerLib, TurtleTracer) to complete their prescribed tasks.
 
 Agents should be aware that the workspace contains multiple subprojects, including:
 
-- **PedroPathingPlus**: Android/Gradle-based project with pathfinding code.
-- **PedroPathingPlusVisualizer**: Svelte/Vite-based visualization tool for pathfinding.
+- **TurtleTracerLib**: Android/Gradle-based project with pathfinding code.
+- **TurtleTracer**: Svelte/Vite-based visualization tool for pathfinding.
 
 Each reference project provides examples of:
 
@@ -32,8 +32,8 @@ Each reference project provides examples of:
 Agents should run:
 
 ```bash
-git clone https://github.com/Mallen220/PedroPathingPlusDocumentation.git
-cd PedroPathingPlusDocumentation
+git clone https://github.com/Mallen220/TurtleTracerDocs.git
+cd TurtleTracerDocs
 ```
 
 
@@ -44,8 +44,8 @@ After cloning, agents must ensure that any cross-project references are current.
 ```bash
 npm install
 # If the subprojects are missing, clone them first:
-git clone https://github.com/Mallen220/PedroPathingPlus.git
-git clone https://github.com/Mallen220/PedroPathingPlusVisualizer.git
+git clone https://github.com/Mallen220/TurtleTracerLib.git
+git clone https://github.com/Mallen220/TurtleTracer.git
 
 npm run ref
 ```
@@ -56,14 +56,14 @@ This will scan the workspace for outdated or broken references and update them b
 
 Agents should inspect the following areas to understand available features:
 
-- `PedroPathingPlus/app/src/main/java/...` contains Java/Kotlin classes for pathfinding and robotics logic used in FTC robotics.
-- `PedroPathingPlusVisualizer/src/lib/` includes TypeScript utilities, Svelte components, and visualization tools demonstrating UI features and plugin systems.
+- `TurtleTracerLib/app/src/main/java/...` contains Java/Kotlin classes for pathfinding and robotics logic used in FTC robotics.
+- `TurtleTracer/src/lib/` includes TypeScript utilities, Svelte components, and visualization tools demonstrating UI features and plugin systems.
 - Utility scripts like `scripts/publish.js` and `scripts/debug-point-mapping.js` show how to manipulate project assets and data.
 
 When performing tasks that require sample code or behavior, agents should reference these projects for implementation patterns. For example:
 
-- Use the pathfinding algorithms in `PedroPathingPlus/core` as a template for new Java modules.
-- Follow the plugin structure in `PedroPathingPlusVisualizer/src/lib/pluginManager.ts` when extending the visualizer.
+- Use the pathfinding algorithms in `TurtleTracerLib/core` as a template for new Java modules.
+- Follow the plugin structure in `TurtleTracer/src/lib/pluginManager.ts` when extending the visualizer.
 
 ## Additional Notes
 

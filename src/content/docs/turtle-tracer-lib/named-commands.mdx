@@ -5,10 +5,10 @@ head:
   - tag: meta
     attrs:
       name: keywords
-      content: PedroPathingPlus, NamedCommands, ProgressTracker, FTC events, robot path sync, robotics
+      content: TurtleTracerLib, NamedCommands, ProgressTracker, FTC events, robot path sync, robotics
 ---
 
-PedroPathingPlus provides a robust system for synchronizing robot actions with your path traversal. This system bridges the gap between the strings defined in the [Event Markers](/pedro-pathing-plus-visualizer/event-markers) of the Visualizer and the Java code running on your robot.
+TurtleTracerLib provides a robust system for synchronizing robot actions with your path traversal. This system bridges the gap between the strings defined in the [Event Markers](/turtle-tracer/event-markers) in TurtleTracer and the Java code running on your robot.
 
 ## Overview
 
@@ -22,8 +22,8 @@ The system consists of two main components:
 Before your autonomous routine runs, you must register the commands you intend to use. This is typically done in your OpMode's `init()` method or a `RobotContainer` constructor.
 
 ```java
-import com.pedropathingplus.pathing.NamedCommands;
-import com.pedropathingplus.command.InstantCommand;
+import com.turtletracerlib.pathing.NamedCommands;
+import com.turtletracerlib.command.InstantCommand;
 
 public void init() {
     // Registering a simple Runnable (wrapped automatically in InstantCommand)
@@ -40,7 +40,7 @@ public void init() {
 ### Supported Command Types
 
 The `registerCommand` method is flexible and accepts:
-- **`Command` objects**: Standard PedroPathingPlus commands.
+- **`Command` objects**: Standard TurtleTracerLib commands.
 - **`Runnable` (Lambdas)**: Automatically wrapped in an `InstantCommand`.
 - **Any Object**: Wrapped in a `ReflectiveCommandAdapter` (if it has `initialize`, `execute`, `end`, etc.).
 
@@ -58,7 +58,7 @@ ProgressTracker progressTracker = new ProgressTracker(follower, telemetry);
 
 ### 2. Loading Events
 
-When using the **Command-Based** export from the Visualizer, the generated code automatically handles event registration. If you are writing custom code, you can register events manually:
+When using the **Command-Based** export from TurtleTracer, the generated code automatically handles event registration. If you are writing custom code, you can register events manually:
 
 ```java
 // Register "OpenClaw" to trigger at 50% (0.5) of the path
@@ -79,7 +79,7 @@ If you are **not** using the `FollowPathCommand` (which handles updates internal
 
 However, typically the `ProgressTracker` is used within a generated `SequentialCommandGroup` or a custom command structure where checks are performed.
 
-**Note:** If you are using the **Command-Based Export** from the Visualizer, the generated `SequentialCommandGroup` uses `WaitUntilCommand` or similar structures that query `progressTracker.shouldTriggerEvent("Name")`.
+**Note:** If you are using the **Command-Based Export** from TurtleTracer, the generated `SequentialCommandGroup` uses `WaitUntilCommand` or similar structures that query `progressTracker.shouldTriggerEvent("Name")`.
 
 ```java
 // Example usage in generated code:

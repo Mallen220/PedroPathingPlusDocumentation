@@ -1,12 +1,12 @@
-# PedroPathingPlus Documentation Workspace
+# TurtleTracerDocs Documentation Workspace
 
 This repository serves as the **central documentation and reference** project for the
-`PedroPathingPlus` ecosystem. It contains utility docs, build scripts, and two
+Turtle Tracer ecosystem. It contains utility docs, build scripts, and two
 related sub‑projects used by the robotics community:
 
-- **PedroPathingPlus** – an Android/Gradle project implementing pathfinding
+- **TurtleTracerLib** – an Android/Gradle project implementing pathfinding
   algorithms for FTC robotics.
-- **PedroPathingPlusVisualizer** – a Svelte/Vite based visualization tool that
+- **TurtleTracer** – a Svelte/Vite based visualization tool that
   demonstrates and tests pathfinding behavior.
 
 ---
@@ -18,8 +18,8 @@ Each subproject is self‑contained but shares reference data updated by the
 
 | Folder                     | Purpose
 |---------------------------|----------------------------------------------------------
-| `PedroPathingPlus/app/`   | Android app modules, source, tests, and Gradle config
-| `PedroPathingPlusVisualizer/src/` | Svelte components, utilities, and plugin examples
+| `TurtleTracerLib/app/`   | Android app modules, source, tests, and Gradle config
+| `TurtleTracer/src/` | Svelte components, utilities, and plugin examples
 | `public/`                 | Public assets used by the documentation site
 
 ---
@@ -28,8 +28,8 @@ Each subproject is self‑contained but shares reference data updated by the
 
 1. **Clone the repository** (if not already):
    ```bash
-   git clone https://github.com/Mallen220/PedroPathingPlusDocumentation.git
-   cd PedroPathingPlusDocumentation
+   git clone https://github.com/Mallen220/TurtleTracerDocs.git
+   cd TurtleTracerDocs
    ```
 
 2. **Install dependencies**:
