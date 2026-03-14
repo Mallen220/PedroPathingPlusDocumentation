@@ -46,6 +46,7 @@ export default defineConfig({
 						{ label: 'Installation', slug: 'pedro-pathing-plus-visualizer/installation' },
 						{ label: 'Getting Started', slug: 'pedro-pathing-plus-visualizer/getting-started' },
 						{ label: 'File Management', slug: 'pedro-pathing-plus-visualizer/file-management' },
+						{ label: 'Robot Configuration', slug: 'pedro-pathing-plus-visualizer/robot-config' },
 						{ label: 'Path Editing', slug: 'pedro-pathing-plus-visualizer/path-editing' },
 						{ label: 'Simulation & Playback', slug: 'pedro-pathing-plus-visualizer/simulation' },
 						{ label: 'Telemetry Overlay', slug: 'pedro-pathing-plus-visualizer/telemetry' },

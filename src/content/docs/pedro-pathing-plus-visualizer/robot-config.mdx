@@ -1,0 +1,57 @@
+---
+title: Robot Configuration
+description: "Configure your robot's physical dimensions and motion profile in the visualizer."
+head:
+  - tag: meta
+    attrs:
+      name: keywords
+      content: PedroPathingPlusVisualizer, robot configuration, dimensions, kinematics, motion profile, FTC, robotics
+---
+
+# Robot Configuration
+
+Accurate simulation and optimization in Pedro Pathing Plus Visualizer depend on your robot's configuration. Configuring your robot correctly ensures that the generated paths are physically possible and that the visualizer's time estimates match real-world performance.
+
+To configure your robot, open the **Settings** menu (click the gear icon) and navigate to the **Robot** and **Motion** tabs.
+
+## Robot Dimensions
+
+In the **Robot** tab, you can set the physical properties of your robot chassis.
+
+### Dimensions
+- **Robot Length**: The full length of your robot (in inches). This is used for collision detection and rendering.
+- **Robot Width**: The full width of your robot (in inches).
+
+### Safety Margin
+- **Safety Margin**: A buffer distance (in inches) added around field elements and boundaries. Setting a safety margin of 1-2 inches helps prevent grazing walls or objects, particularly when running optimized paths that try to cut corners.
+
+### Robot Image
+For a more personalized experience, you can upload a custom top-down image of your robot. The visualizer will scale this image to fit your specified Length and Width dimensions.
+
+---
+
+## Motion & Kinematics
+
+The **Motion** tab contains critical physics parameters that dictate how fast the simulated robot can drive.
+
+> **⚠️ Crucial:** The motion settings in the visualizer must match the actual constraints of your physical robot. If these values are higher than what your robot can achieve, the visualizer will generate paths that your robot cannot follow accurately, leading to path deviation and tracking errors.
+
+### Velocity
+- **X Velocity**: Maximum forward/backward speed (in/s).
+- **Y Velocity**: Maximum strafing speed (in/s). For mecanum drives, this is typically slightly lower than the X Velocity.
+- **Max Velocity**: The absolute maximum combined speed the robot can achieve.
+- **Angular Velocity**: The maximum speed the robot can rotate (supported in rad/s or deg/s).
+
+### Acceleration
+- **Max Acceleration**: How quickly the robot can reach its top speed (in/s²). Setting this too high in reality will cause wheel slip; match your tuned robot constraints here.
+- **Max Deceleration**: How quickly the robot can come to a stop (in/s²).
+- **Max Angular Acceleration**: Maximum rotational acceleration (rad/s² or deg/s²). If set to 0, the visualizer will attempt to auto-calculate an appropriate value based on angular velocity.
+
+### Friction & Physics
+- **Friction Coefficient**: A tuning parameter that simulates surface resistance. Higher values simulate higher resistance and will slightly increase estimated path times.
+
+## Creating Robot Profiles
+
+If your team maintains multiple robots (e.g., a competition robot and a test chassis), you can save different configurations using **Robot Profiles**.
+
+At the top of the **Robot** settings tab, you can save your current dimensional and motion settings as a new profile, allowing you to quickly switch between different robot setups without re-entering values.
