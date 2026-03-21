@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://pedropathingplus.com/sitemap-index.xml
+Sitemap: https://www.turtletracer.com/sitemap-index.xml

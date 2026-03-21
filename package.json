@@ -1,5 +1,5 @@
 {
-  "name": "pedro-pathing-plus-documentation",
+  "name": "turtle-tracer-docs",
   "type": "module",
   "version": "0.0.1",
   "scripts": {
@@ -8,9 +8,9 @@
     "build": "astro build",
     "preview": "astro preview",
     "astro": "astro",
-    "ref:PPP": "cd PedroPathingPlus && git pull && cd ../",
-    "ref:PPPV": "cd PedroPathingPlusVisualizer && git pull && cd ../",
-    "ref": "npm run ref:PPP && npm run ref:PPPV"
+    "ref:ttl": "cd TurtleTracerLib && git pull && cd ../",
+    "ref:tt": "cd TurtleTracer && git pull && cd ../",
+    "ref": "npm run ref:ttl && npm run ref:tt"
   },
   "dependencies": {
     "@astrojs/starlight": "^0.37.6",

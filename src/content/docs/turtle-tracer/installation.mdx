@@ -1,11 +1,11 @@
 ---
 title: Installation
-description: How to install PedroPathingPlusVisualizer on macOS, Windows, and Linux for FTC path planning.
+description: How to install TurtleTracer on macOS, Windows, and Linux for FTC path planning.
 head:
   - tag: meta
     attrs:
       name: keywords
-      content: install Pedro Pathing Visualizer, macOS, Windows, Linux, FTC path planning tools
+      content: install TurtleTracer, macOS, Windows, Linux, FTC path planning tools
 ---
 
 ## macOS
@@ -14,16 +14,16 @@ head:
 Open Terminal and run:
 
 ```bash
-curl -fsSL https://raw.githubusercontent.com/Mallen220/PedroPathingPlusVisualizer/main/install.sh | bash
+curl -fsSL https://raw.githubusercontent.com/Mallen220/TurtleTracer/main/install.sh | bash
 ```
 
 ### Manual Installation
 
-1.  Download the latest `.dmg` from [Releases](https://github.com/Mallen220/PedroPathingPlusVisualizer/releases).
+1.  Download the latest `.dmg` from [Releases](https://github.com/Mallen220/TurtleTracer/releases).
 2.  Mount the DMG and drag the app to your Applications folder.
 3.  **Important**: Run the following command in Terminal to clear the quarantine attribute (prevents "App is damaged" errors):
     ```bash
-    sudo xattr -rd com.apple.quarantine "/Applications/Pedro Pathing Plus Visualizer.app"
+    sudo xattr -rd com.apple.quarantine "/Applications/TurtleTracer.app"
     ```
 4.  Launch the application.
 
@@ -34,7 +34,7 @@ curl -fsSL https://raw.githubusercontent.com/Mallen220/PedroPathingPlusVisualize
 
 ## Windows
 
-1.  Download the latest `.exe` from [Releases](https://github.com/Mallen220/PedroPathingPlusVisualizer/releases).
+1.  Download the latest `.exe` from [Releases](https://github.com/Mallen220/TurtleTracer/releases).
 2.  Run the installer.
 3.  _Note: If SmartScreen appears, click "More info" > "Run anyway"._
 
@@ -46,16 +46,16 @@ Windows users can also download from the Microsoft Store to receive auto-updates
 Open Terminal and run:
 
 ```bash
-curl -fsSL https://raw.githubusercontent.com/Mallen220/PedroPathingPlusVisualizer/main/install.sh | bash
+curl -fsSL https://raw.githubusercontent.com/Mallen220/TurtleTracer/main/install.sh | bash
 ```
 
 ### Manual Installation
 
-1.  Download the `.deb` (Debian/Ubuntu) or `.AppImage` from [Releases](https://github.com/Mallen220/PedroPathingPlusVisualizer/releases).
+1.  Download the `.deb` (Debian/Ubuntu) or `.AppImage` from [Releases](https://github.com/Mallen220/TurtleTracer/releases).
 2.  For `.AppImage`, make it executable:
     ```bash
-    chmod +x Pedro*.AppImage
-    ./Pedro*.AppImage
+    chmod +x TurtleTracer*.AppImage
+    ./TurtleTracer*.AppImage
     ```
 3.  Ensure you have `libfuse2` installed if using AppImage.
 
@@ -71,8 +71,8 @@ To build from source:
 
 ```bash
 # Clone the repository
-git clone https://github.com/Mallen220/PedroPathingPlusVisualizer.git
-cd PedroPathingPlusVisualizer
+git clone https://github.com/Mallen220/TurtleTracer.git
+cd TurtleTracer
 
 # Install dependencies
 npm install

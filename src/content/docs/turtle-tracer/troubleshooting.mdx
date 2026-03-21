@@ -1,11 +1,11 @@
 ---
 title: Troubleshooting & FAQ
-description: "Solutions to common issues with the Pedro Pathing Plus Visualizer."
+description: "Solutions to common issues with the TurtleTracer."
 head:
   - tag: meta
     attrs:
       name: keywords
-      content: PedroPathingPlusVisualizer, troubleshooting, FTC visualizer FAQ, path errors, robotics
+      content: TurtleTracer, troubleshooting, FTC visualizer FAQ, path errors, robotics
 ---
 
 Encountering an issue with the Visualizer? Here are some of the most common problems and their solutions.
@@ -20,7 +20,7 @@ This is a common issue caused by Apple's Gatekeeper quarantining apps not distri
 2. Open the **Terminal** app.
 3. Run the following command:
    ```bash
-   sudo xattr -rd com.apple.quarantine "/Applications/Pedro Pathing Plus Visualizer.app"
+   sudo xattr -rd com.apple.quarantine "/Applications/TurtleTracer.app"
    ```
 4. Enter your password when prompted and try opening the app again.
 
@@ -38,7 +38,7 @@ The Live View server operates over TCP on port **8888**.
 
 **Checklist:**
 1. **Network Connection:** Ensure your computer is connected to the same Wi-Fi network as the Robot Controller (e.g., the Control Hub's Wi-Fi network).
-2. **OpMode Running:** The `PedroPathingLiveView.getInstance().start()` method must be actively running in your initialized OpMode.
+2. **OpMode Running:** The `TurtleTracerLiveView.getInstance().start()` method must be actively running in your initialized OpMode.
 3. **Firewall:** Ensure your computer's firewall is not blocking outbound connections to port 8888.
 
 ## Path Optimization
@@ -58,11 +58,11 @@ When you export Java code, the visualizer uses a default package name, which lik
 
 **Solution:**
 1. In the Export dialog, enter your team's specific package name in the **Package Name** field before copying the code (e.g., `org.firstinspires.ftc.teamcode.autonomous`).
-2. Ensure you have properly installed the PedroPathingPlus libraries in your Gradle project (see the [Installation Guide](/pedro-pathing-plus/installation/)).
+2. Ensure you have properly installed the TurtleTracerLib libraries in your Gradle project (see the [Installation Guide](/turtle-tracer-lib/installation/)).
 
 ### My robot doesn't follow the exported path smoothly.
 If the simulation looks smooth but the real robot struggles:
 
 **Solutions:**
-- **Tuning:** Ensure your Pedro Pathing PID constants (Translational, Heading, Centripetal) are correctly tuned for your specific drivetrain. The visualizer assumes a perfectly tuned robot.
+- **Tuning:** Ensure your TurtleTracer PID constants (Translational, Heading, Centripetal) are correctly tuned for your specific drivetrain. The visualizer assumes a perfectly tuned robot.
 - **Constraints Match:** Double-check that the max velocity and acceleration settings in the Visualizer's **Motion** settings match the `Constants.java` on your robot. If the visualizer allows unrealistic speeds, the real robot will fail to follow the geometry.

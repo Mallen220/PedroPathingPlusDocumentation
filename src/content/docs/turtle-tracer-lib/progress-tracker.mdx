@@ -5,10 +5,10 @@ head:
   - tag: meta
     attrs:
       name: keywords
-      content: PedroPathingPlus, ProgressTracker, robot progress monitoring, FTC path events, event triggering, robotics
+      content: TurtleTracerLib, ProgressTracker, robot progress monitoring, FTC path events, event triggering, robotics
 ---
 
-The `ProgressTracker` is a powerful utility class in PedroPathingPlus that allows you to track the percentage of completion of a path, path chain, or even a turning operation. Its primary purpose is to simplify the triggering of events (like moving an arm or spinning an intake) based on how far the robot has traveled along its current trajectory.
+The `ProgressTracker` is a powerful utility class in TurtleTracerLib that allows you to track the percentage of completion of a path, path chain, or even a turning operation. Its primary purpose is to simplify the triggering of events (like moving an arm or spinning an intake) based on how far the robot has traveled along its current trajectory.
 
 ## Overview
 
@@ -29,7 +29,7 @@ To use the `ProgressTracker`, you need to instantiate it, register events, and t
 Create an instance of `ProgressTracker`, passing it your `Follower` and the OpMode's `Telemetry`.
 
 ```java
-import com.pedropathingplus.pathing.ProgressTracker;
+import com.turtletracerlib.pathing.ProgressTracker;
 // ...
 
 public class MyAuto extends OpMode {

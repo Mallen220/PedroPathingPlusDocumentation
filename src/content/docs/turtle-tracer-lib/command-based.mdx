@@ -1,14 +1,14 @@
 ---
 title: Command-Based Programming
-description: Learn how to use FTC Command-Based programming with PedroPathingPlus for efficient and structured robot code.
+description: Learn how to use FTC Command-Based programming with TurtleTracerLib for efficient and structured robot code.
 head:
   - tag: meta
     attrs:
       name: keywords
-      content: PedroPathingPlus, command-based programming, FTC, robotics, WPILib, FTCLib
+      content: TurtleTracerLib, command-based programming, FTC, robotics, WPILib, FTCLib
 ---
 
-PedroPathingPlus includes built-in support for Command-Based programming, allowing you to structure your robot code efficiently using commands and subsystems. This approach is similar to [WPILib](https://docs.wpilib.org/) and [FTCLib](https://docs.ftclib.org/) but tailored specifically for the FTC Pedro Pathing library.
+TurtleTracerLib includes built-in support for Command-Based programming, allowing you to structure your robot code efficiently using commands and subsystems. This approach is similar to [WPILib](https://docs.wpilib.org/) and [FTCLib](https://docs.ftclib.org/) but tailored specifically for the FTC TurtleTracerLib library.
 
 ## Introduction
 
@@ -19,7 +19,7 @@ In Command-Based programming:
 
 ## Key Classes
 
-The `com.pedropathingplus.command` package provides several key classes:
+The `com.turtletracerlib.command` package provides several key classes:
 
 - **`Command`**: The base interface for all commands. It defines methods for initialization, execution, and finishing.
 - **`Subsystem`**: The base interface for all subsystems. Subsystems register themselves with the scheduler and can have default commands.
@@ -28,7 +28,7 @@ The `com.pedropathingplus.command` package provides several key classes:
 
 ## Standard Commands
 
-PedroPathingPlus provides several standard commands to simplify common tasks:
+TurtleTracerLib provides several standard commands to simplify common tasks:
 
 ### InstantCommand
 Runs a `Runnable` once and finishes immediately. Useful for setting servo positions or toggling states.
@@ -135,10 +135,10 @@ To use `FollowPathCommand` effectively, you should wrap the `Follower` in a `Sub
 ```java
 package org.firstinspires.ftc.teamcode.subsystems;
 
-import com.pedropathing.follower.Follower;
-import com.pedropathingplus.command.Subsystem;
-import com.pedropathingplus.command.Command;
-import com.pedropathingplus.command.RunCommand;
+import com.turtletracer.follower.Follower;
+import com.turtletracerlib.command.Subsystem;
+import com.turtletracerlib.command.Command;
+import com.turtletracerlib.command.RunCommand;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 
 public class MecanumDrive implements Subsystem {
@@ -212,19 +212,19 @@ if (gamepad1.b) {
 
 ## Example OpMode
 
-Since PedroPathingPlus does not provide a base `CommandOpMode`, you must manage the `CommandScheduler` yourself in a `LinearOpMode`.
+Since TurtleTracerLib does not provide a base `CommandOpMode`, you must manage the `CommandScheduler` yourself in a `LinearOpMode`.
 
 ```java
 package org.firstinspires.ftc.teamcode.opmodes;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
-import com.pedropathingplus.command.CommandScheduler;
-import com.pedropathingplus.command.FollowPathCommand;
-import com.pedropathingplus.command.SequentialCommandGroup;
-import com.pedropathingplus.command.ParallelCommandGroup;
-import com.pedropathingplus.command.WaitCommand;
-import com.pedropathing.geometry.Pose;
+import com.turtletracerlib.command.CommandScheduler;
+import com.turtletracerlib.command.FollowPathCommand;
+import com.turtletracerlib.command.SequentialCommandGroup;
+import com.turtletracerlib.command.ParallelCommandGroup;
+import com.turtletracerlib.command.WaitCommand;
+import com.turtletracer.geometry.Pose;
 import org.firstinspires.ftc.teamcode.subsystems.MecanumDrive;
 
 @Autonomous(name = "Command Auto Example")
