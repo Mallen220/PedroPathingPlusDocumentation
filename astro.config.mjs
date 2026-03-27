@@ -37,7 +37,7 @@ export default defineConfig({
 						{ label: 'Command-Based Programming', slug: 'turtle-tracer-lib/command-based' },
 						{ label: 'Progress Tracker', slug: 'turtle-tracer-lib/progress-tracker' },
 						{ label: 'Named Commands & Events', slug: 'turtle-tracer-lib/named-commands' },
-						{ label: 'TurtleTracerPathReader', slug: 'turtle-tracer-lib/turtle-tracer-path-reader' }
+						{ label: 'TurtleTracerReader', slug: 'turtle-tracer-lib/turtle-tracer-reader' }
 					],
 				},
 				{

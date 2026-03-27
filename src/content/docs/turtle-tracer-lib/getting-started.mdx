@@ -175,7 +175,7 @@ When you are ready to export, you have two options: a standard **Java OpMode** o
     2.  Select **"SolversLib"** (or Command-Based) as the format.
     3.  Enter your team's package name.
     4.  Click **Copy to Clipboard** (or save the file).
-    5.  **Important**: This method typically requires you to save the path file (`.pp`) to your robot's storage as well, as it uses `TurtleTracerPathReader` to load points dynamically.
+    5.  **Important**: This method typically requires you to save the path file (`.pp`) to your robot's storage as well, as it uses `TurtleTracerReader` to load points dynamically.
 
     ### Example Output
     This template generates a command group that chains together path following commands.
@@ -188,7 +188,7 @@ When you are ready to export, you have two options: a standard **Java OpMode** o
     import com.turtletracer.geometry.BezierLine;
     import com.turtletracer.geometry.Pose;
     import com.turtletracer.paths.PathChain;
-    import com.turtletracerlib.TurtleTracerPathReader;
+    import com.turtletracerlib.TurtleTracerReader;
     import com.turtletracerlib.pathing.NamedCommands;
     import com.turtletracerlib.pathing.ProgressTracker;
     import com.qualcomm.robotcore.hardware.HardwareMap;
@@ -219,7 +219,7 @@ When you are ready to export, you have two options: a standard **Java OpMode** o
         this.follower = drive.getFollower();
         this.progressTracker = new ProgressTracker(follower, telemetry);
 
-        TurtleTracerPathReader pp = new TurtleTracerPathReader("AutoPath.pp", hw.appContext);
+        TurtleTracerReader pp = new TurtleTracerReader("AutoPath.pp", hw.appContext);
 
         // Load poses
         startPoint = pp.get("startPoint");
@@ -253,7 +253,7 @@ When you are ready to export, you have two options: a standard **Java OpMode** o
 
     ### Key Components
     -   **`SequentialCommandGroup`**: The base class for the entire routine.
-    -   **`TurtleTracerPathReader`**: Used to load named poses from the saved path file.
+    -   **`TurtleTracerReader`**: Used to load named poses from the saved path file.
     -   **`FollowPathCommand`**: A command from SolversLib that wraps the path following logic.
   </TabItem>
 </Tabs>
