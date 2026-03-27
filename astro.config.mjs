@@ -57,6 +57,7 @@ export default defineConfig({
 						{ label: 'Plugins', slug: 'turtle-tracer/plugins' },
 						{ label: 'Settings', slug: 'turtle-tracer/settings' },
 						{ label: 'Controls & Shortcuts', slug: 'turtle-tracer/controls' },
+						{ label: 'Left Sidebar', slug: 'turtle-tracer/sidebar' },
 						{ label: 'Troubleshooting & FAQ', slug: 'turtle-tracer/troubleshooting' },
 					],
 				}
