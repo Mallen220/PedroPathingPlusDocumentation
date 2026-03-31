@@ -19,6 +19,7 @@ You can run validation manually or enable it to run continuously in the backgrou
 ### Manual Validation
 
 To perform a single check of your entire sequence:
+
 - **Shortcut:** `Shift + V`
 - **Command Palette:** Open the Command Palette (`Ctrl + P` / `Cmd + P`) and select **Validate Path**.
 
@@ -27,6 +28,7 @@ When you run manual validation, the visualizer will scan the path and display an
 ### Continuous Validation
 
 For real-time feedback while you edit, you can enable Continuous Validation.
+
 - **Shortcut:** `Alt + V`
 - **Command Palette:** Open the Command Palette and toggle **Continuous Validation**.
 
@@ -37,19 +39,27 @@ When enabled, the visualizer will constantly check the path as you drag points o
 The validation system evaluates your path against four primary check types. Each has custom logic to ensure your robot moves safely and realistically:
 
 ### 1. `boundary` (Field Boundaries)
+
 Ensures the robot does not attempt to drive outside the 144x144 inch field perimeter.
+
 - Validation accurately uses the `Length` and `Width` specified in your [Robot Settings](/turtle-tracer/settings/) to simulate the robot's exact footprint along the entire path. If any part of the robot's bumper crosses the field wall, it triggers a `boundary` error.
 
 ### 2. `obstacle` (Obstacles)
+
 Checks against any custom polygons you have defined in the **[Obstacles](/turtle-tracer/obstacles/)** panel.
+
 - If the robot's projected path and physical dimensions intersect with an obstacle polygon, it triggers an `obstacle` error.
 
 ### 3. `keep-in` (Keep-In Zones)
-Special zones where the robot is *required* to stay inside.
+
+Special zones where the robot is _required_ to stay inside.
+
 - If the robot's path or footprint exits the boundaries of a designated keep-in zone, it triggers a `keep-in` error.
 
 ### 4. `zero-length` (Zero-Length Segments)
+
 A sanity check that prevents paths from having a distance of zero.
+
 - If a path segment's start point and end point are in the exact same location with no actual movement required, it triggers a `zero-length` error, as this can cause mathematical anomalies in the robot's path follower.
 
 ## Configuring Validation Settings
@@ -65,6 +75,7 @@ Validation behavior can be customized in the **[Settings](/turtle-tracer/setting
 When an error is detected, the visualizer will typically highlight the problematic segment of the path in red or display warning icons.
 
 **Tips for fixing errors:**
+
 - **Boundary/Obstacle Collisions:** Try dragging control points to widen the curve around the obstacle, or use the **[Path Optimizer](/turtle-tracer/optimization/)** (`Ctrl + Shift + O`) to let the visualizer find a safe route automatically.
 - **Zero-Length Errors:** Delete the redundant path segment or space the points out.
 

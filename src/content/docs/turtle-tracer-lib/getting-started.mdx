@@ -10,20 +10,21 @@ head:
 # integration; explicit imports are not necessary.
 ---
 
-import { Tabs, TabItem } from '@astrojs/starlight/components';
-
+import { Tabs, TabItem } from "@astrojs/starlight/components";
 
 Welcome to TurtleTracerLib! This guide will walk you through creating your first autonomous program using the library.
 
 ## Prerequisites
 
 Before you begin, ensure you have:
+
 1.  Installed TurtleTracerLib in your project (see [Installation](/turtle-tracer-lib/installation/)).
 2.  Configured your robot's hardware map (motors, sensors) in the Driver Station or `FtcRobotController`.
 
 ## The Recommended Workflow
 
 The modern TurtleTracerLib workflow is "Visualizer-First":
+
 1.  **Design** your path in TurtleTracer.
 2.  **Export** the path as a complete Java OpMode.
 3.  **Run** the generated code on your robot.
@@ -37,9 +38,11 @@ Manual path coding (writing `PathBuilder` code by hand) is **deprecated** and wi
 ## Creating Your First Path
 
 ### 1. Open TurtleTracer
+
 Go to the [TurtleTracer](https://github.com/Mallen220/TurtleTracer) (or your hosted instance).
 
 ### 2. Draw a Path
+
 1.  Click the **+** (Add Path) button or press `P`.
 2.  Click on the field to place your starting point.
 3.  Click again to place the end point.
@@ -165,6 +168,7 @@ When you are ready to export, you have two options: a standard **Java OpMode** o
     -   **`pathState`**: A state machine variable that tracks which segment of the path is currently running.
     -   **`Paths` Class**: Contains all your generated `PathChain` definitions.
     -   **`autonomousPathUpdate()`**: The logic that switches between paths and waits for completion.
+
   </TabItem>
 
    <TabItem label="Command-Based (SolversLib)">
@@ -255,6 +259,7 @@ When you are ready to export, you have two options: a standard **Java OpMode** o
     -   **`SequentialCommandGroup`**: The base class for the entire routine.
     -   **`TurtleTracerReader`**: Used to load named poses from the saved path file.
     -   **`FollowPathCommand`**: A command from SolversLib that wraps the path following logic.
+
   </TabItem>
 </Tabs>
 

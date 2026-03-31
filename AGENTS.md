@@ -36,7 +36,6 @@ git clone https://github.com/Mallen220/TurtleTracerDocs.git
 cd TurtleTracerDocs
 ```
 
-
 ## Updating References
 
 After cloning, agents must ensure that any cross-project references are current. The repository includes an `npm` script named `ref` which is designed to update references automatically. Agents should execute:

@@ -10,7 +10,12 @@
     "astro": "astro",
     "ref:ttl": "cd TurtleTracerLib && git pull && cd ../",
     "ref:tt": "cd TurtleTracer && git pull && cd ../",
-    "ref": "npm run ref:ttl && npm run ref:tt"
+    "ref": "npm run ref:ttl && npm run ref:tt",
+    "format": "prettier --write .",
+    "format:check": "prettier --check ."
+  },
+  "devDependencies": {
+    "prettier": "^3.5.3"
   },
   "dependencies": {
     "@astrojs/starlight": "^0.37.6",

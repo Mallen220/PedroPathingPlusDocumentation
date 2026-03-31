@@ -23,8 +23,8 @@ pnpm-debug.log*
 
 
 # References
-PedroPathingPlusVisualizer/
-PedroPathingPlus/
+TurtleTracerLib/
+TurtleTracer/
 
 *.txt
 !robots.txt

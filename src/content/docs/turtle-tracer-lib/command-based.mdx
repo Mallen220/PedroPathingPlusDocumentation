@@ -13,6 +13,7 @@ TurtleTracerLib includes built-in support for Command-Based programming, allowin
 ## Introduction
 
 In Command-Based programming:
+
 - **Subsystems** represent physical parts of the robot (e.g., Drivetrain, Arm). They encapsulate hardware and logic.
 - **Commands** represent actions or sequences of actions (e.g., FollowPath, MoveArm). They define what the robot does.
 - **CommandScheduler** manages the execution of commands and their requirements. It ensures that conflicting commands don't run simultaneously.
@@ -34,6 +35,7 @@ The `com.turtletracerlib.command` package provides several key classes:
 TurtleTracerLib provides several standard commands to simplify common tasks:
 
 ### InstantCommand
+
 Runs a `Runnable` once and finishes immediately. Useful for setting servo positions or toggling states.
 
 ```java
@@ -41,6 +43,7 @@ new InstantCommand(() -> intake.setPower(1.0));
 ```
 
 ### WaitCommand
+
 Waits for a specified duration in milliseconds.
 
 ```java
@@ -48,6 +51,7 @@ new WaitCommand(1000); // Wait for 1 second
 ```
 
 ### WaitUntilCommand
+
 Waits until a specific condition (a `BooleanSupplier`) becomes true.
 
 ```java
@@ -55,6 +59,7 @@ new WaitUntilCommand(() -> sensor.getDistance() < 10);
 ```
 
 ### RunCommand
+
 Runs a `Runnable` repeatedly. This is often used as a default command for a subsystem (e.g., driving with joysticks).
 
 ```java
@@ -66,6 +71,7 @@ new RunCommand(() -> drive.teleOp(gamepad1));
 You can combine commands into groups to create complex sequences.
 
 ### SequentialCommandGroup
+
 Runs a list of commands one after another.
 
 ```java
@@ -77,6 +83,7 @@ new SequentialCommandGroup(
 ```
 
 ### ParallelCommandGroup
+
 Runs a set of commands simultaneously. The group finishes when **all** commands have finished.
 
 ```java
@@ -87,6 +94,7 @@ new ParallelCommandGroup(
 ```
 
 ### ParallelRaceGroup
+
 Runs a set of commands simultaneously. The group finishes as soon as **any one** command finishes. This is useful for timeouts or "race" conditions.
 
 ```java

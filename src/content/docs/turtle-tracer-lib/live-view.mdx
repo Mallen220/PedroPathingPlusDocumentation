@@ -146,6 +146,7 @@ public class CommandAuto extends CommandOpMode {
 ### Key Methods
 
 #### `start()`
+
 Starts the background server thread if it's not already running. This method is safe to call multiple times; if the server is already running, it does nothing.
 
 ```java
@@ -153,6 +154,7 @@ TurtleTracerLiveView.getInstance().start();
 ```
 
 #### `setFollower(Follower follower)`
+
 Links the `Follower` instance to the Live View. The server will automatically query this follower for the robot's current pose.
 
 ```java
@@ -160,6 +162,7 @@ TurtleTracerLiveView.getInstance().setFollower(follower);
 ```
 
 #### `disable()`
+
 Disables the telemetry stream by clearing the reference to the follower. This should be called in your OpMode's cleanup phase (e.g., after the loop finishes) to ensure the server doesn't try to access a follower that has been destroyed.
 
 ```java
@@ -167,6 +170,7 @@ TurtleTracerLiveView.getInstance().disable();
 ```
 
 #### `setPoseProvider(Supplier<Pose> provider)`
+
 For advanced users, you can provide a custom supplier if you are not using the standard `Follower` class or want to manipulate the data before sending it.
 
 ```java
@@ -179,6 +183,7 @@ TurtleTracerLiveView.getInstance().setPoseProvider(() -> {
 ## Connecting TurtleTracer
 
 Once your robot is running the OpMode:
+
 1. Ensure your computer is connected to the robot's Wi-Fi network.
 2. Open the **TurtleTracer**.
 3. The visualizer should automatically detect the broadcast if configured, or you may need to use a compatible plugin/client to connect to the robot's IP address on port `8888`.

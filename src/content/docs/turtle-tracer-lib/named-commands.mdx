@@ -40,6 +40,7 @@ public void init() {
 ### Supported Command Types
 
 The `registerCommand` method is flexible and accepts:
+
 - **`Command` objects**: Standard TurtleTracerLib commands.
 - **`Runnable` (Lambdas)**: Automatically wrapped in an `InstantCommand`.
 - **Any Object**: Wrapped in a `ReflectiveCommandAdapter` (if it has `initialize`, `execute`, `end`, etc.).
