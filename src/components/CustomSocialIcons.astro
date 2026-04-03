@@ -3,6 +3,16 @@ import Default from '@astrojs/starlight/components/SocialIcons.astro';
 ---
 
 <div class="custom-social-icons">
+	<a href="https://live.turtletracer.com" target="_blank" rel="noopener noreferrer" class="social-link live-link">
+		<span class="label">TurtleTracer for Web</span>
+		<span class="icon">
+			<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" height="20" width="20" aria-hidden="true">
+				<path d="M18 13v6a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6" />
+				<polyline points="15 3 21 3 21 9" />
+				<line x1="10" y1="14" x2="21" y2="3" />
+			</svg>
+		</span>
+	</a>
 	<a href="https://github.com/Mallen220/TurtleTracerLib" target="_blank" rel="noopener noreferrer" class="social-link">
 		<span class="icon">
 			<svg viewBox="0 0 16 16" fill="currentColor" height="20" width="20" aria-hidden="true">
@@ -34,11 +44,31 @@ import Default from '@astrojs/starlight/components/SocialIcons.astro';
 		gap: 0.5rem;
 		text-decoration: none;
 		color: var(--sl-color-text-accent);
-		transition: color 0.2s;
+		transition: color 0.2s, background-color 0.2s, transform 0.2s;
 	}
 
 	.social-link:hover {
 		color: var(--sl-color-white);
+	}
+
+	.social-link.live-link {
+		padding: 0.5rem 0.8rem;
+		border-radius: 999px;
+		background: linear-gradient(135deg, var(--sl-color-primary), var(--sl-color-accent));
+		color: var(--sl-color-white);
+		box-shadow: 0 12px 24px rgba(0, 0, 0, 0.12);
+		border: 1px solid rgba(255, 255, 255, 0.2);
+	}
+
+	.social-link.live-link:hover {
+		transform: translateY(-1px);
+		background: linear-gradient(135deg, var(--sl-color-primary-strong), var(--sl-color-accent));
+		border-color: rgba(255, 255, 255, 1);
+	}
+
+	.social-link.live-link .label {
+		max-width: 200px;
+		opacity: 1;
 	}
 
 	.icon {
