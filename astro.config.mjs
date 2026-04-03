@@ -59,6 +59,7 @@ export default defineConfig({
           label: "TurtleTracer",
           items: [
             { label: "Installation", slug: "turtle-tracer/installation" },
+            { label: "Browser Support", slug: "turtle-tracer/browser" },
             { label: "Getting Started", slug: "turtle-tracer/getting-started" },
             { label: "File Management", slug: "turtle-tracer/file-management" },
             { label: "Path Editing", slug: "turtle-tracer/path-editing" },
