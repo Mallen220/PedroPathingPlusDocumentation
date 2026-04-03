@@ -4,6 +4,17 @@ import Analytics from "@vercel/analytics/astro";
 import SpeedInsights from "@vercel/speed-insights/astro";
 ---
 
-<Default {...Astro.props}><slot /></Default>
+<Default {...Astro.props}>
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-BD7GKNHQRG"></script>
+    <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+
+    gtag('config', 'G-BD7GKNHQRG');
+    </script>
+	<slot />
+</Default>
 <Analytics />
 <SpeedInsights />
