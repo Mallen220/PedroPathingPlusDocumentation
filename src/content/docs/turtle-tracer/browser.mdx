@@ -1,0 +1,33 @@
+---
+title: Browser Support
+description: Information about TurtleTracer's browser web support.
+head:
+  - tag: meta
+    attrs:
+      name: keywords
+      content: browser support, web, online, IndexedDB, local storage
+---
+
+# Browser Support
+
+Turtle Tracer can be run inside a web browser without installing the native Electron application.
+
+This provides a quick way to test paths without installation.
+
+## Platform Features
+
+- **Core Browser Support**: Most standard features of Turtle Tracer are fully supported across the app in the browser.
+- **Keybind Support**: Keyboard shortcuts and keybinds function in the browser, improving productivity for web users just like the desktop app.
+
+## File Storage System
+
+The browser environment handles files and settings differently than the desktop application since it cannot natively write to your operating system's filesystem directly.
+
+- **Virtual File System**: File manager behavior is emulated using a browser-compatible virtual file system backed by IndexedDB. It mirrors the desktop file manager workflows but files are stored securely in the browser cache.
+- **Directory Settings Persistence**: Your directory settings (such as AutoPaths directory preferences) are persisted locally via `localStorage` when running in the browser.
+
+## Limitations
+
+Because the application runs in a web browser, keep in mind:
+- Paths are saved to your browser cache, not natively as `.turt` files on your hard drive (though you can export/import them). If you clear your browser data, your un-exported paths may be lost.
+- For maximum performance, secure persistent storage, deep Git integration, and offline capabilities, we recommend downloading the native desktop release.
