@@ -29,7 +29,7 @@ Tangential heading causes the robot to continually face the direction of travel 
 ### Facing Point
 The Facing Point heading type allows the robot to continuously orient itself to face a specific, fixed `(X, Y)` coordinate on the field. As the robot moves along the path, its heading dynamically adjusts to keep the target point directly in front of the robot. This is extremely useful for maintaining focus on a game element or target zone while moving.
 
-* **Reverse Behavior:** Adds 180 degrees to the calculated facing angle. The robot will continuously point its *back* (or rear) towards the specific `(X, Y)` coordinate on the field as it moves.
+* **Reverse Behavior:** Adds 180 degrees to the calculated facing angle. The robot will continuously point its *back* towards the specific `(X, Y)` coordinate on the field as it moves.
 
 ### Piecewise
 Piecewise heading allows you to divide a single path segment into multiple smaller sections, applying different heading interpolations (e.g., linear, constant, tangential, or facing point) to each fraction of the segment. This provides fine-grained control over the robot's rotation during complex movements, enabling multiple heading behaviors within a continuous motion.

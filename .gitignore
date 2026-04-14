@@ -29,3 +29,4 @@ TurtleTracer/
 *.txt
 !robots.txt
 dev_server.log
+.vscode/settings.json
