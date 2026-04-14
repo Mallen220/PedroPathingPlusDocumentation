@@ -12,26 +12,31 @@ Turtle Tracer supports the following heading types:
 **Universal Reverse Flag:** All heading types support an optional "reverse" flag. However, the exact behavior of this flag differs depending on the heading type:
 
 ### Linear
+
 Linear heading interpolates the robot's orientation smoothly from a starting angle to an ending angle over the course of the path segment. The interpolation is proportional to the progression along the path (e.g., halfway through the path, the angle is halfway between the start and end angles).
 
-* **Reverse Behavior:** By default, linear heading interpolates using the shortest angular distance between the start and end angles. When the reverse flag is enabled, it changes the direction of interpolation to use the *longest* angular distance instead (rotating the "long way" around the circle).
+- **Reverse Behavior:** By default, linear heading interpolates using the shortest angular distance between the start and end angles. When the reverse flag is enabled, it changes the direction of interpolation to use the _longest_ angular distance instead (rotating the "long way" around the circle).
 
 ### Constant
+
 Constant heading maintains a fixed angle throughout the entire path segment. The robot will not rotate as it travels, regardless of the path's curve or direction.
 
-* **Reverse Behavior:** Adds 180 degrees to the specified constant angle, causing the robot to maintain a fixed heading in the exact opposite direction.
+- **Reverse Behavior:** Adds 180 degrees to the specified constant angle, causing the robot to maintain a fixed heading in the exact opposite direction.
 
 ### Tangential
+
 Tangential heading causes the robot to continually face the direction of travel along the path (tangent to the curve). This mimics the behavior of a car or a traditional non-holonomic drive, but can be applied to holonomic drives as well.
 
-* **Reverse Behavior:** Adds 180 degrees to the calculated tangent angle, causing the robot to travel the path while facing completely backwards relative to its direction of motion.
+- **Reverse Behavior:** Adds 180 degrees to the calculated tangent angle, causing the robot to travel the path while facing completely backwards relative to its direction of motion.
 
 ### Facing Point
+
 The Facing Point heading type allows the robot to continuously orient itself to face a specific, fixed `(X, Y)` coordinate on the field. As the robot moves along the path, its heading dynamically adjusts to keep the target point directly in front of the robot. This is extremely useful for maintaining focus on a game element or target zone while moving.
 
-* **Reverse Behavior:** Adds 180 degrees to the calculated facing angle. The robot will continuously point its *back* towards the specific `(X, Y)` coordinate on the field as it moves.
+- **Reverse Behavior:** Adds 180 degrees to the calculated facing angle. The robot will continuously point its _back_ towards the specific `(X, Y)` coordinate on the field as it moves.
 
 ### Piecewise
+
 Piecewise heading allows you to divide a single path segment into multiple smaller sections, applying different heading interpolations (e.g., linear, constant, tangential, or facing point) to each fraction of the segment. This provides fine-grained control over the robot's rotation during complex movements, enabling multiple heading behaviors within a continuous motion.
 
 ---
