@@ -63,6 +63,7 @@ export default defineConfig({
             { label: "Getting Started", slug: "turtle-tracer/getting-started" },
             { label: "File Management", slug: "turtle-tracer/file-management" },
             { label: "Path Editing", slug: "turtle-tracer/path-editing" },
+            { label: "Heading Types", slug: "turtle-tracer/heading-types" },
             {
               label: "Simulation & Playback",
               slug: "turtle-tracer/simulation",
